@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+---
+
+<BaseLayout title="Friends" sideBarActiveItemID="friends">
+  <div>
+    <div class="text-3xl w-full font-bold mb-5">Friends</div>
+  </div>
+  <HorizontalCard
+    title="Echo 的小窝"
+    img="https://yy.liveout.cn/photo/photo2.jpg"
+    desc="漂泊于互联网中的小窝"
+    badge=""
+    url="https://www.liveout.cn/"
+  />
+  <HorizontalCard
+    title="张洪Heo"
+    img="https://bu.dusays.com/2022/12/28/63ac2812183aa.png"
+    desc="分享设计与科技生活"
+    badge=""
+    url="https://blog.zhheo.com/"
+  />
+</BaseLayout>

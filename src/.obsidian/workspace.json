@@ -11,11 +11,28 @@
             "id": "901ac3e7fc1b3b26",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/新的起点.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "8718c743b40c0e29",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/生活 or 生活.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -81,6 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "content/blog/生活 or 生活.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "content/blog/生活 or 生活.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +137,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "content/blog/生活 or 生活.md"
+              }
             }
           }
         ]
@@ -138,6 +159,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "901ac3e7fc1b3b26",
-  "lastOpenFiles": []
+  "active": "8718c743b40c0e29",
+  "lastOpenFiles": [
+    "content/blog/新的起点.md",
+    "content/blog/生活 or 生活.md",
+    "_obsidian/Template.md",
+    "_obsidian"
+  ]
 }

@@ -1,3 +1,9 @@
 {
-  "accentColor": ""
+  "accentColor": "",
+  "baseFontSize": 15,
+  "monospaceFontFamily": "Cascadia Code PL SemiBold",
+  "textFontFamily": "",
+  "translucency": false,
+  "nativeMenus": true,
+  "cssTheme": "Things"
 }

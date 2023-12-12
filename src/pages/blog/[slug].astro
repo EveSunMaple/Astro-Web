@@ -29,7 +29,6 @@ const { Content } = await entry.render();
   tags={post.tags}
 >
   <Content />
-  <body>
     <link
       rel="stylesheet"
       href="https://unpkg.com/@waline/client@v2/dist/waline.css"
@@ -43,5 +42,4 @@ const { Content } = await entry.render();
         serverURL: 'https://waline.saroprock.com',
       });
     </script>
-  </body>
 </PostLayout>

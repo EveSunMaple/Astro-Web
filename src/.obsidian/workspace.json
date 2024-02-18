@@ -8,43 +8,18 @@
         "type": "tabs",
         "children": [
           {
-            "id": "a071b6b5c337c26d",
+            "id": "e8bf1486fc9e9315",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/从”数字识别“看人工智能理解问题.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "f8abc601784d44ed",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/blog/从”数字识别“看人工智能理解问题.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "4b27788bc22b726f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/blog/在网络的另一头相遇.md",
+                "file": "content/blog/清楚？明白？.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -118,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/在网络的另一头相遇.md",
+                "file": "content/blog/清楚？明白？.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/在网络的另一头相遇.md",
+                "file": "content/blog/清楚？明白？.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -158,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/在网络的另一头相遇.md"
+                "file": "content/blog/清楚？明白？.md"
               }
             }
           },
@@ -206,10 +181,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "4b27788bc22b726f",
+  "active": "e8bf1486fc9e9315",
   "lastOpenFiles": [
-    "content/blog/新的起点.md",
     "content/blog/在网络的另一头相遇.md",
+    "content/blog/清楚？明白？.md",
+    "content/blog/新的起点.md",
     "content/blog/从”数字识别“看人工智能理解问题.md",
     "_obsidian/Template.md",
     "img/Xecades_files/index-10651901.js.下载",
@@ -243,7 +219,6 @@
     "_posts/OI学习笔记/搜索/【搜索】优先队列BFS.md",
     "_posts/OI学习笔记/图论/【图论】最短路.md",
     "_posts/OI学习笔记/图论/【图论】强连通分量.md",
-    "_posts/OI学习笔记/图论/【图论】双连通分量.md",
     "img/zdl1.webp",
     "img/nodejieba.png",
     "img/myavatar.jpg",

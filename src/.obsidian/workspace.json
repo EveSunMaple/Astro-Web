@@ -137,7 +137,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/用 Astro 搭建一个高性能博客.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -154,7 +153,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/用 Astro 搭建一个高性能博客.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,9 +174,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "content/blog/用 Astro 搭建一个高性能博客.md"
-              }
+              "state": {}
             }
           },
           {
@@ -226,7 +222,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "c34514be4d5bc495",
+  "active": "c53596439a1bcd9f",
   "lastOpenFiles": [
     "content/blog/用 Astro 搭建一个高性能博客.md",
     "content/blog/新的起点.md",

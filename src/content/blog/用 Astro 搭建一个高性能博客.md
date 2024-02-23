@@ -1,6 +1,6 @@
 ---
 title: 用 Astro 搭建一个高性能博客
-description: description
+description: 一篇简单的 Astro 博客部署教程
 pubDate: 02 23 2024
 heroImage: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/itemPreview.png
 tags:

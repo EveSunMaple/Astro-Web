@@ -1,3 +1,23 @@
 .time-line-container>div:last-child .education__time>.education__line {
     display: none;
 }
+.astro-code.github-dark {
+    background-color: #24292e; /* 背景色 */
+    overflow-x: auto; /* 横向滚动 */
+    border-radius: 5px; /* 圆角边框 */
+    padding: 16px; /* 内边距 */
+    color: #ffffff; /* 文本颜色 */
+    font-family: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; /* 字体 */
+    position: relative; /* 相对定位，以便添加灯样式 */
+  }
+  .astro-code::after {
+    content: "CODE";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 8px;
+    background-color: #1e1e1e;
+    border-radius: 0 0 0 8px;
+    font-size: 12px;
+    color: #ffffff;
+  }

@@ -4,76 +4,51 @@
     "type": "split",
     "children": [
       {
-        "id": "9c7ee6485169920f",
+        "id": "0290ba0e52b775e3",
         "type": "tabs",
-        "dimension": 55.873925501432666,
+        "dimension": 66.55462184873949,
         "children": [
           {
-            "id": "e8bf1486fc9e9315",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/blog/清楚？明白？.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "1b106b4b54ee02aa",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/blog/用 Astro 搭建一个高性能博客.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c34514be4d5bc495",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/blog/用 Astro 搭建一个高性能博客.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ],
-        "currentTab": 2
-      },
-      {
-        "id": "754ceae19cf4cac5",
-        "type": "tabs",
-        "dimension": 44.126074498567334,
-        "children": [
-          {
-            "id": "c53596439a1bcd9f",
+            "id": "dd3cfe14d190fcc1",
             "type": "leaf",
             "state": {
               "type": "surfing-view",
               "state": {
-                "url": "http://localhost:4321/blog/%E7%94%A8-astro-%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%AB%98%E6%80%A7%E8%83%BD%E5%8D%9A%E5%AE%A2/#%E5%B0%BE%E5%A3%B0%E2%80%94%E2%80%94%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9-Astro"
+                "url": "https://music.saroprock.com/playlist/8230000310"
               }
             }
           },
           {
-            "id": "10bea1b2e66842b0",
+            "id": "5a5b8fd5d975f8ca",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.5.8"
+                "file": "content/blog/既是自己亦是客.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
         ],
         "currentTab": 1
+      },
+      {
+        "id": "d021b53add4a32c9",
+        "type": "tabs",
+        "dimension": 33.4453781512605,
+        "children": [
+          {
+            "id": "b2480eb1623cc942",
+            "type": "leaf",
+            "state": {
+              "type": "surfing-view",
+              "state": {
+                "url": "https://music.saroprock.com/playlist/8230000310"
+              }
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -131,8 +106,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 219.5,
-    "collapsed": true
+    "width": 219.5
   },
   "right": {
     "id": "ed5e83c20782fe83",
@@ -148,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/清楚？明白？.md",
+                "file": "content/blog/既是自己亦是客.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -165,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/清楚？明白？.md",
+                "file": "content/blog/既是自己亦是客.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -188,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/清楚？明白？.md"
+                "file": "content/blog/既是自己亦是客.md"
               }
             }
           },
@@ -237,12 +211,14 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "10bea1b2e66842b0",
+  "active": "5a5b8fd5d975f8ca",
   "lastOpenFiles": [
+    "content/blog/从”数字识别“看人工智能理解问题.md",
+    "content/blog/既是自己亦是客.md",
+    "content/blog/清楚？明白？.md",
     "content/blog/用 Astro 搭建一个高性能博客.md",
     "content/blog/新的起点.md",
-    "content/blog/清楚？明白？.md",
-    "content/blog/从”数字识别“看人工智能理解问题.md",
+    "content/blog/等风也等你.md",
     "content/blog/在网络的另一头相遇.md",
     "_obsidian/Template.md",
     "img/Xecades_files/index-10651901.js.下载",
@@ -273,8 +249,6 @@
     "_posts/OI学习笔记/数据结构/【数据结构】邻接表与链式前向星.md",
     "_posts/OI学习笔记/数据结构/【数据结构】__int128.md",
     "_posts/OI学习笔记/数据结构/【数据结构】Splay树（伸展树）.md",
-    "_posts/OI学习笔记/搜索/【搜索】优先队列BFS.md",
-    "_posts/OI学习笔记/图论/【图论】最短路.md",
     "img/zdl1.webp",
     "img/nodejieba.png",
     "img/myavatar.jpg",

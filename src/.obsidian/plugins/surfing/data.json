@@ -45,10 +45,21 @@
   },
   "treeData": [
     {
-      "id": "c53596439a1bcd9f",
+      "id": "b2480eb1623cc942",
       "parent": 0,
       "droppable": true,
-      "text": "用 Astro 搭建一个高性能博客",
+      "text": "YesPlayMusic",
+      "data": {
+        "fileType": "site",
+        "fileSize": "",
+        "icon": {}
+      }
+    },
+    {
+      "id": "dd3cfe14d190fcc1",
+      "parent": 0,
+      "droppable": true,
+      "text": "YesPlayMusic",
       "data": {
         "fileType": "site",
         "fileSize": "",

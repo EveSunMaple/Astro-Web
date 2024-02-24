@@ -8,7 +8,7 @@ tags:
   - Astro
   - SEO
   - 博客
-badge: NEW
+badge: 教程
 ---
 ## 前言
 

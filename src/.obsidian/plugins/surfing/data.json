@@ -65,6 +65,28 @@
         "fileSize": "",
         "icon": {}
       }
+    },
+    {
+      "id": "c80e28e301f240c2",
+      "parent": 0,
+      "droppable": true,
+      "text": "SaroProck",
+      "data": {
+        "fileType": "site",
+        "fileSize": "",
+        "icon": {}
+      }
+    },
+    {
+      "id": "8caca42c2b4f751b",
+      "parent": 0,
+      "droppable": true,
+      "text": "SaroProck",
+      "data": {
+        "fileType": "site",
+        "fileSize": "",
+        "icon": {}
+      }
     }
   ]
 }

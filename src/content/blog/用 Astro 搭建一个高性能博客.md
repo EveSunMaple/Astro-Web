@@ -31,7 +31,7 @@ badge: NEW
 	```
 	
 	#### 我还需要什么
-	- 一个 Github 账号
+	- 一个 [GitHub](https://github.com/) 账号
 	- 一个合适的代码编辑器
 	- 掌握一定的 **_魔法-Magic_**
 
@@ -83,6 +83,12 @@ yarn create astro --template satnaing/astro-paper
 │   └── config.ts
 │   └── types.ts
 └── package.json
+```
+
+安装必要的内容：
+
+```bash
+npm installl
 ```
 
 如果你迫不及待想看看自己的博客，可以启动 Astro 开发服务：
@@ -147,12 +153,7 @@ export const SITE = {
 
 ## 部署你的博客项目
 
-有两种方式：使用 `Netlify` 与 `Vercel` 。
-
-> 因为作者 `Netlify` 注册没成功，这里使用 `Vercel` 做示例。
-
->  `GitHub Pages` 没有使用过，不做介绍。
-
+随便找一个托管平台部署即可，这里使用 `Vercel` 。
 ### 将你的项目托管至 GitHub
 
 这个不用多说了吧：

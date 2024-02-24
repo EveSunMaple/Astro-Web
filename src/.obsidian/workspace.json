@@ -29,9 +29,19 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "262c6768849b633a",
+            "type": "leaf",
+            "state": {
+              "type": "surfing-view",
+              "state": {
+                "url": "https://giscus.app/zh-CN/widget?origin=https%3A%2F%2Fwww.saroprock.com%2Fblog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2&session=3296e4618e99be2009340d7enrGmTyl9yeYRunCOO2aeJOucVWJNitwLnJuqxKMmRuP%2BacFyNcemtCxSw6iCaQJBc%2FzjjpwymfI2hnRsA4Gr73COaiBsUmC5%2BOD4FyXwJTbCITexGl9lFrUsUjs%3D&theme=dark&reactionsEnabled=1&emitMetadata=0&inputPosition=bottom&repo=EveSunMaple%2Fcomment&repoId=R_kgDOKpZCnA&category=Announcements&categoryId=DIC_kwDOKpZCnM4CasTx&strict=0&description=%E6%88%91%E4%B8%8E%E7%89%A9%E7%9A%86%E4%B8%8D%E5%8F%AF%E8%83%BD%E6%97%A0%E5%B0%BD%E4%B9%9F%EF%BC%8C%E5%8F%AA%E6%98%AF%EF%BC%8C%E4%B8%8E%E5%85%B6%E7%99%BD%E7%99%BD%E5%8F%B9%E6%81%AF%EF%BC%8C%E4%B8%8D%E5%A6%82%E4%B8%8E%E5%AE%A2%E5%AF%B9%E8%AF%9D%E2%80%A6%E2%80%A6&backLink=https%3A%2F%2Fwww.saroprock.com%2Fblog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2&term=blog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2"
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       },
       {
         "id": "d021b53add4a32c9",
@@ -106,7 +116,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 219.5
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "ed5e83c20782fe83",
@@ -122,7 +133,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/既是自己亦是客.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +149,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/既是自己亦是客.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -161,9 +170,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "content/blog/既是自己亦是客.md"
-              }
+              "state": {}
             }
           },
           {
@@ -211,7 +218,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "5a5b8fd5d975f8ca",
+  "active": "262c6768849b633a",
   "lastOpenFiles": [
     "content/blog/既是自己亦是客.md",
     "content/blog/从”数字识别“看人工智能理解问题.md",

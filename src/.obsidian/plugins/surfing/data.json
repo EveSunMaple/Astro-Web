@@ -87,6 +87,17 @@
         "fileSize": "",
         "icon": {}
       }
+    },
+    {
+      "id": "262c6768849b633a",
+      "parent": 0,
+      "droppable": true,
+      "text": "既是自己亦是客",
+      "data": {
+        "fileType": "site",
+        "fileSize": "",
+        "icon": {}
+      }
     }
   ]
 }

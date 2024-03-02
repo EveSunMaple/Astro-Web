@@ -6,7 +6,7 @@
       {
         "id": "0290ba0e52b775e3",
         "type": "tabs",
-        "dimension": 66.55462184873949,
+        "dimension": 75.7163323782235,
         "children": [
           {
             "id": "dd3cfe14d190fcc1",
@@ -31,12 +31,14 @@
             }
           },
           {
-            "id": "262c6768849b633a",
+            "id": "8296b6801bbd55d7",
             "type": "leaf",
             "state": {
-              "type": "surfing-view",
+              "type": "markdown",
               "state": {
-                "url": "https://giscus.app/zh-CN/widget?origin=https%3A%2F%2Fwww.saroprock.com%2Fblog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2&session=3296e4618e99be2009340d7enrGmTyl9yeYRunCOO2aeJOucVWJNitwLnJuqxKMmRuP%2BacFyNcemtCxSw6iCaQJBc%2FzjjpwymfI2hnRsA4Gr73COaiBsUmC5%2BOD4FyXwJTbCITexGl9lFrUsUjs%3D&theme=dark&reactionsEnabled=1&emitMetadata=0&inputPosition=bottom&repo=EveSunMaple%2Fcomment&repoId=R_kgDOKpZCnA&category=Announcements&categoryId=DIC_kwDOKpZCnM4CasTx&strict=0&description=%E6%88%91%E4%B8%8E%E7%89%A9%E7%9A%86%E4%B8%8D%E5%8F%AF%E8%83%BD%E6%97%A0%E5%B0%BD%E4%B9%9F%EF%BC%8C%E5%8F%AA%E6%98%AF%EF%BC%8C%E4%B8%8E%E5%85%B6%E7%99%BD%E7%99%BD%E5%8F%B9%E6%81%AF%EF%BC%8C%E4%B8%8D%E5%A6%82%E4%B8%8E%E5%AE%A2%E5%AF%B9%E8%AF%9D%E2%80%A6%E2%80%A6&backLink=https%3A%2F%2Fwww.saroprock.com%2Fblog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2&term=blog%2F%25E6%2597%25A2%25E6%2598%25AF%25E8%2587%25AA%25E5%25B7%25B1%25E4%25BA%25A6%25E6%2598%25AF%25E5%25AE%25A2"
+                "file": "content/blog/原罪.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -46,7 +48,7 @@
       {
         "id": "d021b53add4a32c9",
         "type": "tabs",
-        "dimension": 33.4453781512605,
+        "dimension": 24.2836676217765,
         "children": [
           {
             "id": "b2480eb1623cc942",
@@ -116,8 +118,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "ed5e83c20782fe83",
@@ -133,6 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "content/blog/原罪.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,6 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "content/blog/原罪.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -170,7 +173,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "content/blog/原罪.md"
+              }
             }
           },
           {
@@ -218,8 +223,9 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "262c6768849b633a",
+  "active": "f74700c421d04176",
   "lastOpenFiles": [
+    "content/blog/原罪.md",
     "content/blog/既是自己亦是客.md",
     "content/blog/从”数字识别“看人工智能理解问题.md",
     "content/blog/清楚？明白？.md",
@@ -255,7 +261,6 @@
     "_posts/OI学习笔记/数论/【数论】gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
     "_posts/OI学习笔记/数据结构/【数据结构】邻接表与链式前向星.md",
     "_posts/OI学习笔记/数据结构/【数据结构】__int128.md",
-    "_posts/OI学习笔记/数据结构/【数据结构】Splay树（伸展树）.md",
     "img/zdl1.webp",
     "img/nodejieba.png",
     "img/myavatar.jpg",

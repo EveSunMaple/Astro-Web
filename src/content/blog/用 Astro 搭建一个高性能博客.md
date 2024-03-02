@@ -26,14 +26,14 @@ badge: 教程
 	> 点击下载：<a class="btn" href="https://saroprock.oss-cn-hangzhou.aliyuncs.com/asset/node-v20.11.1-x64.msi" target="_blank"> node-v20.11.1-x64</a>
 - [可选] 安装 **pnpm**：
 	
-	```bash
-	npm install -g pnpm
-	```
+```bash
+npm install -g pnpm
+```
 	
-	#### 我还需要什么
-	- 一个 [GitHub](https://github.com/) 账号
-	- 一个合适的代码编辑器
-	- 掌握一定的 **_魔法-Magic_**
+#### 我还需要什么
+- 一个 [GitHub](https://github.com/) 账号
+- 一个合适的代码编辑器
+- 掌握一定的 **_魔法-Magic_**
 
 ## 创建你的博客项目
 
@@ -186,9 +186,9 @@ git push -u origin main
 	
 	>~~博主之前就是用了其他镜像导致祭了~~。
 
-	```bash
-	npm config set registry https://registry.npmjs.org/
-	```
+```bash
+npm config set registry https://registry.npmjs.org/
+```
 2. **项目自己就报错了**：
 	
 	因为 Astro 的博客就是一个独立的项目：

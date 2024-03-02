@@ -26,7 +26,10 @@ import { Image } from "astro:assets";
   image={heroImage}
   ,
   ogType="article"
->
+><progress id="content_progress" value="0"></progress>
+<script src="../scripts/backtop.js"></script>
+<script src="../scripts/progress.js"></script>
+<script src="../scripts/copybutton.js"></script>
   <main class="md:flex md:justify-center">
     <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
       {
@@ -77,7 +80,7 @@ import { Image } from "astro:assets";
                 stroke-linejoin="round"></path>
             </svg>
             <code>
-              <script defer src="https://cn.vercount.one/js"></script><div
+              <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div
                 id="busuanzi_value_page_pv"
               >
               <svg width="20" height="20" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
@@ -127,6 +130,16 @@ import { Image } from "astro:assets";
       <div class="divider my-2"></div>
       <slot />
     </article>
+    <button id="back-to-top" aria-label="Back to top">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
+      </svg>
+    </button>
   </main>
   <div class="divider my-2"></div>
   <div id="waline"></div>
@@ -136,7 +149,7 @@ import { Image } from "astro:assets";
     init({
       el: "#waline",
       serverURL: "https://waline.saroprock.com",
-      dark: true,
+      // dark: true,
       pageview: true, // 浏览量统计
       reaction: [
         "https://saroprock.s3.bitiful.net/good.png",

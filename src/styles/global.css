@@ -1,23 +1,142 @@
 .time-line-container>div:last-child .education__time>.education__line {
-    display: none;
+  display: none;
 }
+
 .astro-code.github-dark {
-    background-color: #24292e; /* 背景色 */
-    overflow-x: auto; /* 横向滚动 */
-    border-radius: 5px; /* 圆角边框 */
-    padding: 16px; /* 内边距 */
-    color: #ffffff; /* 文本颜色 */
-    font-family: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; /* 字体 */
-    position: relative; /* 相对定位，以便添加灯样式 */
-  }
-  .astro-code::after {
-    content: "CODE";
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 4px 8px;
-    background-color: #1e1e1e;
-    border-radius: 0 0 0 8px;
-    font-size: 12px;
-    color: #ffffff;
-  }
+  background-color: #24292e;
+  /* 背景色 */
+  overflow-x: auto;
+  /* 横向滚动 */
+  border-radius: 5px;
+  /* 圆角边框 */
+  padding: 16px;
+  /* 内边距 */
+  color: #ffffff;
+  /* 文本颜色 */
+  font-family: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+  /* 字体 */
+  position: relative;
+  /* 相对定位，以便添加灯样式 */
+}
+#back-to-top {
+	display: none; /* 默认隐藏按钮 */
+	position: fixed; /* 让按钮固定在页面右下角 */
+	bottom: 20px;
+	right: 40px;
+	background-color: #181920; /* 按钮背景颜色 */
+	border: none;
+	border-radius: 50%; /* 让按钮呈现圆形 */
+	padding: 10px;
+	cursor: pointer;
+	width: 40px; /* 按钮宽度 */
+	height: 40px; /* 按钮高度 */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+.code-wrapper {
+  position: relative;
+}
+.code-block {
+  position: relative;
+}
+.copy {
+  font-size: 12px;
+  transition: color 0.1s;
+  color: #cececc;
+  padding: 4px 8px;
+  background-color: #181920;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  z-index: 1; 
+}
+.copy:hover{
+  color: #cececc;
+  background-color: #09090c;
+}
+.copyright{
+  font-size: 12px;
+  transition: color 0.1s;
+  color: #cececc;
+  padding: 4px 8px;
+  background-color: #0cbf5b;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  z-index: 1; 
+}
+
+#content_progress {
+  /* Positioning */
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 2px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  color: #bf95f9;
+}
+
+#content_progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+#content_progress::-webkit-progress-value {
+  background-color: #bf95f9;
+}
+
+#content_progress::-moz-progress-bar {
+  background-color: #bf95f9;
+}
+.wl-reaction-title {
+  color: #cececc;
+  /* 文本颜色 */
+}
+
+:root {
+  /* 字体大小 */
+  --waline-font-size: 18px;
+
+  /* 常规颜色 */
+  --waline-white: #000;
+  --waline-light-grey: #666;
+  --waline-dark-grey: #999;
+
+  /* 主题色 */
+  --waline-theme-color: #cececc;
+  --waline-active-color: #bf95f9;
+
+  /* 布局颜色 */
+  --waline-color: #888;
+  --waline-bg-color: #181920;
+  --waline-bg-color-light: #272727;
+  --waline-bg-color-hover: #f0f0f0;
+  --waline-border-color: #333;
+  --waline-disable-bg-color: #444;
+  --waline-disable-color: #272727;
+  --waline-code-bg-color: #282c34;
+
+  /* 特殊颜色 */
+  --waline-bq-color: #272727;
+
+  /* 头像 */
+  --waline-avatar-size: 3.25rem;
+  --waline-m-avatar-size: calc(var(--waline-avatar-size) * 9 / 13);
+
+  /* 徽章 */
+  --waline-badge-color: #3498db;
+  --waline-badge-font-size: 0.775em;
+
+  /* 信息 */
+  --waline-info-bg-color: #272727;
+  --waline-info-color: #666;
+  --waline-info-font-size: 0.625em;
+
+  /* 渲染选择 */
+  --waline-border: 1px solid var(--waline-border-color);
+  --waline-avatar-radius: 50%;
+  --waline-box-shadow: none;
+
+}

@@ -3,66 +3,122 @@
 }
 
 .astro-code.github-dark {
-  background-color: #24292e;
-  /* 背景色 */
-  overflow-x: auto;
-  /* 横向滚动 */
-  border-radius: 5px;
-  /* 圆角边框 */
-  padding: 16px;
-  /* 内边距 */
-  color: #ffffff;
-  /* 文本颜色 */
-  font-family: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-  /* 字体 */
+  margin-top: -20px;
+  background-color: #24292e; /* 背景色 */
+  overflow-x: auto; /* 横向滚动 */
+  border-radius: 0 0 8px 8px; /* 圆角边框 */
+  padding: 36px 16px 16px 4em; /* 内边距 */
+  color: #ffffff; /* 文本颜色 */
+  font-family: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; /* 字体 */
   position: relative;
-  /* 相对定位，以便添加灯样式 */
 }
+
 #back-to-top {
-	display: none; /* 默认隐藏按钮 */
-	position: fixed; /* 让按钮固定在页面右下角 */
-	bottom: 20px;
-	right: 40px;
-	background-color: #181920; /* 按钮背景颜色 */
-	border: none;
-	border-radius: 50%; /* 让按钮呈现圆形 */
-	padding: 10px;
-	cursor: pointer;
-	width: 40px; /* 按钮宽度 */
-	height: 40px; /* 按钮高度 */
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  display: none;
+  /* 默认隐藏按钮 */
+  position: fixed;
+  /* 让按钮固定在页面右下角 */
+  bottom: 20px;
+  right: 40px;
+  background-color: #181920;
+  /* 按钮背景颜色 */
+  border: none;
+  border-radius: 50%;
+  /* 让按钮呈现圆形 */
+  padding: 10px;
+  cursor: pointer;
+  width: 40px;
+  /* 按钮宽度 */
+  height: 40px;
+  /* 按钮高度 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* 添加阴影效果 */
 }
+
 .code-wrapper {
   position: relative;
 }
+
 .code-block {
   position: relative;
 }
+
 .copy {
   font-size: 12px;
-  transition: color 0.1s;
+  font-weight: 600;
   color: #cececc;
   padding: 4px 8px;
-  background-color: #181920;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 8px 0 8px;
   cursor: pointer;
-  z-index: 1; 
-}
-.copy:hover{
-  color: #cececc;
-  background-color: #09090c;
-}
-.copyright{
-  font-size: 12px;
-  transition: color 0.1s;
-  color: #cececc;
-  padding: 4px 8px;
-  background-color: #0cbf5b;
-  border-radius: 0 0 8px 8px;
-  cursor: pointer;
-  z-index: 1; 
+  z-index: 2;
 }
 
+.title-bar {
+  background-color: #181920;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;  /* 使用绝对定位 */
+  width: 100%;  /* 使标题栏宽度与父元素相同 */
+  top: 0;  /* 确保标题栏位于父元素的顶部 */
+  z-index: 1;
+}
+
+.button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.close {
+  background-color: #ff5f56; /* Red */
+}
+
+.minimize {
+  background-color: #ffbd2e; /* Yellow */
+}
+
+.maximize {
+  background-color: #27c93f; /* Green */
+}
+
+.codetitle {
+  font-size: 16px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+pre {
+  counter-reset: line; /* 重置计数器 */
+}
+pre::before {
+  content: '';
+  display: block;
+  border-left: 1px solid #888; /* 添加左边框，可以根据需要调整 */
+  height: 100%; /* 让线的高度覆盖整个 <pre> 元素高度 */
+  position: absolute;
+  top: 0;
+  left: 3em; /* 调整线的位置，可以根据需要调整 */
+}
+.line {
+  counter-increment: line; /* 每行递增计数器的值 */
+  position: relative;
+}
+
+.line::before {
+  content: counter(line); /* 使用计数器的当前值作为行号 */
+  position: absolute;
+  left: -4em; /* 调整行号的位置，可以根据需要调整 */
+  text-align: right;
+  color: #888; /* 行号的颜色，可以根据需要调整 */
+  user-select: none; /* 防止行号被选择 */
+  width: 2em; /* 固定行号的宽度 */
+  display: inline-block; /* 使 ::before 元素能够设置宽度 */
+  z-index: 3;
+}
 #content_progress {
   /* Positioning */
   position: fixed;
@@ -90,6 +146,7 @@
 #content_progress::-moz-progress-bar {
   background-color: #bf95f9;
 }
+
 .wl-reaction-title {
   color: #cececc;
   /* 文本颜色 */
@@ -139,4 +196,54 @@
   --waline-avatar-radius: 50%;
   --waline-box-shadow: none;
 
+}
+
+ .author-status-box {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% - 28px);
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d0d7de;
+  border-radius: 2em;
+  background-color: #f8f8f8f8;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+ .author-status-box {
+  background-color: #272935;
+  border: 1px solid #cececc;
+}
+
+ .author-status-box .author-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 5px 5px;
+}
+
+ .author-status-box:hover {
+  width: 105px;
+}
+
+ .author-status-box:hover .author-status span {
+  width: 105px;
+  margin-left: 4px;
+}
+
+ .author-status-box .author-status span {
+  width: 0;
+  font-size: 12px;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: 0.4s;
+}
+
+.card-widget  {
+  display: inline-block;
+  position: relative;
 }

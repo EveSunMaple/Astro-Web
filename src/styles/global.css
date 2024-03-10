@@ -1,7 +1,9 @@
 .time-line-container>div:last-child .education__time>.education__line {
   display: none;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 .astro-code.github-dark {
   margin-top: -20px;
   background-color: #24292e; /* 背景色 */
@@ -13,9 +15,101 @@
   position: relative;
 }
 
+#toc-box {
+  z-index: 5;
+  user-select: none;
+  position: fixed;
+  bottom: 130px;
+  right: 40px;
+  background-color: #181920;
+  padding: 10px;
+  max-height: 300px;
+  border-radius: 8px 8px 8px 8px; 
+  padding: 16px 16px 16px 16px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease; /* 添加动画效果 */
+}
+#toc-box.show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+#toc-box.hide {
+  opacity: 1;
+  transform: translateX(500px);
+}
+#toc-box .toc-number {
+  margin-right: 5px;
+  color: #bf95f9;
+}
+
+#toc-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#toc-box li {
+  margin-bottom: 8px;
+}
+#toc-box a {
+  text-decoration: none;
+  color: #ffffff; /* Bootstrap primary link color */
+  padding: 2px;
+  font-size: 1rem;
+  display: block;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+}
+
+/* 根据标题级别添加缩进 */
+#toc-box a.level-1 { margin-left: 0; }
+#toc-box a.level-2 { margin-left: 20px; }
+#toc-box a.level-3 { margin-left: 40px; }
+#toc-box a.level-4 { margin-left: 60px; }
+#toc-box a.level-5 { margin-left: 80px; }
+#toc-box a.level-6 { margin-left: 100px; }
+
+#toc-box a:hover {
+  background-color: #2f2f35; /* Bootstrap light background color */
+}
+
+#toc-box a.active {
+  background-color: #ffffff; /* Bootstrap white background color for selected state */
+}
+#toc-button {
+  z-index: 5;
+  position: fixed;
+  /* 让按钮固定在页面右下角 */
+  bottom: 80px;
+  right: 40px;
+  background-color: #181920;
+  /* 按钮背景颜色 */
+  border: none;
+  border-radius: 50%;
+  /* 让按钮呈现圆形 */
+  padding: 10px;
+  cursor: pointer;
+  width: 40px;
+  /* 按钮宽度 */
+  height: 40px;
+  /* 按钮高度 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* 添加阴影效果 */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* 添加动画效果 */
+}
+#toc-button.show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+#toc-button.hide {
+  opacity: 1;
+  transform: translateX(300px);
+}
 #back-to-top {
-  display: none;
-  /* 默认隐藏按钮 */
+  z-index: 5;
   position: fixed;
   /* 让按钮固定在页面右下角 */
   bottom: 20px;
@@ -33,6 +127,16 @@
   /* 按钮高度 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   /* 添加阴影效果 */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* 添加动画效果 */
+}
+#back-to-top.show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+#back-to-top.hide {
+  opacity: 1;
+  transform: translateX(500px);
 }
 
 .code-wrapper {

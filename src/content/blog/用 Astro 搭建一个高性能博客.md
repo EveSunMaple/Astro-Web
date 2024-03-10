@@ -30,7 +30,7 @@ badge: 教程
 npm install -g pnpm
 ```
 	
-#### 我还需要什么
+### 我还需要什么
 - 一个 [GitHub](https://github.com/) 账号
 - 一个合适的代码编辑器
 - 掌握一定的 **_魔法-Magic_**

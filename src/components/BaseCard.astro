@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import License from "../components/License.astro";
+import Comment from "../components/Comment.astro";
+import dayjs from "dayjs";
+const {
+  title,
+  image,
+  pubDate,
+  badge,
+  tags,
+  isBlog,
+  url = decodeURIComponent(Astro.url.toString()),
+} = Astro.props;
+const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+const displayDate = dayjs(pubDate).format("ddd MMM DD YYYY");
+---
+
+<div
+  class="back-card card bg-base-100 shadow-xl"
+  title={title}
+>
+  {
+    image && (
+      <Image
+        src={image}
+        width="1920"
+        height="1080"
+        format="webp"
+        alt={title}
+        class="card-img"
+        loading="lazy"
+      />
+    )
+  }
+  <div class="main-card card bg-base-100 p-6">
+    {
+      isBlog && (
+        <>
+          <h1 id="h1">{title}</h1>
+          <div class="info">
+            {displayDate && (
+              <div class="badge badge-neutral">{displayDate}</div>
+            )}
+            {badge && <div class="badge badge-primary">{badge}</div>}
+            <div class="tags">
+              <code>Tag: </code>
+              {tags &&
+                tags.map((tag) => (
+                  <>
+                    <a
+                      href={`${tag_url}/${tag}`}
+                      class="btn btn-xs btn-secondary"
+                    >
+                      {tag}
+                    </a>
+                    <span>&thinsp;</span>
+                  </>
+                ))}
+            </div>
+          </div>
+          <hr />
+        </>
+      )
+    }
+    <slot />
+    {
+      isBlog && (
+        <>
+          <License title={title} url={url} />
+          <Comment />
+        </>
+      )
+    }
+  </div>
+</div>

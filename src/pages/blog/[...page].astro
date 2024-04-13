@@ -1,53 +1,41 @@
 ---
+import EnvelopeCard from "../../components/EnvelopeCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import HorizontalCard from "../../components/HorizontalLicenseCard.astro";
+import Footer from "../../components/Footer.astro";
 import { getCollection } from "astro:content";
-import createSlug from "../../lib/createSlug"
+import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection("blog");
-  posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return paginate(posts, { pageSize: 10 });
 }
 
 const { page } = Astro.props;
 ---
 
-<BaseLayout title="Blog" sideBarActiveItemID="blog">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Blog</div>
+<BaseLayout PageID="blog">
+  <div class="envelope-background">
+    {
+      page.data.map((post) => (
+        <EnvelopeCard
+          title={post.data.title}
+          image={post.data.image}
+          desc={post.data.description}
+          url={"/blog/" + post.slug}
+          date={post.data.date}
+          badge={post.data.badge}
+          tags={post.data.tags}
+          target="_self"
+        />
+      ))
+    }
   </div>
-
-  {
-    page.data.length === 0 ? (
-      <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
-        <p class="font-bold">Sorry!</p>
-        <p>There are no blog posts to show at the moment. Check back later!</p>
-      </div>
-    ) : (
-      <ul>
-        {page.data.map((post) => (
-          <>
-            <HorizontalCard
-              title={post.data.title}
-              img={post.data.heroImage}
-              desc={post.data.description}
-              url={"/blog/" + createSlug(post.data.title, post.slug)}
-              target="_self"
-              badge={post.data.badge}
-              tags={post.data.tags}
-            />
-            <div class="divider my-0" />
-          </>
-        ))}
-      </ul>
-    )
-  }
-
-  <div class="flex justify-between">
+  <br>
+  <div class="next-btn">
     {
       page.url.prev ? (
-        <a href={page.url.prev} class="btn btn-ghost my-10 mx-5">
+        <a href={page.url.prev} class="btn bg-base-100 shadow-xl">
           {" "}
           <svg
             class="h-6 w-6 fill-current md:h-8 md:w-8"
@@ -66,7 +54,7 @@ const { page } = Astro.props;
     }
     {
       page.url.next ? (
-        <a href={page.url.next} class="btn btn-ghost my-10 mx-5">
+        <a href={page.url.next} class="btn bg-base-100 shadow-xl">
           Older Posts{" "}
           <svg
             class="h-6 w-6 fill-current md:h-8 md:w-8"

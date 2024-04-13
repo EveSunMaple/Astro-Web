@@ -1,80 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TimeLineElement from "../components/cv/TimeLine.astro";
+import BaseCard from "../components/BaseCard.astro";
 ---
 
-<BaseLayout title="About" sideBarActiveItemID="about">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Profile</div>
-  </div>
-
-  <div class="mb-10 text-justify">
-    我喜欢与信息技术有关的一切事情，它给了我一个契机，用自己的双手创造一切有趣的事物。<br/>
-    我会用 C++ 与 Python 写一些有意思的项目，偶尔也会想起以前打 OI 的时间， 不过都是往事了。<br/>
-    学习文化课仍然是我的主要任务，有时，我会写一些学习笔记，尽管相较于纸质笔记来说没有什么用。<br/>
-    以前关于 OI 的文章被我归档了，如果您需要借阅，可以去我的老博客看看。<br/>
-  </div>
-
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Education</div>
-  </div>
-
-  <div class="time-line-container grid gap-4 mb-10">
-    <TimeLineElement
-      title="初中"
-      subtitle="2020年 至 2023年 在 嵊州市初级中学, 绍兴, 中国"
-    />
-    <TimeLineElement
-      title="高中"
-      subtitle="目前 就读于 嵊州中学, 绍兴, 中国"
-    />
-  </div>
-
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Experience</div>
-  </div>
-
-  <div class="time-line-container mb-10">
-    <TimeLineElement
-      title="初中 “启蒙运动”"
-      subtitle="从 2021年8月 到 2023年1月"
-    >
-      初一下半年开始接触 C++，暑假发布第一个视频，后面便都是自学了。<br/>
-      因为小学没有接触，导致我一直不能进竞赛队伍，初三最后一次 CSP 没有报名，本以为结束了。
-    </TimeLineElement>
-    <TimeLineElement
-      title="作为 OIer 的日子"
-      subtitle="从 2023年4月 到 2023年11月"
-    >
-      其实本来是没有我的位置的，因为别的人都是小学开始的，但是有一位退了，就把我拉上来了了。<br/>
-      说来也难，这么短的时间，没办法，只能死马当活马医了，作为 “半吊子 OIer”，已经失去了太多。
-    </TimeLineElement>
-    <TimeLineElement
-      title="认清现实"
-      subtitle="从 2023年11月 到 现在"
-    >
-      事实证明在小县城，竞赛没有出路，还是老老实实卷文化课吧。<br/>
-      不过，我本来学习这些就不是为了什么奖项，兴趣是最好的老师，热爱是我坚持的动力。
-    </TimeLineElement>
-  </div>
-
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Certifications</div>
-  </div>
-
-  <ul class="list-disc mx-6 mb-10 grid gap-2">
-    <li>
-      <a href="#" target="_blank"> 2023 CSP-S 提高组 一等奖</a>
-    </li>
-  </ul>
-
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Skills</div>
-  </div>
-
-  <ul class="list-disc md:columns-5 columns-2 mx-6">
-    <li>C++</li>
-    <li>Python</li>
-    <li>...</li>
-  </ul>
+<!doctype html>
+<BaseLayout PageID="about">
+  <BaseCard title="Hi! 欢迎来到About！">
+    <div class="pb-12 mt-5">
+      <h2 id="h2">
+		这是一个关于页面！</h2>
+      <p>
+        <text class="text-lg">
+			这是一个关于页面！
+        </text>
+      </p>
+    </div>
+  </BaseCard>
 </BaseLayout>

@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+import dayjs from "dayjs";
+const {
+  title,
+  image,
+  desc,
+  pubDate,
+  url,
+  badge,
+  tags,
+  target = "_blank",
+} = Astro.props;
+const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+const displayDate = dayjs(pubDate).format("ddd MMM DD YYYY");
+---
+
+<div
+  class="envelope-back card bg-base-100 shadow-xl"
+>
+  <div class="envelope-image">
+    {
+      image && (
+        <Image
+          src={image}
+          width="300"
+          height="200"
+          format="webp"
+          alt={title}
+          class="mask"
+          loading="lazy"
+        />
+      )
+    }
+  </div>
+  <div class="envelope-card card bg-base-100">
+    <div class="envelope-info px-6 py-3">
+      <a href={url} target={target} class="envelope-title">
+        {title}
+      </a>
+      <div class="info">{desc}</div>
+      <div class="info">
+        {displayDate && <div class="badge badge-neutral">{displayDate}</div>}
+        {badge && <div class="badge badge-primary">{badge}</div>}
+        <div class="tags">
+          <code>Tag: </code>
+          {
+            tags &&
+              tags.map((tag) => (
+                <>
+                  <a
+                    href={`${tag_url}/${tag}`}
+                    class="btn btn-xs btn-secondary"
+                  >
+                    {tag}
+                  </a>
+                  <span>&thinsp;</span>
+                </>
+              ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

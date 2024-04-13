@@ -1,44 +1,55 @@
 ---
+import "/node_modules/katex/dist/katex.min.css";
+import Profile from "../components/ProfileCard.astro";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import SideBar from "../components/SideBar.astro";
+import ThemeIcon from "../components/ThemeIcon.astro";
 import { ViewTransitions } from "astro:transitions";
-
-import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API } from "../config";
-
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  USER_NICKNAME,
+  USER_DESCRIPTION,
+  TRANSITION_API,
+} from "../consts";
 const {
   image,
-  title = SITE_TITLE,
-  description = SITE_DESCRIPTION,
+  site_title = SITE_TITLE,
+  site_description = SITE_DESCRIPTION,
+  user_name = USER_NICKNAME,
+  user_description = USER_DESCRIPTION,
   includeSidebar = true,
-  sideBarActiveItemID,
-  ogType,
+  PageID,
 } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="zh-cn" data-theme="dracula">
+<html lang="zh-cn" class="bg-base-300">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-    rel="stylesheet"
-    href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
-    <BaseHead title={title} description={description} image={image} , ogType={ogType} />
+      rel="stylesheet"
+      href="https://unpkg.com/@waline/client@v3/dist/waline.css"
+    />
+    <BaseHead title={site_title} description={site_description} image={image} />
     {TRANSITION_API && <ViewTransitions />}
   </head>
   <body>
-    <div class="bg-base-100 drawer lg:drawer-open">
-      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content bg-base-100">
-        <Header title={SITE_TITLE} />
-        <div class="md:flex md:justify-center">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
-            <slot />
-          </main>
-        </div>
+    <script src="../scripts/copybutton.mjs"></script>
+    <Header title={SITE_TITLE} />
+    <main class="main">
+      <div class="profile">
+        {
+          includeSidebar && (
+            <Profile name={user_name} desc={user_description} PageID={PageID} />
+          )
+        }
+      </div>
+      <div class="background">
+        <slot />
         <Footer />
       </div>
-      {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
-    </div>
+    </main>
+    <ThemeIcon />
   </body>
 </html>

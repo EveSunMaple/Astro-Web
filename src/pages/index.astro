@@ -1,85 +1,64 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HorizontalCard from "../components/HorizontalLicenseCard.astro";
-import { getCollection } from "astro:content";
-
-const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const last_posts = posts.slice(0, 3);
+import BaseCard from "../components/BaseCard.astro";
 ---
 
-<BaseLayout sideBarActiveItemID="home">
-  <div class="pb-12 mt-5">
-    <div class="text-xl py-1">Hi! 你好 👋</div>
-    <div class="text-5xl font-bold">我是 EveSunMaple</div>
-    <div class="text-3xl py-3 font-bold">在校高一学生 & 退役OIer</div>
-    <div class="py-2">
-      <text class="text-lg">
-        我喜欢与信息技术有关的一切事情，它给了我一个契机，用自己的双手创造一切有趣的事物。<br/>
-        我会用 C++ 与 Python 写一些有意思的项目，偶尔也会想起以前打 OI 的时间， 不过都是往事了。<br/>
-        学习文化课仍然是我的主要任务，有时，我会写一些学习笔记，尽管相较于纸质笔记来说没有什么用。<br/>
-        以前关于 OI 的文章被我归档了，如果您需要借阅，可以去我的老博客看看。
-      </text>
+<!doctype html>
+<BaseLayout PageID="home">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <BaseCard image="/home.webp" title="home">
+    <div class="relative">
+      <div class="stats shadow absolute right-0">
+        <div class="stat">
+          <div class="stat-figure text-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <div class="stat-title">Total Page Views</div>
+          <div class="stat-value text-secondary"><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv"></div>
+          <div class="stat-desc">Using Busuanzi Counter</div>
+        </div>
+      </div>
+      <h1 id="h1">Hi! 你好 👋</h1>
+      <h2 id="h2">我是 EveSunMaple</h2>
+      <p>
+        <text class="text-lg">
+          我喜欢与信息技术有关的一切事情，它给了我一个契机，用自己的双手创造一切有趣的事物。<br/>
+          我会用 C++ 与 Python 写一些有意思的项目，偶尔也会想起以前打 OI 的时间，
+          不过都是往事了。<br />
+          学习文化课仍然是我的主要任务，有时，我会写一些学习笔记，尽管相较于纸质笔记来说没有什么用。<br/>
+          以前关于 OI 的文章被我归档了，如果您需要借阅，可以去我的老博客看看。
+        </text>
+      </p>
+      <div class="mt-8">
+        <a class="btn" href="https://old.saroprock.com" target="_blank">
+          旧版博客</a
+        >
+        <a
+          href="https://github.com/EveSunMaple"
+          target="_blank"
+          class="btn btn-outline ml-5"
+        >
+          我的 Github Profile
+        </a>
+      </div>
     </div>
-    <div class="mt-8">
-      <a class="btn" href="https://old.saroprock.com" target="_blank"> 旧版博客</a>
-      <a href="https://github.com/EveSunMaple" target="_blank" class="btn btn-outline ml-5">
-        我的 Github Profile
-      </a>
-    </div>
-  </div>
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-2">My last projects {"</>"}</div>
-  </div>
-  <HorizontalCard
-  title="Frosti"
-  img="https://cdn.jsdelivr.net/gh/EveSunMaple/Frosti@master/index.png"
-  desc="个人博客主题！使用 Astro 搭建！"
-  url="https://github.com/EveSunMaple/Frosti"
-  badge="NEW & HOT"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="InfinitySky"
-    img="https://cdn.jsdelivr.net/gh/EveSunMaple/InfinitySky@master/view.png"
-    desc="一个全新的 Easy2d 项目，也作为我学习的过程。"
-    url="https://github.com/EveSunMaple/InfinitySky"
-    badge="WAITING"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="code-judge"
-    img="https://cdn.jsdelivr.net/gh/EveSunMaple/code-judge@master/index.png"
-    desc="一个简约而不简单的评测机"
-    url="https://github.com/EveSunMaple/code-judge"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Word-testing-application"
-    img="https://cdn.jsdelivr.net/gh/EveSunMaple/Word-testing-application@master/view.png"
-    desc="一个用Python和Tkinter制作的单词测试应用"
-    url="https://github.com/EveSunMaple/Word-testing-application"
-    badge=""
-  />
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10">Latest from blog</div>
-  </div>
-
-  {
-    last_posts.map((post) => (
-      <>
-        <HorizontalCard
-          title={post.data.title}
-          img={post.data.heroImage}
-          desc={post.data.description}
-          url={"/blog/" + post.slug}
-          target="_self"
-          badge={post.data.badge}
-        />
-        <div class="divider my-0" />
-      </>
-    ))
-  }
+  </BaseCard>
 </BaseLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+  function formatViews(views) {
+    if (views < 10000) {
+        return views.toString();
+    }
+    else if (views < 1000000) {
+        return Math.floor(views / 1000) + 'K';
+    }
+    else {
+        return (views / 1000000).toFixed(1) + 'M';
+    }
+}
+  var viewsSpan = document.getElementById('busuanzi_value_site_pv');
+  viewsSpan.innerText = formatViews(parseInt(viewsSpan.innerText));
+});
+</script>

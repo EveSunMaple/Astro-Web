@@ -12,7 +12,7 @@ categories:
   - OI学习笔记
   - 博弈论
 abbrlink: ddbd5f38
-date: 2023-08-07 00:00:00
+pubDate: 2023-08-07 00:00:00
 description: ...
 ---
 

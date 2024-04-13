@@ -4,7 +4,7 @@ mathjax: true
 categories:
   - OI学习笔记
   - 动态规划
-date: 2023-05-14 00:00:00
+pubDate: 2023-05-14 00:00:00
 tags:
   - DP
   - 线性动态规划

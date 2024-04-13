@@ -7,7 +7,7 @@ import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection("blog");
-  posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return paginate(posts, { pageSize: 10 });
 }
 
@@ -23,7 +23,7 @@ const { page } = Astro.props;
           image={post.data.image}
           desc={post.data.description}
           url={"/blog/" + post.slug}
-          date={post.data.date}
+          pubDate={post.data.pubDate}
           badge={post.data.badge}
           tags={post.data.tags}
           target="_self"

@@ -4,7 +4,7 @@ mathjax: true
 categories:
   - OI学习笔记
   - 搜索
-date: 2023-05-14 00:00:00
+pubDate: 2023-05-14 00:00:00
 description: 优先队列BFS讲解+例题
 tags:
   - cpp

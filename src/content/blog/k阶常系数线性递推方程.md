@@ -12,7 +12,7 @@ categories:
   - OI学习笔记
   - 线性代数
 abbrlink: d3924b84
-date: 2023-08-12 00:00:00
+pubDate: 2023-08-12 00:00:00
 description: ...
 ---
 

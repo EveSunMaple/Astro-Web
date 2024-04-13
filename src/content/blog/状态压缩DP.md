@@ -4,7 +4,7 @@ mathjax: true
 categories:
   - OI学习笔记
   - 动态规划
-date: 2023-06-10 00:00:00
+pubDate: 2023-06-10 00:00:00
 tags:
   - 优化
   - 状态压缩
@@ -35,7 +35,7 @@ mathjax: true
 categories:
   - OI学习笔记
   - 动态规划
-date: 2023-06-10 00:00:00
+pubDate: 2023-06-10 00:00:00
 tags:
   - 优化
   - 状态压缩

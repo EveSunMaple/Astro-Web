@@ -1,0 +1,10 @@
+{
+	"id": "edit-mdx",
+	"name": "Edit MDX",
+	"version": "1.0.1",
+	"minAppVersion": "0.11.0",
+	"description": "Allows the user to edit and create .mdx files.",
+	"author": "Tim Peters",
+	"authorUrl": "https://timpeters.net",
+	"isDesktopOnly": false
+}

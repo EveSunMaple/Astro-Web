@@ -3,7 +3,7 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
- * {
+* {
 	transition: margin-bottom 0.8s;
 }
 
@@ -93,10 +93,6 @@ ul {
 	list-style: disc;
 }
 
-li {
-	margin-bottom: 0.75em;
-}
-
 li::marker {
 	color: oklch(var(--a));
 }
@@ -125,8 +121,6 @@ table tr {
 }
 
 img {
-	max-width: 100%;
-	height: auto;
 	border-radius: 8px;
 }
 
@@ -388,7 +382,7 @@ hr {
 }
 
 .head-menu.open {
-	transform: translateY(70px);
+	transform: translateY(60px);
 }
 
 .sidebtn {

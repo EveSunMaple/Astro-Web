@@ -1,0 +1,10 @@
+{
+  "id": "mdx",
+  "name": "MDX",
+  "version": "0.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Preview MDX in Obsidian, with support for Code Hike",
+  "author": "Yulei Chen",
+  "authorUrl": "https://github.com/yuleicul",
+  "isDesktopOnly": true
+}

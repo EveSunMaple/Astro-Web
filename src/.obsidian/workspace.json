@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "5437d419fb030759",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/out.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -48,7 +61,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:比赛作文",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -65,7 +78,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -85,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/the-world.md",
+                "file": "content/blog/out.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/the-world.md",
+                "file": "content/blog/out.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/the-world.md"
+                "file": "content/blog/out.md"
               }
             }
           }
@@ -147,12 +161,12 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "8997157ac65a7459",
+  "active": "21ce72930b6f8ddc",
   "lastOpenFiles": [
+    "content/blog/the-world.md",
+    "content/blog/out.md",
     "components/template/mdx.mdx",
     "content/blog/the-world.mdx",
-    "content/blog/the-world.md",
-    "content/blog/未命名.md",
     "content/blog/我所做的一切都小于时间.mdx",
     "content/blog/Splay树（伸展树）.md",
     "components/template/md copy.md",

@@ -61,7 +61,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:比赛作文",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,8 +78,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -161,7 +160,7 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "21ce72930b6f8ddc",
+  "active": "5437d419fb030759",
   "lastOpenFiles": [
     "content/blog/the-world.md",
     "content/blog/out.md",

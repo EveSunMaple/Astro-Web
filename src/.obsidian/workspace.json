@@ -42,9 +42,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "02aad1aae3e26ee8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/slash.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -73,7 +85,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:随笔",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -90,7 +102,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -110,7 +123,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/weights.md",
+                "file": "content/blog/slash.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +140,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/weights.md",
+                "file": "content/blog/slash.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +163,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/weights.md"
+                "file": "content/blog/slash.md"
               }
             }
           }
@@ -171,8 +184,11 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "a930e5da25f79d21",
+  "active": "21ce72930b6f8ddc",
   "lastOpenFiles": [
+    "content/blog/weights.md",
+    "content/blog/slash.md",
+    "components/page/LinkThere.astro",
     "scripts/time.mjs",
     "scripts/timem.js",
     "scripts/time.js",
@@ -180,7 +196,6 @@
     "pages/index.astro",
     "content/blog/the-world.md",
     "content/blog/out.md",
-    "content/blog/weights.md",
     "content/blog/在网络的另一头相遇.md",
     "content/blog/原罪.md",
     "content/blog/Splay树（伸展树）.md",
@@ -192,8 +207,6 @@
     "components/template/md copy.md",
     "components/template/md.md",
     "content/blog/清楚？明白？.md",
-    "content/blog/用 Astro 搭建一个高性能博客.mdx",
-    "pages/project.mdx",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
     "content/blog/双连通分量.md"
   ]

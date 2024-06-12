@@ -98,6 +98,41 @@ import LinkThere from "../components/page/LinkThere.astro";
     </div>
   </BaseCard>
   <BaseCard title="home">
-    这个人很懒，还没有把老博客的介绍搬过来
+# Home
+
+只是一位普通的高一学生，就读于嵊州中学
+
+以前想给一位朋友送些有意义的礼物。什么是有意义的礼物？想来想去，最后，我送了他一本空白的本子。我说：**那些有意义的正等着被你所书写。**
+
+现在我给自己送了一本“本子”，就在这里 `>`
+
+## Content
+
+    <div class="grid grid-cols-2 gap-4">
+      <LinkCard
+        title="博客"
+        desc="想到的与看到的"
+        url="/blog"
+        target = "_self"
+      />
+      <LinkCard
+        title="项目"
+        desc="想法的实现"
+        url="/project"
+        target = "_self"
+      />
+      <LinkCard
+        title="关于"
+        desc="“我”与博客"
+        url="/about"
+        target = "_self"
+      />
+      <LinkCard
+        title="友链"
+        desc="有趣的灵魂"
+        url="/friend"
+        target = "_self"
+      />
+    </div>
   </BaseCard>
 </BaseLayout>

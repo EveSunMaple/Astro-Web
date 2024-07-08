@@ -26,11 +26,11 @@ const displayDate = dayjs(pubDate).format("ddd MMM DD YYYY");
         format="webp"
         alt={title}
         class="card-img"
-        loading="lazy"
+        loading="eager"
       />
     )
   }
-  <div class="main-card card bg-base-100 p-6">
+  <div class="main-card card bg-base-100">
     {
       isBlog && (
         <>
@@ -46,7 +46,7 @@ const displayDate = dayjs(pubDate).format("ddd MMM DD YYYY");
                 tags.map((tag) => (
                   <>
                     <a
-                      href={`${tag_url}/${tag}`}
+                      href={`/blog/tag/${tag}`}
                       class="btn btn-xs btn-secondary"
                     >
                       {tag}

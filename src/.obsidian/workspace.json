@@ -1,0 +1,188 @@
+{
+  "main": {
+    "id": "99cea670022eb720",
+    "type": "split",
+    "children": [
+      {
+        "id": "07ba3c013f426615",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d4d11d1e9ea84f80",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/frosti-mdx.mdx",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e65deac479deffac",
+    "type": "split",
+    "children": [
+      {
+        "id": "51a7eff42fceb2b4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "982c78a4511d77e1",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "e29dc3dba8dacfd7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "12557c3bf881a87e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "11e367d8d1ea03d7",
+    "type": "split",
+    "children": [
+      {
+        "id": "bafa71f48dc75644",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "01660824b0ccaf50",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "content/blog/frosti-mdx.mdx",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "65e817d9aef1016e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "content/blog/frosti-mdx.mdx",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "53423c3eb3728feb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "f4cdfb10e76a9f00",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "content/blog/frosti-mdx.mdx"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "edit-mdx:New .mdx file": false
+    }
+  },
+  "active": "d4d11d1e9ea84f80",
+  "lastOpenFiles": [
+    "content/blog/frosti-mdx.mdx",
+    "content/blog/最短路.md",
+    "content/blog/Splay树（伸展树）.md",
+    "content/blog/用 Astro 搭建一个高性能博客.mdx",
+    "content/blog/frosti-mdx.md",
+    "content/blog/新的起点.md",
+    "components/template/mdx.mdx",
+    "components/blog/warning copy.astro",
+    "components/blog/success copy.astro",
+    "components/blog/kbd.astro",
+    "components/blog/info copy.astro",
+    "components/blog/error copy.astro",
+    "components/blog/diff.astro",
+    "components/blog/collapse.astro",
+    "components/template/md.md",
+    "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
+    "content/blog/weights.md",
+    "content/blog/the-world.md",
+    "content/blog/邻接表与链式前向星.md",
+    "content/blog/优先队列BFS.md",
+    "content/blog/out.md",
+    "content/blog/原罪.md",
+    "content/blog/k阶常系数线性递推方程.md",
+    "content/blog/LIS与LCS（最长上升子序列）.md",
+    "content/blog/gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
+    "content/blog/矩阵乘法与线性DP优化.md",
+    "content/blog/初等数论与线性代数综合.md",
+    "content/blog/背包问题.md",
+    "content/blog/7月11日到7月17日典例复习.md",
+    "content/blog/状态压缩DP.md",
+    "content/blog/在网络的另一头相遇.md",
+    "content/blog/双连通分量.md",
+    "content/blog/清楚？明白？.md",
+    "content/blog/既是自己亦是客.md",
+    "content/blog/割边与割点.md"
+  ]
+}

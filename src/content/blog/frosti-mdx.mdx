@@ -1,0 +1,184 @@
+---
+title: 在 Frosti 中使用 mdx
+description: 使用 mdx 创建更多组件！
+pubDate: 07 12 2024
+image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/diary-968592_1280.jpg
+tags:
+  - Frosti
+  - 博客
+  - 项目
+---
+
+import Collapse from "../../components/blog/collapse.astro";
+import Diff from "../../components/blog/diff.astro";
+import Error from "../../components/blog/error.astro";
+import Info from "../../components/blog/info.astro";
+import Kbd from "../../components/blog/kbd.astro";
+import Success from "../../components/blog/success.astro";
+import Warning from "../../components/blog/warning.astro";
+import TimeLine from "../../components/page/TimeLine.astro";
+import LinkCard from "../../components/page/LinkCard.astro";
+
+## 前言
+
+本文介绍如何在 `mdx` 中使用 Frosti 提供的组件来实现普通 `md` 无法实现的功能。
+
+## 正文
+
+### 开始
+
+首先你需要创建一个 `mdx` 文件，很简单，把文件的后缀名改成 `.mdx` 即可。
+
+### 引入
+
+Frosti 提供的组件放在 `/blog` 和 `/page` 文件夹下，请您在文档属性（frontmatter）下写入一下内容：
+
+```js
+import Collapse from "../../components/blog/collapse.astro"
+import Diff from "../../components/blog/diff.astro"
+import Error from "../../components/blog/error.astro";
+import Info from "../../components/blog/info.astro";
+import Kbd from "../../components/blog/kbd.astro"
+import Success from "../../components/blog/success.astro";
+import Warning from "../../components/blog/warning.astro";
+import TimeLine from "../../components/page/TimeLine.astro";
+import LinkCard from "../../components/page/LinkCard.astro";
+```
+
+### 示例
+
+#### 折叠页面
+
+<Collapse title="这是一段示例文本。">这是藏起来的内容！</Collapse>
+
+```js
+<Collapse title="这是一段示例文本。">这是藏起来的内容！</Collapse>
+```
+
+#### 对比
+
+<Diff r="/r.png" l="/l.png"></Diff>
+
+```js
+<Diff r="/r.png" l="/l.png"></Diff>
+```
+
+#### 错误
+
+<Error>也许哪里出错了？</Error>
+
+```js
+<Error>也许哪里出错了？</Error>
+```
+
+#### 警告
+
+<Warning>嘿！小心有坑！</Warning>
+
+```js
+<Warning>嘿！小心有坑！</Warning>
+```
+
+#### 消息
+
+<Info>这只是一条消息。</Info>
+
+```js
+<Info>这只是一条消息。</Info>
+```
+
+#### 成功
+
+<Success>恭喜你部署成功啦！</Success>
+
+```js
+<Success>恭喜你部署成功啦！</Success>
+```
+
+#### 键盘
+
+<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 以复制文本。
+
+```js
+<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 以复制文本。
+```
+
+#### 时间线
+
+<ul class="timeline timeline-vertical">
+  <li>
+    <TimeLine time="2024年3月17日" left="true" check="true">
+      Frosti 项目启动！
+    </TimeLine>
+    <hr class="bg-primary" />
+  </li>
+  <li>
+    <hr class="bg-primary" />
+    <TimeLine time="2024年4月5日" check="true">
+      使用 Tailwind CSS 和 daisyUI.
+    </TimeLine>
+    <hr class="bg-primary" />
+  </li>
+  <li>
+    <hr class="bg-primary" />
+    <TimeLine time="2024年5月31日" left="true" check="true">
+      Frosti 发布第一个版本！
+    </TimeLine>
+    <hr class="bg-neutral-content" />
+  </li>
+  <li>
+    <hr class="bg-neutral-content" />
+    <TimeLine time="以后……"> 
+      敬请期待吧！
+    </TimeLine>
+  </li>
+</ul>
+
+```js
+<ul class="timeline timeline-vertical">
+  <li>
+    <TimeLine time="2024年3月17日" left="true" check="true">
+      Frosti 项目启动！
+    </TimeLine>
+    <hr class="bg-primary" />
+  </li>
+  <li>
+    <hr class="bg-primary" />
+    <TimeLine time="2024年4月5日" check="true">
+      使用 Tailwind CSS 和 daisyUI.
+    </TimeLine>
+    <hr class="bg-primary" />
+  </li>
+  <li>
+    <hr class="bg-primary" />
+    <TimeLine time="2024年5月31日" left="true" check="true">
+      Frosti 发布第一个版本！
+    </TimeLine>
+    <hr class="bg-neutral-content" />
+  </li>
+  <li>
+    <hr class="bg-neutral-content" />
+    <TimeLine time="以后……"> 
+      敬请期待吧！
+    </TimeLine>
+  </li>
+</ul>
+```
+
+#### 链接卡片
+
+<LinkCard
+  title="Frosti"
+  desc="我的博客项目！"
+  url="https://github.com/EveSunMaple/Frosti"
+  img="/favicon.ico"
+/>
+
+```js
+<LinkCard
+  title="Frosti"
+  desc="我的博客项目！"
+  url="https://github.com/EveSunMaple/Frosti"
+  img="/favicon.ico"
+/>
+```

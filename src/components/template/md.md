@@ -1,7 +1,7 @@
 ---
-title: {{title}}
+title:
 description: 
-pubDate: {{date}}
+pubDate:
 image: 
 tags:
   - 随笔

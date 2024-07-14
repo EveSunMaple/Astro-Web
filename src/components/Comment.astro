@@ -3,6 +3,10 @@
 ---
 
 <br />
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@waline/client@v3/dist/waline-meta.css"
+/>
 <div class="comment">
   <div id="waline"></div>
 </div>
@@ -46,9 +50,9 @@
       ></path>
     </svg>
   `;
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = svgContent;
-    const svgElement = tempDiv.firstElementChild;
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = svgContent;
+  const svgElement = tempDiv.firstElementChild;
   wlButtons.forEach((button) => {
     button.classList.add("btn");
   });
@@ -56,7 +60,7 @@
     item.classList.add("card", "bg-base-100", "shadow-xl");
   });
   Footnotes.forEach((item) => {
-    item.classList.add("alert","alert-info");
+    item.classList.add("alert", "alert-info");
     item.insertBefore(svgElement, item.firstChild);
   });
 </script>

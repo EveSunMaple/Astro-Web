@@ -1,9 +1,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BaseCard from "../components/BaseCard.astro";
-import error from "../components/blog/error.astro";
-import info from "../components/blog/info.astro";
-import success from "../components/blog/success.astro";
-import warn from "../components/blog/warning.astro";
+import Collapse from "../components/blog/collapse.astro"
+import Diff from "../components/blog/diff.astro"
+import Error from "../components/blog/error.astro";
+import Info from "../components/blog/info.astro";
+import Kbd from "../components/blog/kbd.astro"
+import Success from "../components/blog/success.astro";
+import Warning from "../components/blog/warning.astro";
 import TimeLine from "../components/page/TimeLine.astro";
 import LinkCard from "../components/page/LinkCard.astro";
 
@@ -56,5 +59,16 @@ import LinkCard from "../components/page/LinkCard.astro";
         target = "_self"
       />
     </div>
+## ~
+
+<div class="alert"> 临时记录一些灵感，怕过去了自己就忘记了 </div>
+
+<Collapse title="[2024/7/16] - 凤凰花开的路口（胡夏）">
+每当听到这首歌，虽然没有毕业，却总是感慨万千。
+
+早上的我无所事事，突然这首胡夏版的“凤凰花开的路口”把我拉了回来。
+
+大家在合唱啊……那感觉真好，我也应该趁现在去做些事情吧。
+</Collapse>
   </BaseCard>
 </BaseLayout>

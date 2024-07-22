@@ -1,19 +1,27 @@
 ---
-
+import { menuItems } from "../consts";
+import { Icon } from "astro-icon/components";
 ---
 
-<ul class="menu bg-base-100 w-full m-0">
-  <li><a class="menu-item p-4" id="home" href="/">Home</a></li>
-  <li><a class="menu-item p-4" id="about" href="/about">About</a></li>
-  <li><a class="menu-item p-4" id="blog" href="/blog">Blogs</a></li>
-  <li><a class="menu-item p-4" id="project" href="/project">Projects</a></li>
-  <li><a class="menu-item p-4" id="friend" href="/friend">Friends</a></li>
-  <li>
-    <a
-      class="menu-item p-4"
-      href="mailto:contact.evesunmaple@outlook.com"
-      target="_blank"
-      referrerpolicy="no-referrer-when-downgrade">Contact</a
-    >
-  </li>
+<ul
+  class="menu bg-base-100 w-full m-0 flex flex-col items-center lg:items-start"
+>
+  {
+    menuItems.map((item) => (
+      <li class="w-full">
+        <a
+          class="flex justify-center lg:justify-start items-center text-center text-xl md:text-3xl lg:text-xl font-bold p-4"
+          id={item.id}
+          title={item.id}
+          href={item.href}
+          target={item.target || "_self"}
+        >
+          <span class="inline-flex justify-center">
+            <Icon name={`menu/${item.svg}`} />
+          </span>
+          <span class="hidden lg:inline ml-2">{item.text}</span>
+        </a>
+      </li>
+    ))
+  }
 </ul>

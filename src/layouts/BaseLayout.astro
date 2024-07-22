@@ -5,52 +5,49 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Content from "../components/Content.astro";
-import ThemeIcon from "../components/ThemeIcon.astro";
 import { ViewTransitions } from "astro:transitions";
-import {
-  SITE_TITLE,
-  SITE_DESCRIPTION,
-  USER_NICKNAME,
-  USER_DESCRIPTION,
-  TRANSITION_API,
-} from "../consts";
-const {
-  image,
-  site_title = SITE_TITLE,
-  site_description = SITE_DESCRIPTION,
-  user_name = USER_NICKNAME,
-  user_description = USER_DESCRIPTION,
-  includeSidebar = true,
-  PageID,
-} = Astro.props;
+import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API } from "../consts";
+const { image, includeSidebar = true } = Astro.props;
 ---
 
-<html lang="zh-cn" class="bg-base-300">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <BaseHead title={site_title} description={site_description} image={image} />
-    {TRANSITION_API && <ViewTransitions />}
-  </head>
+<html lang="zh-cn" class="bg-base-300" title="main-page">
+  <title class="sr-only">Frosti</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
+  {TRANSITION_API && <ViewTransitions />}
+
   <body>
     <script src="../scripts/copybutton.mjs"></script>
     <Header title={SITE_TITLE} />
-    <main class="main">
-      <div class="profile">
-        {
-          includeSidebar && (
-            <Profile name={user_name} desc={user_description} PageID={PageID} />
-          )
-        }
-      </div>
-      <div class="background">
-        <div class="base-background" transition:animate="slide">
-          <slot />
-          <Footer />
-          <br />
+    <div class="max-w-7xl m-auto">
+      <div
+        class="relative grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 gap-4 p-4 top-16 md:top-0"
+      >
+        <div
+          class="md:col-span-1 top-4 bg-white bg-opacity-0 p-2 hidden max-md:hidden md:inline order-2 md:order-1"
+        >
+          {
+            includeSidebar && (
+              <>
+                <Profile />
+                <Content />
+              </>
+            )
+          }
+        </div>
+        <div
+          class="col-span-3 md:col-span-4 lg:col-span-3 overflow-hidden bg-white bg-opacity-0 p-2 order-1 md:order-2"
+        >
+          <div class="">
+            <main>
+              <slot />
+            </main>
+            <Footer />
+            <br />
+          </div>
         </div>
       </div>
-    </main>
-    <Content />
-    <ThemeIcon />
+    </div>
   </body>
 </html>

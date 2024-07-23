@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/2024-1-2.md",
+                "file": "content/blog/sperner.mdx",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/2024-1-2.md",
+                "file": "content/blog/sperner.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/2024-1-2.md",
+                "file": "content/blog/sperner.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/2024-1-2.md"
+                "file": "content/blog/sperner.mdx"
               }
             }
           }
@@ -149,13 +149,15 @@
   },
   "active": "d4d11d1e9ea84f80",
   "lastOpenFiles": [
+    "content/blog/2024-1-2.md",
+    "content/blog/sperner.mdx",
+    "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
     "content/blog/frosti-mdx.mdx",
     "components/template/md.md",
-    "content/blog/2024-1-2.md",
     "content/blog/__int128.md",
     "content/blog/最短路.md",
     "content/blog/Splay树（伸展树）.md",
@@ -164,9 +166,6 @@
     "components/template/mdx.mdx",
     "components/blog/warning copy.astro",
     "components/blog/success copy.astro",
-    "components/blog/kbd.astro",
-    "components/blog/info copy.astro",
-    "components/blog/error copy.astro",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
     "content/blog/weights.md",
     "content/blog/the-world.md",

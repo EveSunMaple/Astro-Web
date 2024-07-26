@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/sperner.mdx",
+                "file": "content/blog/cauchy.mdx",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/sperner.mdx",
+                "file": "content/blog/cauchy.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/sperner.mdx",
+                "file": "content/blog/cauchy.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/sperner.mdx"
+                "file": "content/blog/cauchy.mdx"
               }
             }
           }
@@ -149,8 +149,9 @@
   },
   "active": "d4d11d1e9ea84f80",
   "lastOpenFiles": [
-    "content/blog/2024-1-2.md",
     "content/blog/sperner.mdx",
+    "content/blog/cauchy.mdx",
+    "content/blog/2024-1-2.md",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",
     "pages/sorry.mdx",

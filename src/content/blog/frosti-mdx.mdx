@@ -33,7 +33,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 Frosti 提供的组件放在 `/blog` 和 `/page` 文件夹下，请您在文档属性（frontmatter）下写入一下内容：
 
-```js
+```astro
 import Collapse from "../../components/blog/collapse.astro"
 import Diff from "../../components/blog/diff.astro"
 import Error from "../../components/blog/error.astro";
@@ -51,7 +51,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Collapse title="这是一段示例文本。">这是藏起来的内容！</Collapse>
 
-```js
+```astro
 <Collapse title="这是一段示例文本。">这是藏起来的内容！</Collapse>
 ```
 
@@ -59,7 +59,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Diff r="/r.png" l="/l.png"></Diff>
 
-```js
+```astro
 <Diff r="/r.png" l="/l.png"></Diff>
 ```
 
@@ -67,7 +67,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Error>也许哪里出错了？</Error>
 
-```js
+```astro
 <Error>也许哪里出错了？</Error>
 ```
 
@@ -75,7 +75,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Warning>嘿！小心有坑！</Warning>
 
-```js
+```astro
 <Warning>嘿！小心有坑！</Warning>
 ```
 
@@ -83,7 +83,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Info>这只是一条消息。</Info>
 
-```js
+```astro
 <Info>这只是一条消息。</Info>
 ```
 
@@ -91,7 +91,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Success>恭喜你部署成功啦！</Success>
 
-```js
+```astro
 <Success>恭喜你部署成功啦！</Success>
 ```
 
@@ -99,7 +99,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 以复制文本。
 
-```js
+```astro
 <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 以复制文本。
 ```
 
@@ -128,13 +128,11 @@ import LinkCard from "../../components/page/LinkCard.astro";
   </li>
   <li>
     <hr class="bg-neutral-content" />
-    <TimeLine time="以后……"> 
-      敬请期待吧！
-    </TimeLine>
+    <TimeLine time="以后……">敬请期待吧！</TimeLine>
   </li>
 </ul>
 
-```js
+```astro
 <ul class="timeline timeline-vertical">
   <li>
     <TimeLine time="2024年3月17日" left="true" check="true">
@@ -158,7 +156,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
   </li>
   <li>
     <hr class="bg-neutral-content" />
-    <TimeLine time="以后……"> 
+    <TimeLine time="以后……">
       敬请期待吧！
     </TimeLine>
   </li>
@@ -174,7 +172,7 @@ import LinkCard from "../../components/page/LinkCard.astro";
   img="/favicon.ico"
 />
 
-```js
+```astro
 <LinkCard
   title="Frosti"
   desc="我的博客项目！"

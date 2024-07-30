@@ -1,18 +1,19 @@
 ---
+import dayjs from "dayjs";
 import { Image } from "astro:assets";
 import License from "../components/License.astro";
 import CommentWaline from "./CommentWaline.astro";
-import dayjs from "dayjs";
 import { DATE_FORMAT, infoTest } from "../consts";
+import type { CardInfo } from "../types";
 const {
-  title,
+  title = "undefined",
   image,
   pubDate,
   badge,
   tags,
-  isBlog,
+  isBlog = false,
   url = decodeURIComponent(Astro.url.toString()),
-} = Astro.props;
+} = Astro.props as CardInfo;
 const displayDate = dayjs(pubDate).format(DATE_FORMAT);
 const hasTags = tags && tags.length > 0;
 ---
@@ -34,7 +35,9 @@ const hasTags = tags && tags.length > 0;
       />
     )
   }
-  <div class="main-card relative leading-6 z-10 p-8 card bg-base-100">
+  <div
+    class="main-card relative leading-6 z-10 p-6 md:p-6 lg:p-8 card bg-base-100"
+  >
     {
       isBlog && (
         <>

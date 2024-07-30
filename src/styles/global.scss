@@ -37,13 +37,12 @@ html[data-theme="dracula"] {
   .frosti-code,
   .frosti-code span {
     color: var(--shiki-dark) !important;
-    background-color: oklch(var(--n)) !important;
     font-style: var(--shiki-dark-font-style) !important;
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
   .highlight-tools {
-    background-color: oklch(var(--n));
+    background-color: oklch(var(--n)) !important;
   }
 }
 
@@ -148,6 +147,7 @@ code {
 
 pre {
   font-family: 'Cascadia';
+  padding: 10px;
 }
 
 blockquote {
@@ -160,10 +160,10 @@ pre>code {
 
 hr {
   border: 0;
+  display: flex;
   color: oklch(var(--bc));
   background: linear-gradient(currentColor, currentColor) no-repeat center;
   background-size: calc(100% - 1.5em - 6px) 1px;
-  display: flex;
   justify-content: space-between;
   height: 50px;
 }
@@ -214,10 +214,4 @@ hr {
 .highlight .code-lang {
   font-family: 'Cascadia';
   user-select: none;
-}
-
-pre {
-  margin: 0;
-  padding: 10px;
-  border-radius: 0 0 5px 5px;
 }

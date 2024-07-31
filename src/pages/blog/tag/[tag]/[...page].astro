@@ -6,7 +6,7 @@ import BaseCard from "../../../../components/BaseCard.astro";
 import { getCollection } from "astro:content";
 import { infoTest } from "../../../../consts";
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths({ paginate }: { paginate: any }) {
   const all_posts = await getCollection("blog");
 
   const all_tags = [
@@ -28,11 +28,11 @@ const { page } = Astro.props as { page: Page };
 const params = Astro.params;
 ---
 
-<BaseLayout PageID="blog">
-  <BaseCard title="tag">
+<BaseLayout title="Tag">
+  <BaseCard title="Tag">
     <h1 id="h1">{infoTest.tagPage + params.tag}</h1>
   </BaseCard>
-  <div class="envelope-background">
+  <div class="mt-8 mb-8">
     {
       page.data.map((post: Post) => (
         <EnvelopeCard
@@ -48,5 +48,4 @@ const params = Astro.params;
       ))
     }
   </div>
-  <br />
 </BaseLayout>

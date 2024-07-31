@@ -2,6 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 // Site title and description
+export const SITE_TAB = "SaroProck";
 export const SITE_TITLE = "SaroProck ⚡";
 export const SITE_DESCRIPTION = "一本本子";
 export const DATE_FORMAT = "ddd MMM DD YYYY";

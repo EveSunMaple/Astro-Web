@@ -202,11 +202,11 @@ hr {
 .highlight-code .code{
   @apply flex-auto;
   overflow: auto;
+  padding-right: 4em;
 }
 
 .highlight-code .gutter{
   @apply flex-none text-right;
-  color: #888;
   user-select: none;
   border-right: 1px solid #888;
 }
@@ -214,4 +214,12 @@ hr {
 .highlight .code-lang {
   font-family: 'Cascadia';
   user-select: none;
+}
+
+details summary {
+  list-style: none;
+  outline: none; 
+  align-items: center;
+  justify-content: center; 
+  cursor: pointer; 
 }

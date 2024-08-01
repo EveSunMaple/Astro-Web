@@ -11,6 +11,7 @@ tags:
   - Lucas
   - OI
 categories:
+  - 技术
   - OI学习笔记
   - 数论
 abbrlink: c22a7f0c

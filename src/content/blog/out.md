@@ -5,6 +5,8 @@ pubDate: 05 03 2024
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/notebook-1405306_1280.jpg
 tags:
   - 作文
+categories:
+  - 作文
 badge: 议论
 ---
 

@@ -5,6 +5,8 @@ pubDate: 05 01 2024
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/pedestrians-400811_1280.jpg
 tags:
   - 随笔
+categories:
+  - 生活
 ---
 
 > “人间，在人之间才叫人间”是我很喜欢的一句话。这就是“人间”这两个字的意义吧，我想。可平常，人是总在的，间，确是没有的。

@@ -1,16 +1,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BaseCard from "../components/BaseCard.astro";
-import Collapse from "../components/blog/collapse.astro"
-import Diff from "../components/blog/diff.astro"
+import Collapse from "../components/blog/collapse.astro";
+import Diff from "../components/blog/diff.astro";
 import Error from "../components/blog/error.astro";
 import Info from "../components/blog/info.astro";
-import Kbd from "../components/blog/kbd.astro"
+import Kbd from "../components/blog/kbd.astro";
 import Success from "../components/blog/success.astro";
 import Warning from "../components/blog/warning.astro";
 import TimeLine from "../components/page/TimeLine.astro";
 import LinkCard from "../components/page/LinkCard.astro";
 
-<BaseLayout PageID="home">
+<BaseLayout title="home">
   <BaseCard title="home">
     <div class="flex">
       <div class="p-6">
@@ -21,6 +21,7 @@ import LinkCard from "../components/page/LinkCard.astro";
           一位热爱生活，试图保持可爱的高中生
       </div>
     </div>
+
   </BaseCard>
   <BaseCard title="home">
 # Home
@@ -59,6 +60,7 @@ import LinkCard from "../components/page/LinkCard.astro";
         target = "_self"
       />
     </div>
+
 ## ~
 
 <div class="alert"> 临时记录一些灵感，怕过去了自己就忘记了 </div>
@@ -69,6 +71,7 @@ import LinkCard from "../components/page/LinkCard.astro";
 早上的我无所事事，突然这首胡夏版的“凤凰花开的路口”把我拉了回来。
 
 大家在合唱啊……那感觉真好，我也应该趁现在去做些事情吧。
+
 </Collapse>
   </BaseCard>
 </BaseLayout>

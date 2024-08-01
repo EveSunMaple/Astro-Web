@@ -9,6 +9,7 @@ tags:
   - OI
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/%E5%8D%9A%E5%BC%88%E8%AE%BA.jpg
 categories:
+  - 技术
   - OI学习笔记
   - 博弈论
 abbrlink: ddbd5f38

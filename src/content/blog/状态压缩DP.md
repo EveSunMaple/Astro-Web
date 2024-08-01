@@ -2,6 +2,7 @@
 abbrlink: 122ed47c
 mathjax: true
 categories:
+  - 技术
   - OI学习笔记
   - 动态规划
 pubDate: 2023-06-10 00:00:00

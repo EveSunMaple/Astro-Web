@@ -9,6 +9,7 @@ tags:
   - 数列
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/k%E9%98%B6.jpg
 categories:
+  - 技术
   - OI学习笔记
   - 线性代数
 abbrlink: d3924b84

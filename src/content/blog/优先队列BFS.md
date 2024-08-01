@@ -2,6 +2,7 @@
 abbrlink: da96cdb8
 mathjax: true
 categories:
+  - 技术
   - OI学习笔记
   - 搜索
 pubDate: 2023-05-14 00:00:00

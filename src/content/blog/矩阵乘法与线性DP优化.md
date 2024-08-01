@@ -9,6 +9,7 @@ tags:
   - 快速幂
   - OI
 categories:
+  - 技术
   - OI学习笔记
   - 线性代数
 abbrlink: "67047465"

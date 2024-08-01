@@ -5,6 +5,8 @@ pubDate: 05 26 2024
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/people-3120717_1280.jpg
 tags:
   - 随笔
+categories:
+  - 生活
 ---
 
 > 本文实际撰写日期为 `March 16 2024`

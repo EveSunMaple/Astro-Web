@@ -8,6 +8,7 @@ tags:
   - 查找二叉树
   - OI
 categories:
+  - 技术
   - OI学习笔记
   - 数据结构
 image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg

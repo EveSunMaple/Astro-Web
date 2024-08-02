@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "d4d11d1e9ea84f80",
+            "id": "6be3f45091a6d66e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/cauchy.mdx",
+                "file": "content/blog/the-wrold.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/cauchy.mdx",
+                "file": "content/blog/the-wrold.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/cauchy.mdx",
+                "file": "content/blog/the-wrold.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/cauchy.mdx"
+                "file": "content/blog/the-wrold.md"
               }
             }
           }
@@ -147,10 +147,13 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "d4d11d1e9ea84f80",
+  "active": "6be3f45091a6d66e",
   "lastOpenFiles": [
-    "content/blog/sperner.mdx",
+    "未命名.md",
+    "content/blog/the-wrold.md",
+    "content/blog/weights.md",
     "content/blog/cauchy.mdx",
+    "content/blog/sperner.mdx",
     "content/blog/2024-1-2.md",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",
@@ -166,9 +169,7 @@
     "content/blog/新的起点.md",
     "components/template/mdx.mdx",
     "components/blog/warning copy.astro",
-    "components/blog/success copy.astro",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
-    "content/blog/weights.md",
     "content/blog/the-world.md",
     "content/blog/邻接表与链式前向星.md",
     "content/blog/优先队列BFS.md",
@@ -183,7 +184,6 @@
     "content/blog/7月11日到7月17日典例复习.md",
     "content/blog/状态压缩DP.md",
     "content/blog/在网络的另一头相遇.md",
-    "content/blog/双连通分量.md",
-    "content/blog/清楚？明白？.md"
+    "content/blog/双连通分量.md"
   ]
 }

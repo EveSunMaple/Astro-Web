@@ -44,7 +44,7 @@ const hasTags = tags && tags.length > 0;
       isBlog && (
         <>
           <h1 id="h1">{title}</h1>
-          <div class="info">
+          <div class="info mt-2">
             {displayDate && (
               <div class="badge badge-neutral">{displayDate}</div>
             )}
@@ -66,9 +66,8 @@ const hasTags = tags && tags.length > 0;
                 {infoTest.noCategory}
               </div>
             )}
-            <span>&thinsp;</span>
             {badge && <div class="badge badge-primary">{badge}</div>}
-            <div class="tags">
+            <div class="tags mt-2">
               <code>{infoTest.tag}</code>
               {hasTags ? (
                 tags.map((tag) => (

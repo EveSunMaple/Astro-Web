@@ -17,10 +17,13 @@ const { title, image, includeSidebar = true } = Astro.props;
 
 <html lang="zh-cn" class="bg-base-300">
   <title class="sr-only">{`${SITE_TAB} - ${title}`}</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
   {TRANSITION_API && <ViewTransitions />}
+  <script
+    defer
+    data-domain="saroprock.com"
+    src="https://plausible.io/js/script.js"></script>
 
   <body>
     <script src="../scripts/copybutton.mjs"></script>

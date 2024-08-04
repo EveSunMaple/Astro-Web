@@ -5,7 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import playformCompress from "@playform/compress";
-import vercel from '@astrojs/vercel/webAnalytics';
+import vercel from '@astrojs/vercel/serverless';
 import pagefind from "astro-pagefind";
 import icon from "astro-icon";
 

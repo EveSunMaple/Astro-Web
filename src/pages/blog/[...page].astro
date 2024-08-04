@@ -7,32 +7,10 @@ import { getCollection } from "astro:content";
 import Search from "astro-pagefind/components/Search";
 import { infoTest } from "../../consts";
 
-// 改为 getServerSideProps 以在服务器端获取数据
-export async function getServerSideProps(context: { query: { page: string } }) {
-  const pageNumber = parseInt(context.query.page || "1", 10);
+export async function getStaticPaths({ paginate }: { paginate: any }) {
   const posts = await getCollection("blog");
   posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-  const pageSize = 8;
-  const totalPages = Math.ceil(posts.length / pageSize);
-  const currentPagePosts = posts.slice(
-    (pageNumber - 1) * pageSize,
-    pageNumber * pageSize
-  );
-
-  return {
-    props: {
-      page: {
-        current: pageNumber,
-        total: totalPages,
-        size: pageSize,
-        data: currentPagePosts,
-        url: {
-          prev: pageNumber > 1 ? `/blog?page=${pageNumber - 1}` : null,
-          next: pageNumber < totalPages ? `/blog?page=${pageNumber + 1}` : null,
-        },
-      },
-    },
-  };
+  return paginate(posts, { pageSize: 8 });
 }
 
 const { page }: { page: Page } = Astro.props;
@@ -61,7 +39,7 @@ function generatePageLinks(totalPages: number): {
   return pages;
 }
 
-const totalPages = page.total;
+const totalPages = Math.ceil(page.total / page.size);
 const pageLinks = generatePageLinks(totalPages);
 ---
 
@@ -80,7 +58,7 @@ const pageLinks = generatePageLinks(totalPages);
           title={post.data.title}
           image={post.data.image}
           desc={post.data.description}
-          url={`/blog/${post.slug}`}
+          url={"/blog/" + post.slug}
           pubDate={post.data.pubDate}
           badge={post.data.badge}
           categories={post.data.categories}
@@ -129,9 +107,7 @@ const pageLinks = generatePageLinks(totalPages);
                         <a
                           title={hidden}
                           aria-label={hidden}
-                          href={
-                            hidden === "1" ? `/blog` : `/blog?page=${hidden}`
-                          }
+                          href={hidden === "1" ? `/blog` : `/blog/${hidden}`}
                           class={`menu-item bg-base-100 ${hidden === page.current ? "btn-active" : ""}`}
                         >
                           {hidden}
@@ -144,7 +120,7 @@ const pageLinks = generatePageLinks(totalPages);
                 <a
                   title={link}
                   aria-label={link}
-                  href={link === "1" ? `/blog` : `/blog?page=${link}`}
+                  href={link === "1" ? `/blog` : `/blog/${link}`}
                   class={`join-item btn bg-base-100 ${link === page.current ? "btn-active" : ""}`}
                 >
                   {link}
@@ -157,7 +133,7 @@ const pageLinks = generatePageLinks(totalPages);
             <a
               title={link}
               aria-label={link}
-              href={link === "1" ? `/blog` : `/blog?page=${link}`}
+              href={link === "1" ? `/blog` : `/blog/${link}`}
               class={`join-item btn bg-base-100 ${link === page.current ? "btn-active" : ""}`}
             >
               {link}

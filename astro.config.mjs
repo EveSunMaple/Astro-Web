@@ -5,14 +5,14 @@ import tailwind from "@astrojs/tailwind";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import playformCompress from "@playform/compress";
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/static';
 import pagefind from "astro-pagefind";
 import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.saroprock.com',
-  output: 'server',
+  output: 'static',
   adapter: vercel({
     webAnalytics: { enabled: true }
   }),

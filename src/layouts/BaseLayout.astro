@@ -1,5 +1,6 @@
 ---
 import "/node_modules/katex/dist/katex.min.css";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import Profile from "../components/ProfileCard.astro";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
@@ -20,11 +21,7 @@ const { title, image, includeSidebar = true } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
   {TRANSITION_API && <ViewTransitions />}
-  <script
-    defer
-    data-domain="saroprock.com"
-    src="https://plausible.io/js/script.js"></script>
-
+  <SpeedInsights />
   <body>
     <script src="../scripts/copybutton.mjs"></script>
     <Header title={SITE_TITLE} />

@@ -12,12 +12,16 @@ import icon from "astro-icon";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.saroprock.com',
+  output: 'server',
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   style: {
     scss: {
       includePaths: ['./src/styles']
     }
   },
-  integrations: [mdx(), icon(), sitemap(), tailwind(), playformCompress(), pagefind(), vercelAnalytics()],
+  integrations: [mdx(), icon(), sitemap(), tailwind(), playformCompress(), pagefind()],
   markdown: {
     shikiConfig: {
       themes: {

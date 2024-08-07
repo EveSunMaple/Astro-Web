@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import { infoTest } from "../consts";
+
+interface TagCount {
+  category: string;
+  count: number;
+}
+
+export async function getTagsWithCounts(): Promise<TagCount[]> {
+  const posts = await getCollection("blog");
+
+  const tagMap = new Map<string, number>();
+
+  posts.forEach((post) => {
+    const tags = post.data.categories || [];
+    tags.forEach((category) => {
+      tagMap.set(category, (tagMap.get(category) || 0) + 1);
+    });
+  });
+
+  return Array.from(tagMap, ([category, count]) => ({ category, count }));
+}
+const tagsWithCounts = await getTagsWithCounts();
+---
+
+<div class="bg-base-100 shadow-xl w-full mb-8 no-card">
+  <div class="p-4">
+    <div class="btn btn-sm btn-ghost no-animation w-full font-bold">
+      {infoTest.categoryCard}
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2.5 w-full p-4 max-h-[300px] overflow-auto">
+    {
+      tagsWithCounts.map(({ category, count }) => (
+        <span class="inline">
+          <a href={`/blog/categories/${category}`} class="btn btn-sm">
+            {category}
+            <div class="badge badge-accent">{count}</div>
+          </a>
+        </span>
+      ))
+    }
+  </div>
+</div>

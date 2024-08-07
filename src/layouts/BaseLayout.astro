@@ -1,11 +1,12 @@
 ---
 import "/node_modules/katex/dist/katex.min.css";
-import SpeedInsights from "@vercel/speed-insights/astro";
 import Profile from "../components/ProfileCard.astro";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Content from "../components/Content.astro";
+import TagCard from "../components/TagCard.astro";
+import CategoryCard from "../components/CategoryCard.astro";
 import { ViewTransitions } from "astro:transitions";
 import {
   SITE_TAB,
@@ -18,10 +19,11 @@ const { title, image, includeSidebar = true } = Astro.props;
 
 <html lang="zh-cn" class="bg-base-300">
   <title class="sr-only">{`${SITE_TAB} - ${title}`}</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
   {TRANSITION_API && <ViewTransitions />}
-  <SpeedInsights />
+
   <body>
     <script src="../scripts/copybutton.mjs"></script>
     <Header title={SITE_TITLE} />
@@ -36,6 +38,8 @@ const { title, image, includeSidebar = true } = Astro.props;
             includeSidebar && (
               <>
                 <Profile />
+                <CategoryCard />
+                <TagCard />
                 <Content />
               </>
             )

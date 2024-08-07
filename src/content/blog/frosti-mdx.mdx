@@ -107,62 +107,26 @@ import LinkCard from "../../components/page/LinkCard.astro";
 
 #### 时间线
 
-<ul class="timeline timeline-vertical">
-  <li>
-    <TimeLine time="2024年3月17日" left="true" check="true">
-      Frosti 项目启动！
-    </TimeLine>
-    <hr class="bg-primary" />
-  </li>
-  <li>
-    <hr class="bg-primary" />
-    <TimeLine time="2024年4月5日" check="true">
-      使用 Tailwind CSS 和 daisyUI.
-    </TimeLine>
-    <hr class="bg-primary" />
-  </li>
-  <li>
-    <hr class="bg-primary" />
-    <TimeLine time="2024年5月31日" left="true" check="true">
-      Frosti 发布第一个版本！
-    </TimeLine>
-    <hr class="bg-neutral-content" />
-  </li>
-  <li>
-    <hr class="bg-neutral-content" />
-    <TimeLine time="以后……">敬请期待吧！</TimeLine>
-  </li>
-</ul>
+<TimeLine
+  items={[
+    { year: "1984", event: "First Macintosh computer" },
+    { year: "1998", event: "iMac" },
+    { year: "2001", event: "iPod" },
+    { year: "2007", event: "iPhone" },
+    { year: "2015", event: "Apple Watch" },
+  ]}
+/>
 
 ```astro
-<ul class="timeline timeline-vertical">
-  <li>
-    <TimeLine time="2024年3月17日" left="true" check="true">
-      Frosti 项目启动！
-    </TimeLine>
-    <hr class="bg-primary" />
-  </li>
-  <li>
-    <hr class="bg-primary" />
-    <TimeLine time="2024年4月5日" check="true">
-      使用 Tailwind CSS 和 daisyUI.
-    </TimeLine>
-    <hr class="bg-primary" />
-  </li>
-  <li>
-    <hr class="bg-primary" />
-    <TimeLine time="2024年5月31日" left="true" check="true">
-      Frosti 发布第一个版本！
-    </TimeLine>
-    <hr class="bg-neutral-content" />
-  </li>
-  <li>
-    <hr class="bg-neutral-content" />
-    <TimeLine time="以后……">
-      敬请期待吧！
-    </TimeLine>
-  </li>
-</ul>
+<TimeLine
+  items={[
+    { year: "1984", event: "First Macintosh computer" },
+    { year: "1998", event: "iMac" },
+    { year: "2001", event: "iPod" },
+    { year: "2007", event: "iPhone" },
+    { year: "2015", event: "Apple Watch" },
+  ]}
+/>
 ```
 
 #### 链接卡片

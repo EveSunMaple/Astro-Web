@@ -19,9 +19,10 @@ export const TRANSITION_API = true;
 export const infoTest = {
   tag: "标签：",
   noTag: "未分类", //untagged
+  tagCard: "标签",
   tagPage: "Tag - ",
   noCategory: "未分类", //uncategorized
-  categoriesPage: "Categories",
+  categoryCard: "分类",
   categoryPage: "Category - ",
   link: "链接：",
   prevPage: "上一页",

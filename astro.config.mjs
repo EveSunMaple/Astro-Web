@@ -11,7 +11,11 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://frosti.saroprock.com',
+  site: 'https://www.saroprock.com',
+  output: 'static',
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   style: {
     scss: {
       includePaths: ['./src/styles']
@@ -58,13 +62,13 @@ export default defineConfig({
             const lineNumberPre = {
               type: 'element',
               tagName: 'pre',
-              properties: { className: ['frosti-code', 'gutter'] },
+              properties: { className: ['frosti-code'] },
               children: [lineNumberCode],
             };
             const codeContentPre = {
               type: 'element',
               tagName: 'pre',
-              properties: { className: ['frosti-code', 'code'] },
+              properties: { className: ['frosti-code'] },
               children: [],
             };
             node.children.forEach((lineNode, index, count) => {
@@ -88,7 +92,20 @@ export default defineConfig({
               type: 'element',
               tagName: 'div',
               properties: { className: ['highlight-code'] },
-              children: [lineNumberPre, codeContentPre],
+              children: [
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: { className: ['gutter'] },
+                  children: [lineNumberPre],
+                },
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: { className: ['code'] },
+                  children: [codeContentPre],
+                },
+              ],
             };
             return {
               type: 'element',

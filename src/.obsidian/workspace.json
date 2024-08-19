@@ -18,6 +18,37 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "c6e22fd820ca2363",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/Brønsted–Lowry.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "02071dff0e2fdadf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a6b9df7c9725d746",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/blog/Brønsted–Lowry.md",
+                "mode": "preview",
+                "source": false
+              }
+            }
           }
         ]
       }
@@ -85,7 +116,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/the-world-past.md",
+                "file": "content/blog/Brønsted–Lowry.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +133,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/the-world-past.md",
+                "file": "content/blog/Brønsted–Lowry.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +156,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/the-world-past.md"
+                "file": "content/blog/Brønsted–Lowry.md"
               }
             }
           }
@@ -147,12 +178,16 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "6be3f45091a6d66e",
+  "active": "c6e22fd820ca2363",
   "lastOpenFiles": [
-    "未命名.md",
+    "a1eaee3ef14c74ce29374790cda3359a.jpeg",
+    "content/blog/cauchy.mdx",
+    "content/blog/out.md",
+    "content/blog/Brønsted–Lowry.md",
+    "components/template/md.md",
+    "content/blog/the-world-past.md",
     "content/blog/the-wrold.md",
     "content/blog/weights.md",
-    "content/blog/cauchy.mdx",
     "content/blog/sperner.mdx",
     "content/blog/2024-1-2.md",
     "content/blog/frosti-mdx copy.mdx",
@@ -161,7 +196,6 @@
     "pages/frosti copy.mdx",
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
     "content/blog/frosti-mdx.mdx",
-    "components/template/md.md",
     "content/blog/__int128.md",
     "content/blog/最短路.md",
     "content/blog/Splay树（伸展树）.md",
@@ -173,7 +207,6 @@
     "content/blog/the-world.md",
     "content/blog/邻接表与链式前向星.md",
     "content/blog/优先队列BFS.md",
-    "content/blog/out.md",
     "content/blog/原罪.md",
     "content/blog/k阶常系数线性递推方程.md",
     "content/blog/LIS与LCS（最长上升子序列）.md",
@@ -182,8 +215,6 @@
     "content/blog/初等数论与线性代数综合.md",
     "content/blog/背包问题.md",
     "content/blog/7月11日到7月17日典例复习.md",
-    "content/blog/状态压缩DP.md",
-    "content/blog/在网络的另一头相遇.md",
-    "content/blog/双连通分量.md"
+    "content/blog/状态压缩DP.md"
   ]
 }

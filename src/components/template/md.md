@@ -5,4 +5,6 @@ pubDate:
 image: 
 tags:
   - 随笔
+categories:
+  - 生活
 ---

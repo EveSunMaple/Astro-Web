@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/diary.md",
+                "file": "content/blog/inner.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/diary.md",
+                "file": "content/blog/inner.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/diary.md",
+                "file": "content/blog/inner.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/diary.md"
+                "file": "content/blog/inner.md"
               }
             }
           }
@@ -149,11 +149,14 @@
   },
   "active": "baf4371f0b6606e0",
   "lastOpenFiles": [
-    "content/blog/outsider.md",
+    "components/template/md.md",
+    "content/blog/inner.md",
     "content/blog/diary.md",
+    "content/blog/frosti-mdx.mdx",
+    "content/blog/原罪.md",
+    "content/blog/outsider.md",
     "content/blog/Brønsted–Lowry.md",
     "content/blog/weights.md",
-    "components/template/md.md",
     "content/blog/the-world-past.md",
     "a1eaee3ef14c74ce29374790cda3359a.jpeg",
     "content/blog/cauchy.mdx",
@@ -166,7 +169,6 @@
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
-    "content/blog/frosti-mdx.mdx",
     "content/blog/__int128.md",
     "content/blog/最短路.md",
     "content/blog/Splay树（伸展树）.md",
@@ -178,13 +180,11 @@
     "content/blog/the-world.md",
     "content/blog/邻接表与链式前向星.md",
     "content/blog/优先队列BFS.md",
-    "content/blog/原罪.md",
     "content/blog/k阶常系数线性递推方程.md",
     "content/blog/LIS与LCS（最长上升子序列）.md",
     "content/blog/gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
     "content/blog/矩阵乘法与线性DP优化.md",
     "content/blog/初等数论与线性代数综合.md",
-    "content/blog/背包问题.md",
-    "content/blog/7月11日到7月17日典例复习.md"
+    "content/blog/背包问题.md"
   ]
 }

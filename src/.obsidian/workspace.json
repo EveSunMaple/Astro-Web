@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/inner.md",
+                "file": "content/blog/conic-section-1.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/inner.md",
+                "file": "content/blog/conic-section-1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/inner.md",
+                "file": "content/blog/conic-section-1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/inner.md"
+                "file": "content/blog/conic-section-1.md"
               }
             }
           }
@@ -147,44 +147,44 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "baf4371f0b6606e0",
+  "active": "982c78a4511d77e1",
   "lastOpenFiles": [
     "components/template/md.md",
-    "content/blog/inner.md",
+    "content/blog/conic-section-1.md",
+    "content/blog/Splay树（伸展树）.md",
+    "a1eaee3ef14c74ce29374790cda3359a.jpeg",
+    "content/blog/the-world.md",
+    "content/blog/sperner.mdx",
     "content/blog/diary.md",
     "content/blog/frosti-mdx.mdx",
+    "content/blog/gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
+    "content/blog/强连通分量.md",
+    "content/blog/用 Astro 搭建一个高性能博客.mdx",
+    "content/blog/inner.md",
+    "content/blog/the-world-past.md",
     "content/blog/原罪.md",
     "content/blog/outsider.md",
     "content/blog/Brønsted–Lowry.md",
     "content/blog/weights.md",
-    "content/blog/the-world-past.md",
-    "a1eaee3ef14c74ce29374790cda3359a.jpeg",
     "content/blog/cauchy.mdx",
     "content/blog/out.md",
     "content/blog/the-wrold.md",
-    "content/blog/sperner.mdx",
     "content/blog/2024-1-2.md",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
-    "content/blog/用 Astro 搭建一个高性能博客.mdx",
     "content/blog/__int128.md",
     "content/blog/最短路.md",
-    "content/blog/Splay树（伸展树）.md",
     "content/blog/frosti-mdx.md",
     "content/blog/新的起点.md",
     "components/template/mdx.mdx",
     "components/blog/warning copy.astro",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
-    "content/blog/the-world.md",
     "content/blog/邻接表与链式前向星.md",
     "content/blog/优先队列BFS.md",
     "content/blog/k阶常系数线性递推方程.md",
     "content/blog/LIS与LCS（最长上升子序列）.md",
-    "content/blog/gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
-    "content/blog/矩阵乘法与线性DP优化.md",
-    "content/blog/初等数论与线性代数综合.md",
-    "content/blog/背包问题.md"
+    "content/blog/矩阵乘法与线性DP优化.md"
   ]
 }

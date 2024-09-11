@@ -46,7 +46,7 @@ categories:
 
 #### 例题一
 
-**已知$C:y^2=4x$，过焦点$F$的直线$AB$交$C$于$A$、$B$，其中$A$在$y$轴左侧且$k_{AB}>0$。现$P(1,0)$连结$A$、$B$交$C$与$E$、$F$两点，问是否存在$\lambda$$\overrightarrow{AB}=\lambda\overrightarrow{EF}$?**
+**已知$C:y^2=4x$，过焦点$F$的直线$AB$交$C$于$A$、$B$，其中$A$在$y$轴左侧且$k_{AB}>0$。现$P(1,0)$连结$A$、$B$交$C$与$E$、$F$两点，问是否存在$\overrightarrow{AB}=\lambda\overrightarrow{EF}$?**
 
 **提示**：通过相似三角形建立同构。
 

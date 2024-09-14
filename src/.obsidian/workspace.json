@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/conic-section-1.md",
+                "file": "content/blog/md 1.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/conic-section-1.md",
+                "file": "content/blog/md 1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/conic-section-1.md",
+                "file": "content/blog/md 1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/conic-section-1.md"
+                "file": "content/blog/md 1.md"
               }
             }
           }
@@ -150,6 +150,9 @@
   "active": "982c78a4511d77e1",
   "lastOpenFiles": [
     "components/template/md.md",
+    "content/blog/md 1.md",
+    "content/blog/__int128.md",
+    "content/blog/__int128 1.md",
     "content/blog/conic-section-1.md",
     "content/blog/Splay树（伸展树）.md",
     "a1eaee3ef14c74ce29374790cda3359a.jpeg",
@@ -174,7 +177,6 @@
     "pages/hi.mdx",
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
-    "content/blog/__int128.md",
     "content/blog/最短路.md",
     "content/blog/frosti-mdx.md",
     "content/blog/新的起点.md",
@@ -183,8 +185,6 @@
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
     "content/blog/邻接表与链式前向星.md",
     "content/blog/优先队列BFS.md",
-    "content/blog/k阶常系数线性递推方程.md",
-    "content/blog/LIS与LCS（最长上升子序列）.md",
-    "content/blog/矩阵乘法与线性DP优化.md"
+    "content/blog/k阶常系数线性递推方程.md"
   ]
 }

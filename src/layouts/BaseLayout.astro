@@ -22,7 +22,7 @@ const { title, image, includeSidebar = true } = Astro.props;
       (function () {
         const storedTheme = localStorage.getItem("theme");
         const userPreferredTheme = window.matchMedia(
-          "(prefers-color-scheme: dark)"
+          "(prefers-color-scheme: dark)",
         ).matches
           ? "winter"
           : "dracula";
@@ -31,6 +31,10 @@ const { title, image, includeSidebar = true } = Astro.props;
       })();
     </script>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="e72a173b-34d3-468f-9cb5-cfdbd1cc2c0a"></script>
   </head>
   <body>
     <Header title={SITE_TITLE} />
@@ -106,7 +110,7 @@ const { title, image, includeSidebar = true } = Astro.props;
           },
           function (err) {
             console.error("error", err);
-          }
+          },
         );
       });
     });

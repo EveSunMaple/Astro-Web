@@ -1,4 +1,5 @@
 export interface Post {
+  [x: string]: any;
   data: {
     [x: string]: any;
     title: string;
@@ -8,6 +9,10 @@ export interface Post {
     badge: string;
     categories: string[];
     tags: string[];
+  };
+  remarkPluginFrontmatter: {
+    totalCharCount: string;
+    readingTime: string;
   };
   slug: string;
 }
@@ -30,6 +35,8 @@ export interface CardInfo {
   badge?: string;
   categories?: string[];
   tags?: string[];
+  word?: string;
+  time?: string;
   isBlog: boolean;
   url?: string;
 }
@@ -42,6 +49,8 @@ export interface EnvelopeInfo {
   badge?: string;
   categories?: string[];
   tags?: string[];
+  word?: string;
+  time?: string;
   isBlog: boolean;
   url: string;
 }

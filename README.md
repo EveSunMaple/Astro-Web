@@ -1,127 +1,121 @@
 # 🧊 Frosti
 
-**A clean, elegant, and fast static blog template! Developed using [Astro](https://astro.build/)！**
+[![license](https://badgen.net/github/license/EveSunMaple/Frosti)](https://github.com/EveSunMaple/Frosti/blob/main/LICENSE)&nbsp;&nbsp;&nbsp;[![release](https://badgen.net/github/release/EveSunMaple/Frosti)](https://github.com/EveSunMaple/Frosti/releases)&nbsp;&nbsp;&nbsp;[![stackblitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/EveSunMaple/Frosti)
 
-[**🖥️ Frosti Demo**](https://frosti.saroprock.com)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**🌏 中文 README**](https://github.com/EveSunMaple/Frosti/blob/main/README.zh-CN.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**❤️My Blog**](https://www.saroprock.com)
+<pre align="center">
+A simple, elegant, and fast static blog template! 🚀 Built with Astro
+</pre>
 
-> [!NOTE]
-> For a better reading experience, visit ->
+[**🖥️ Frosti Demo**](https://frosti.saroprock.com)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**🌏 Chinese README**](https://github.com/EveSunMaple/Frosti/blob/main/docs/README.zh-CN.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**❤️My Blog**](https://www.saroprock.com)
+
+> [!TIP]
+> It is recommended to preview this theme first
 
 ## 🖥️ Preview
 
-![view](./view.png)
+![view](./docs/Frosti_1.png)
+
+## ⏲️ Performance
+
+![speed](./docs/400-lighthouse.png)
 
 ## ✨ Features
 
-- ✅ Page sub-routing
-- ✅ Excellent loading speed
-- ✅ **Light** / **Dark** modes available
-- ✅ Various components for enriching article content
-- ✅ Various components for enriching page content
+- ✅ Ultra-fast access speed and excellent SEO
+- ✅ View transition animations (using Swup)
+- ✅ You can search your articles (using pagefind)
+- ✅ **Day** / **Night** mode available
 - ✅ Comment system built with [Waline](https://waline.js.org/)
-- ✅ Beautiful pages built with [Tailwind CSS](https://tailwindcss.com/) and [daisyUI](https://daisyui.com/)
+- ✅ Responsive design built with [Tailwind CSS](https://tailwindcss.com/) and [daisyUI](https://daisyui.com/)
+- 🛠️ Easy-to-use blog
+  - Installation requires just one command
+  - Customize your blog content in `consts.ts`
 
-## 🚀 Project Structure
-
-```sh
-\Frosti
-├── astro.config.mjs
-├── categories.txt
-├── index.png
-├── package-lock.json
-├── package.json
-├── pnpm-lock.yaml
-├── public
-|  ├── favicon.svg
-|  ├── fonts
-|  |  └── CascadiaCode.woff2
-|  ├── home.webp
-|  └── profile.webp
-├── README.md
-├── README.zh-CN.md
-├── src
-|  ├── components
-|  |  ├── BaseCard.astro
-|  |  ├── BaseHead.astro
-|  |  ├── blog
-|  |  |  ├── error.astro
-|  |  |  ├── info.astro
-|  |  |  ├── success.astro
-|  |  |  └── warning.astro
-|  |  ├── Comment.astro
-|  |  ├── EnvelopeCard.astro
-|  |  ├── Footer.astro
-|  |  ├── FormattedDate.astro
-|  |  ├── Header.astro
-|  |  ├── HeaderLink.astro
-|  |  ├── License.astro
-|  |  ├── page
-|  |  |  ├── FriendCard.astro
-|  |  |  └── TimeLine.astro
-|  |  ├── ProfileCard.astro
-|  |  ├── ProfileCardFooter.astro
-|  |  ├── ProfileCardMenu.astro
-|  |  └── ThemeIcon.astro
-|  ├── consts.ts
-|  ├── content
-|  |  ├── blog
-|  |  |  ├── markdown-style-guide.md
-|  |  |  └── using-mdx.mdx
-|  |  └── config.ts
-|  ├── env.d.ts
-|  ├── layouts
-|  |  └── BaseLayout.astro
-|  ├── pages
-|  |  ├── about.astro
-|  |  ├── blog
-|  |  |  ├── tag
-|  |  |  ├── [...page].astro
-|  |  |  └── [...slug].astro
-|  |  ├── friend.astro
-|  |  ├── index.astro
-|  |  ├── project.astro
-|  |  └── rss.xml.js
-|  ├── scripts
-|  |  └── copybutton.mjs
-|  └── styles
-|     └── global.css
-├── tailwind.config.js
-├── tsconfig.json
-└── view.png
-```
+> [!IMPORTANT]
+> You need to configure the comment system yourself, see [Waline](https://waline.js.org/) for details on modifying `src\components\CommentWaline.astro`
 
 ## ✒️ Article Information
 
-| Name | Meaning | Mandatory |
-| :---: | :---: | :---: |
-| title | Article title | Yes |
-| description | Article description | Yes |
-| pubDate | Article date | Yes |
-| image | Article cover | No |
-| tags | Article tags | No |
-| badge | Article badge | No |
+|    Name     |      Meaning       | Required |
+| :---------: | :----------------: | :------: |
+|    title    |   Article title    |   Yes    |
+| description |  Article summary   |   Yes    |
+|   pubDate   |    Article date    |   Yes    |
+|    image    |   Article cover    |    No    |
+| categories  | Article categories |    No    |
+|    tags     |    Article tags    |    No    |
+|    badge    |   Article badge    |    No    |
+
+> [!TIP]
+> You can pin your article by setting the `badge` attribute to `Pin`
 
 ## ⬇️ Usage
+
+> [!IMPORTANT]
+> Frosti uses pnpm as the package manager. If you don’t have pnpm installed, please install it first.
 
 Use Frosti by passing the `--template` parameter to the `create astro` command!
 
 ```sh
-npm create astro@latest -- --template EveSunMaple/Frosti
+pnpm create astro@latest -- --template EveSunMaple/Frosti
 ```
 
-## 🎯 Plans
+<details>
+  <summary><h3>Encountering Issues? Build by Cloning This Repository!</h3></summary>
 
-- [ ] Add table of contents (done but CSS not written)
-- [x] Add timeline component ~~(Apr 21, 2024)~~
-- [x] Add friends link component ~~(Apr 21, 2024)~~
+1. Install the pnpm package manager
+
+```sh
+npm i -g pnpm
+```
+
+2. Clone the project
+
+```sh
+git clone --depth 1 https://github.com/EveSunMaple/Frosti.git Frosti
+```
+
+3. Enter the project folder
+
+```sh
+cd Frosti
+```
+
+4. Install dependencies
+
+```sh
+pnpm i
+```
+
+5. Debug and run the project
+
+```sh
+pnpm run dev # Start the debug server
+
+pnpm run build # Build the project as static files
+```
+
+</details>
+
+> [!NOTE]
+> Frosti is built using pnpm by default. If you encounter any errors, please run `pnpm update`.
+
+> [!TIP]
+> You can also deploy Frosti using other methods such as Vercel, Netlify, etc. However, you need to be familiar with the basic usage of these services.
+> [Astro-supported deployment methods](https://docs.astro.build/zh-cn/guides/deploy/)
+
+## 🎯 Roadmap
+
+- [ ] Attempt to integrate a headless CMS
+- [ ] Fix known style bugs
+- [ ] More...
 
 ## 👀 Issues
 
-- [ ] `global.css` is too messy
-- [ ] **Light** / **Dark** mode transition is currently not implemented
-- [ ] Website score has not reached 400 yet
+If you have any questions or suggestions, feel free to submit an issue or communicate with the developers!
 
-## 🎉 Acknowledgments
+## 🎉 Thanks
 
-@[Saicaca](https://github.com/saicaca) His inspiration is the main reason for me to create this theme
-@[WRXinYue](https://github.com/WRXinYue) Helped me a lot in my early learning phase
+@[Saicaca](https://github.com/saicaca) His inspiration was the main reason I created this theme
+
+@[WRXinYue](https://github.com/WRXinYue) Helped me a lot during my early days

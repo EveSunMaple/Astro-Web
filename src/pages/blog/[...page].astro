@@ -19,10 +19,16 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 
   const sortedPosts = [...topPosts, ...otherPosts];
 
+  // 累加所有文章的总字数
+  let totalWordCount = 0;
+
   // 获取统计信息
   const postsWithStats = await Promise.all(
     sortedPosts.map(async (post) => {
       const { Content, remarkPluginFrontmatter } = await post.render();
+
+      // 累加每篇文章的 totalCharCount
+      totalWordCount += remarkPluginFrontmatter.totalCharCount || 0;
 
       // 将统计信息添加到 post 数据中
       return {
@@ -34,6 +40,9 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
       };
     }),
   );
+
+  // 输出或使用总字数
+  console.log(`所有文章的总字数: ${totalWordCount}`);
 
   // 使用 paginate 处理分页
   return paginate(postsWithStats, { pageSize: 8 });

@@ -149,6 +149,7 @@
   },
   "active": "baf4371f0b6606e0",
   "lastOpenFiles": [
+    "pages/wordCount.astro",
     "content/blog/o-my-prose.md",
     "components/template/md.md",
     "content/blog/__int128.md",
@@ -184,7 +185,6 @@
     "components/blog/warning copy.astro",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
     "content/blog/邻接表与链式前向星.md",
-    "content/blog/优先队列BFS.md",
-    "content/blog/k阶常系数线性递推方程.md"
+    "content/blog/优先队列BFS.md"
   ]
 }

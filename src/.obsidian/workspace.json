@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/o-my-prose.md",
+                "file": "content/blog/micawberism.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/o-my-prose.md",
+                "file": "content/blog/micawberism.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/o-my-prose.md",
+                "file": "content/blog/micawberism.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/o-my-prose.md"
+                "file": "content/blog/micawberism.md"
               }
             }
           }
@@ -149,9 +149,12 @@
   },
   "active": "baf4371f0b6606e0",
   "lastOpenFiles": [
-    "pages/wordCount.astro",
     "content/blog/o-my-prose.md",
+    "content/blog/micawberism.md",
+    "content/blog/Brønsted–Lowry.md",
     "components/template/md.md",
+    "content/blog/k阶常系数线性递推方程.md",
+    "pages/wordCount.astro",
     "content/blog/__int128.md",
     "content/blog/__int128 1.md",
     "content/blog/conic-section-1.md",
@@ -168,7 +171,6 @@
     "content/blog/the-world-past.md",
     "content/blog/原罪.md",
     "content/blog/outsider.md",
-    "content/blog/Brønsted–Lowry.md",
     "content/blog/weights.md",
     "content/blog/cauchy.mdx",
     "content/blog/out.md",
@@ -182,9 +184,7 @@
     "content/blog/frosti-mdx.md",
     "content/blog/新的起点.md",
     "components/template/mdx.mdx",
-    "components/blog/warning copy.astro",
     "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
-    "content/blog/邻接表与链式前向星.md",
-    "content/blog/优先队列BFS.md"
+    "content/blog/邻接表与链式前向星.md"
   ]
 }

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/micawberism.md",
+                "file": "content/blog/conic-section-2.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/blog/micawberism.md",
+                "file": "content/blog/conic-section-2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/blog/micawberism.md",
+                "file": "content/blog/conic-section-2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/blog/micawberism.md"
+                "file": "content/blog/conic-section-2.md"
               }
             }
           }
@@ -149,15 +149,16 @@
   },
   "active": "baf4371f0b6606e0",
   "lastOpenFiles": [
-    "content/blog/o-my-prose.md",
+    "content/blog/conic-section-1.md",
+    "content/blog/conic-section-2.md",
     "content/blog/micawberism.md",
+    "content/blog/o-my-prose.md",
     "content/blog/Brønsted–Lowry.md",
     "components/template/md.md",
     "content/blog/k阶常系数线性递推方程.md",
     "pages/wordCount.astro",
     "content/blog/__int128.md",
     "content/blog/__int128 1.md",
-    "content/blog/conic-section-1.md",
     "content/blog/Splay树（伸展树）.md",
     "a1eaee3ef14c74ce29374790cda3359a.jpeg",
     "content/blog/the-world.md",
@@ -184,7 +185,6 @@
     "content/blog/frosti-mdx.md",
     "content/blog/新的起点.md",
     "components/template/mdx.mdx",
-    "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md",
-    "content/blog/邻接表与链式前向星.md"
+    "content/blog/生成函数在非常系数与非齐次的线性递推关系的应用.md"
   ]
 }

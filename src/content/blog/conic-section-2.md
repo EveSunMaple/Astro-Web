@@ -20,7 +20,7 @@ categories:
 
 #### 例题
 
-**已知$F_1$、$F_2$是椭圆$C:\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}=1(a>b>0)$的左右焦点，$A$、$B$是椭圆$C$上的两点，若$\overrightarrow{F_{1}A}=2\overrightarrow{F_{2}B}$，且$\angle AF_{1}F_{2}=\frac{\pi}{4}$，求$e$。
+**已知$F_1$、$F_2$是椭圆$C:\frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}=1(a>b>0)$的左右焦点，$A$、$B$是椭圆$C$上的两点，若$\overrightarrow{F_{1}A}=2\overrightarrow{F_{2}B}$，且$\angle AF_{1}F_{2}=\frac{\pi}{4}$，求$e$。**
 
 #### 笔记 & 题解
 

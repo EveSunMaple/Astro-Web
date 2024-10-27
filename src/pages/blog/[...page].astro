@@ -19,16 +19,10 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 
   const sortedPosts = [...topPosts, ...otherPosts];
 
-  // 累加所有文章的总字数
-  let totalWordCount = 0;
-
   // 获取统计信息
   const postsWithStats = await Promise.all(
     sortedPosts.map(async (post) => {
-      const { Content, remarkPluginFrontmatter } = await post.render();
-
-      // 累加每篇文章的 totalCharCount
-      totalWordCount += remarkPluginFrontmatter.totalCharCount || 0;
+      const { remarkPluginFrontmatter } = await post.render();
 
       // 将统计信息添加到 post 数据中
       return {
@@ -40,9 +34,6 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
       };
     }),
   );
-
-  // 输出或使用总字数
-  console.log(`所有文章的总字数: ${totalWordCount}`);
 
   // 使用 paginate 处理分页
   return paginate(postsWithStats, { pageSize: 8 });
@@ -86,26 +77,24 @@ const pageLinks = generatePageLinks(totalPages);
       uiOptions={{ showImages: false }}
     />
   </BaseCard>
-  <div class="mt-8 mb-8">
-    {
-      page.data.map((post: Post) => (
-        <EnvelopeCard
-          title={post.data.title}
-          image={post.data.image}
-          desc={post.data.description}
-          url={"/blog/" + post.slug}
-          pubDate={post.data.pubDate}
-          badge={post.data.badge}
-          categories={post.data.categories}
-          tags={post.data.tags}
-          word={post.remarkPluginFrontmatter.totalCharCount}
-          time={post.remarkPluginFrontmatter.readingTime}
-          target="_self"
-        />
-      ))
-    }
-  </div>
-  <div class="flex justify-between mb-8">
+  {
+    page.data.map((post: Post) => (
+      <EnvelopeCard
+        title={post.data.title}
+        image={post.data.image}
+        desc={post.data.description}
+        url={"/blog/" + post.slug}
+        pubDate={post.data.pubDate}
+        badge={post.data.badge}
+        categories={post.data.categories}
+        tags={post.data.tags}
+        word={post.remarkPluginFrontmatter.totalCharCount}
+        time={post.remarkPluginFrontmatter.readingTime}
+        target="_self"
+      />
+    ))
+  }
+  <div class="flex justify-between fade-in-up">
     <a
       href={page.url.prev ? page.url.prev : `javascript:`}
       class={page.url.prev

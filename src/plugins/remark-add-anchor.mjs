@@ -1,15 +1,11 @@
 import { visit } from 'unist-util-visit';
-import { toString } from 'mdast-util-to-string';
 
 export function remarkAddAnchor() {
     return function (tree) {
+        let headingCount = 0;
         visit(tree, 'heading', (node) => {
-            const textContent = toString(node);
-
-            const slug = textContent
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-');
+            headingCount++;
+            const headingId = `heading-${headingCount}`;
 
             if (!node.data) {
                 node.data = {};
@@ -17,11 +13,12 @@ export function remarkAddAnchor() {
             if (!node.data.hProperties) {
                 node.data.hProperties = {};
             }
-            node.data.hProperties.id = slug;
+
+            node.data.hProperties.id = headingId;
 
             const anchorHtml = {
                 type: 'html',
-                value: `<a href="#${slug}" class="anchor"><span class="anchor-icon" data-pagefind-ignore="">#</span></a>`,
+                value: `<a href="#${headingId}" class="anchor"><span class="anchor-icon" data-pagefind-ignore="">#</span></a>`,
             };
 
             node.children.push(anchorHtml);

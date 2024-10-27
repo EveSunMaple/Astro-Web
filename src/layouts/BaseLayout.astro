@@ -3,15 +3,15 @@ import "medium-zoom/dist/style.css";
 import "/node_modules/katex/dist/katex.min.css";
 import Profile from "../components/ProfileCard.astro";
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
+import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import Content from "../components/Content.astro";
 import TagCard from "../components/TagCard.astro";
 import CategoryCard from "../components/CategoryCard.astro";
+import SidebarTool from "../components/SidebarTool.astro";
 import { SITE_TAB, SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import i18next, { t, changeLanguage } from "i18next";
+import i18next, { changeLanguage } from "i18next";
 
-changeLanguage("zh");
+changeLanguage("en");
 const { title, image, includeSidebar = true } = Astro.props;
 ---
 
@@ -32,14 +32,10 @@ const { title, image, includeSidebar = true } = Astro.props;
         document.documentElement.setAttribute("data-theme", theme);
       })();
     </script>
-    <script
-      defer
-      src="https://cloud.umami.is/script.js"
-      data-website-id="e72a173b-34d3-468f-9cb5-cfdbd1cc2c0a"></script>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={image} />
   </head>
   <body>
-    <Header title={SITE_TITLE} />
+    <Navbar title={SITE_TITLE} />
     <div class="max-w-7xl m-auto">
       <div
         class="relative grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 gap-4 p-0 md:p-0 lg:p-4 top-16 md:top-0"
@@ -53,7 +49,7 @@ const { title, image, includeSidebar = true } = Astro.props;
                 <Profile />
                 <CategoryCard />
                 <TagCard />
-                <Content />
+                <SidebarTool />
               </>
             )
           }
@@ -63,8 +59,10 @@ const { title, image, includeSidebar = true } = Astro.props;
         >
           <div>
             <main id="swup" class="detail transition-main">
-              <slot />
-              <Footer />
+              <div class="grid grid-cols-1 gap-8 fade-in-up">
+                <slot />
+                <Footer />
+              </div>
             </main>
             <br />
           </div>
@@ -119,18 +117,21 @@ const { title, image, includeSidebar = true } = Astro.props;
   }
 
   import mediumZoom from "medium-zoom/dist/pure";
-  mediumZoom(".main-card img", { margin: 24, background: "#00000080" });
-
   document.addEventListener("swup:page:view", () => {
-    mediumZoom(".main-card img", { margin: 24, background: "#00000080" });
+    mediumZoom(".main-card img:not(.link-card img)", {
+      margin: 24,
+      background: "#00000080",
+    });
   });
 
-  document.addEventListener("DOMContentLoaded", addCopyButton);
-
-  document.addEventListener("swup:page:view", addCopyButton);
-
   document.addEventListener("swup:page:view", () => {
+    addCopyButton();
     const astroPageLoadEvent = new Event("astro:page-load");
+    document.dispatchEvent(astroPageLoadEvent);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const astroPageLoadEvent = new Event("swup:page:view");
     document.dispatchEvent(astroPageLoadEvent);
   });
 </script>

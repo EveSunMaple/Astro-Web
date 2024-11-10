@@ -2,6 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 // Site title and description
+export const SITE_LANG = "zh";
 export const SITE_TAB = "SaroProck";
 export const SITE_TITLE = "SaroProck ⚡";
 export const SITE_DESCRIPTION = "一本本子";
@@ -16,11 +17,15 @@ export const USER_AVATAR = "/profile.webp";
 export const SERVER_URL = "https://waline.saroprock.com";
 export const TRANSITION_API = true;
 
-// Site theme
-export const siteTheme = {
+// Theme settings
+export const DAISYUI_THEME = {
   light: "winter",
   dark: "dracula",
-};
+}
+export const CODE_THEME = {
+  light: "github-light",
+  dark: "github-dark",
+}
 
 // Some informative text on the site
 export const infoTest = {

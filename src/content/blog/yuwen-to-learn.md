@@ -1,6 +1,6 @@
 ---
 title: 语文学习——？
-description: 
+description: 数学、物理、化学、英语、地理……语文
 pubDate: 11 17 2024
 tags:
   - 随笔

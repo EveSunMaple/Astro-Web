@@ -2,7 +2,7 @@
 title: 矛盾式
 description: 人们常说：痛并快乐着
 pubDate: 11 30 2024
-image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/cat-2692346_1280.png
+image: https://saroprock.oss-cn-hangzhou.aliyuncs.com/img/forest-6631518_1280.jpg
 tags:
   - 随笔
 categories:

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/yuwen-to-learn.md",
+                "file": "content/blog/emotion-confict.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "yuwen-to-learn"
+              "title": "emotion-confict"
             }
           }
         ],
@@ -180,13 +180,15 @@
   },
   "active": "50f86389b9322f7a",
   "lastOpenFiles": [
+    "content/blog/Brønsted–Lowry.md",
+    "content/blog/emotion-confict.md",
     "content/blog/a-cat.md",
     "content/blog/yuwen-to-learn.md",
+    "content/blog/weights.md",
     "content/blog/conic-section-2.md",
     "content/blog/conic-section-1.md",
     "content/blog/micawberism.md",
     "content/blog/o-my-prose.md",
-    "content/blog/Brønsted–Lowry.md",
     "components/template/md.md",
     "content/blog/k阶常系数线性递推方程.md",
     "pages/wordCount.astro",
@@ -205,7 +207,6 @@
     "content/blog/the-world-past.md",
     "content/blog/原罪.md",
     "content/blog/outsider.md",
-    "content/blog/weights.md",
     "content/blog/cauchy.mdx",
     "content/blog/out.md",
     "content/blog/the-wrold.md",
@@ -215,7 +216,6 @@
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
     "content/blog/最短路.md",
-    "content/blog/frosti-mdx.md",
     "components/template/mdx.mdx"
   ]
 }

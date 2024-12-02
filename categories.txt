@@ -64,7 +64,8 @@ D:\Frosti
 |  |  ├── frosti.mdx
 |  |  ├── index.mdx
 |  |  ├── project.mdx
-|  |  └── rss.xml.js
+|  |  ├── feed.ts
+|  |  └── sitemap.xml.ts
 |  ├── scripts
 |  |  ├── copybutton.mjs
 |  |  └── time.mjs

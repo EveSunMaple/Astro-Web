@@ -10,7 +10,7 @@ export const DATE_FORMAT = "ddd MMM DD YYYY";
 
 // User profile information
 export const USER_NAME = "EveSunMaple";
-export const USER_SITE = "https://frosti.saroprock.com"
+export const USER_SITE = "https://www.saroprock.com"
 export const USER_AVATAR = "/profile.webp";
 
 // Server and transition settings
@@ -126,7 +126,7 @@ export const socialIcons = [
     svg: "bilibili",
   },
   {
-    href: "/rss.xml",
+    href: "/feed",
     ariaLabel: "RSS Feed",
     title: "RSS Feed",
     svg: "rss",

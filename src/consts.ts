@@ -126,7 +126,7 @@ export const socialIcons = [
     svg: "bilibili",
   },
   {
-    href: "/feed",
+    href: "/rss.xml",
     ariaLabel: "RSS Feed",
     title: "RSS Feed",
     svg: "rss",

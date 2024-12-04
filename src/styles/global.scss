@@ -6,10 +6,6 @@ html {
   @apply scroll-smooth transition-colors;
 }
 
-.no-card {
-  border-radius: var(--rounded-box, 1rem);
-}
-
 .link-card a,
 a {
   @apply relative no-underline;
@@ -96,13 +92,6 @@ body {
 
 summary {
   list-style: none;
-}
-
-@font-face {
-  font-family: "Cascadia";
-  src: url("/fonts/CascadiaCode.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
 }
 
 a {
@@ -220,12 +209,12 @@ table tr {
 }
 
 code {
-  font-family: "Cascadia";
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   @apply text-xl p-[2px_5px] rounded-sm;
 }
 
 pre {
-  font-family: "Cascadia";
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   padding: 10px;
 }
 
@@ -293,7 +282,7 @@ thead th {
 }
 
 .highlight .code-lang {
-  font-family: "Cascadia";
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   user-select: none;
 }
 
@@ -383,9 +372,9 @@ thead th {
   transform: translateY(50px);
   animation: fadeInUp 0.5s ease forwards;
 
-  @for $i from 1 through 10 {
+  @for $i from 1 through 100 {
     &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.1}s;
+      animation-delay: #{$i * 0.05}s;
     }
   }
 }

@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/费马小定理.md",
+                "file": "content/blog/under-the-sacred-hall.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "费马小定理"
+              "title": "under-the-sacred-hall"
             }
           }
         ],
@@ -106,7 +106,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "11e367d8d1ea03d7",
@@ -192,17 +193,23 @@
       "edit-mdx:New .mdx file": false
     }
   },
-  "active": "982c78a4511d77e1",
+  "active": "e2993f7243492989",
   "lastOpenFiles": [
+    "content/blog/o-my-prose.md",
+    "content/blog/under-the-sacred-hall.md",
+    "content/blog/状态压缩DP.md",
+    "content/blog/在网络的另一头相遇.md",
+    "content/blog/原罪.md",
+    "content/blog/新的起点.md",
+    "content/blog/a-cat.md",
+    "content/blog/费马小定理.md",
     "content/blog/Brønsted–Lowry.md",
     "content/blog/emotion-confict.md",
-    "content/blog/a-cat.md",
     "content/blog/yuwen-to-learn.md",
     "content/blog/weights.md",
     "content/blog/conic-section-2.md",
     "content/blog/conic-section-1.md",
     "content/blog/micawberism.md",
-    "content/blog/o-my-prose.md",
     "components/template/md.md",
     "content/blog/k阶常系数线性递推方程.md",
     "pages/wordCount.astro",
@@ -219,17 +226,11 @@
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
     "content/blog/inner.md",
     "content/blog/the-world-past.md",
-    "content/blog/原罪.md",
-    "content/blog/outsider.md",
     "content/blog/cauchy.mdx",
-    "content/blog/out.md",
-    "content/blog/the-wrold.md",
-    "content/blog/2024-1-2.md",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",
     "pages/sorry.mdx",
     "pages/frosti copy.mdx",
-    "content/blog/最短路.md",
     "components/template/mdx.mdx"
   ]
 }

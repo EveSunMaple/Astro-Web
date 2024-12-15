@@ -3,6 +3,7 @@ import { toString } from 'mdast-util-to-string';
 const wordsPerMinute = 200;
 const chineseCharactersPerMinute = 300;
 const linesPerMinute = 50;
+let totalCharCount = 0;
 
 export function remarkReadingTime() {
     return function (tree, { data }) {
@@ -12,7 +13,12 @@ export function remarkReadingTime() {
         const lineCount = textOnPage.split(/\r?\n/).length;
         const readingTime = (wordCount / wordsPerMinute) + (chineseCount / chineseCharactersPerMinute) + (lineCount / linesPerMinute);
 
+        totalCharCount += wordCount + chineseCount;
         data.astro.frontmatter.totalCharCount = wordCount + chineseCount;
         data.astro.frontmatter.readingTime = Math.ceil(readingTime);
     };
 }
+
+process.on('exit', () => {
+    console.log('Total Character Count:', totalCharCount);
+});

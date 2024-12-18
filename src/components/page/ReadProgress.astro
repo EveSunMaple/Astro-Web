@@ -1,0 +1,112 @@
+---
+interface ProgressData {
+  date: string;
+  progress: number;
+}
+
+interface Props {
+  title: string;
+  data?: ProgressData[];
+  url?: string;
+}
+
+const { title, data, url } = Astro.props;
+
+const calculateEstimatedCompletion = (data: ProgressData[]) => {
+  if (data.length < 2) {
+    return null;
+  }
+
+  const sortedData = [...data].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+
+  const firstDate = new Date(sortedData[0].date);
+  const lastDate = new Date(sortedData[sortedData.length - 1].date);
+  const daysDiff =
+    (lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24);
+  const progressDiff =
+    sortedData[sortedData.length - 1].progress - sortedData[0].progress;
+
+  const dailyRate = progressDiff / daysDiff;
+
+  const remainingProgress = 100 - sortedData[sortedData.length - 1].progress;
+  const remainingDays = Math.ceil(remainingProgress / dailyRate);
+
+  const estimatedCompletion = new Date(lastDate);
+  estimatedCompletion.setDate(estimatedCompletion.getDate() + remainingDays);
+
+  return estimatedCompletion;
+};
+
+const currentProgress = data
+  ? data.length > 0
+    ? data[data.length - 1].progress
+    : 0
+  : 0;
+
+const estimatedDate = data ? calculateEstimatedCompletion(data) : null;
+---
+
+<div class="card transition-color p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">{title}</h2>
+    {
+      url && (
+        <a
+          href={url}
+          class="btn btn-primary btn-sm"
+          aria-label="View reading notes"
+        >
+          读后感
+        </a>
+      )
+    }
+    {
+      !url && (
+        <button
+          class="btn btn-primary btn-sm btn-disabled"
+          aria-label="Reading notes not available"
+        >
+          读后感
+        </button>
+      )
+    }
+  </div>
+
+  <div class="mb-4">
+    <div class="flex justify-between text-sm mb-2">
+      <span>阅读进度</span>
+      <span>{currentProgress}%</span>
+    </div>
+    <progress
+      class="progress progress-primary w-full"
+      value={currentProgress}
+      max="100"></progress>
+  </div>
+
+  <div class="text-sm">
+    {
+      data ? (
+        data.length >= 2 ? (
+          <p>
+            预计完成时间：
+            <span class="font-semibold">
+              {estimatedDate?.toLocaleDateString("zh-CN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          </p>
+        ) : (
+          <p class="text-gray-500 italic">
+            才刚刚开始看，还不能确定什么时候读完 📚
+          </p>
+        )
+      ) : (
+        <p class="text-gray-500 italic">还没开始看唔</p>
+      )
+    }
+  </div>
+</div>

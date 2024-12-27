@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/under-the-sacred-hall.md",
+                "file": "content/blog/dawn-blossoms-plucked-at-dusk.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "under-the-sacred-hall"
+              "title": "dawn-blossoms-plucked-at-dusk"
             }
           }
         ],
@@ -106,8 +106,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "11e367d8d1ea03d7",
@@ -195,8 +194,9 @@
   },
   "active": "e2993f7243492989",
   "lastOpenFiles": [
-    "content/blog/o-my-prose.md",
     "content/blog/under-the-sacred-hall.md",
+    "content/blog/dawn-blossoms-plucked-at-dusk.md",
+    "content/blog/o-my-prose.md",
     "content/blog/状态压缩DP.md",
     "content/blog/在网络的另一头相遇.md",
     "content/blog/原罪.md",
@@ -225,7 +225,6 @@
     "content/blog/强连通分量.md",
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
     "content/blog/inner.md",
-    "content/blog/the-world-past.md",
     "content/blog/cauchy.mdx",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",

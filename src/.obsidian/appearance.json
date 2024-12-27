@@ -2,5 +2,7 @@
   "cssTheme": "Blue Topaz",
   "monospaceFontFamily": "Cascadia Code PL",
   "enabledCssSnippets": [],
-  "theme": "system"
+  "theme": "system",
+  "textFontFamily": "可口可乐在乎体 楷体",
+  "baseFontSize": 20
 }

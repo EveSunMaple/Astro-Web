@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply scroll-smooth transition-colors;
+  @apply scroll-smooth;
 }
 
 .link-card a,
@@ -26,27 +26,28 @@ a {
 .main-card p,
 .main-card li,
 .main-card blockquote {
-  a {
-    @apply px-0.5 rounded-md font-medium;
-    color: oklch(var(--p));
-    transition: background-color 0.3s, background-size 0.3s, background-position 0.3s ease;
-    box-decoration-break: clone;
-    background-image: linear-gradient(oklch(var(--p)), oklch(var(--p)));
-    background-size: 100% 2px;
-    background-position: left bottom;
-    background-repeat: no-repeat;
-  }
+  :not(#toc-phone) {
+    a {
+      @apply px-0.5 rounded-md font-medium;
+      color: oklch(var(--p));
+      transition: background-color 0.3s, background-size 0.3s, background-position 0.3s ease;
+      box-decoration-break: clone;
+      background-image: linear-gradient(oklch(var(--p)), oklch(var(--p)));
+      background-size: 100% 2px;
+      background-position: left bottom;
+      background-repeat: no-repeat;
+    }
 
-  a:hover {
-    background-color: oklch(var(--p) / 0.3);
-    background-size: 0% 2px;
-  }
+    a:hover {
+      background-color: oklch(var(--p) / 0.3);
+      background-size: 0% 2px;
+    }
 
-  a:active {
-    background-color: oklch(var(--p) / 0.2);
-    background-size: 0% 2px;
+    a:active {
+      background-color: oklch(var(--p) / 0.2);
+      background-size: 0% 2px;
+    }
   }
-
 }
 
 .alert,
@@ -62,6 +63,15 @@ html[data-theme-type="light"] {
       background-color: oklch(var(--b3));
     }
   }
+}
+
+#catalogs::-webkit-scrollbar {
+  display: none;
+}
+
+#catalogs {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 html[data-theme-type="dark"] {
@@ -214,9 +224,12 @@ table tr {
 }
 
 code {
+  color: oklch(var(--bc));
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  @apply border-solid border-2 rounded-lg p-0.5;
-  border-color: oklch(var(--nc));
+  white-space: nowrap;
+  @apply bg-base-300 border border-solid rounded-md px-1 py-0.5 text-base shadow;
+  border-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
 }
 
 pre {
@@ -299,11 +312,9 @@ thead th {
 .main-card p,
 .main-card ol,
 .main-card ul,
-.main-card li,
 .timeline-box {
-  @apply my-2 leading-normal;
+  @apply my-3 leading-relaxed;
 }
-
 
 .image-link {
   position: relative;
@@ -357,6 +368,14 @@ thead th {
   z-index: 10;
 }
 
+.btn-category {
+  @apply bg-primary/10 hover:bg-primary text-primary hover:text-primary-content border-none hover:scale-110 transition-all duration-300;
+}
+
+.btn-tag {
+  @apply bg-secondary/10 hover:bg-secondary text-secondary hover:text-secondary-content border-none hover:scale-110 transition-all duration-300;
+}
+
 .timeline {
   @apply pl-0;
 }
@@ -366,7 +385,7 @@ thead th {
 }
 
 .footnotes {
-  @apply border-solid border-2 mt-8 transition-all rounded-xl p-8;
+  @apply border-solid border-2 mt-8 mb-2 transition-all rounded-xl p-8;
 }
 
 .swup-progress-bar {

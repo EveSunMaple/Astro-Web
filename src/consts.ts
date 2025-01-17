@@ -1,6 +1,8 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+import { t } from "i18next";
+
 // Site title and description
 export const SITE_LANG = "zh";
 export const SITE_TAB = "SaroProck";
@@ -10,7 +12,7 @@ export const DATE_FORMAT = "ddd MMM DD YYYY";
 
 // User profile information
 export const USER_NAME = "EveSunMaple";
-export const USER_SITE = "https://www.saroprock.com"
+export const USER_SITE = "https://www.saroprock.com";
 export const USER_AVATAR = "/profile.webp";
 
 // Server and transition settings
@@ -21,15 +23,15 @@ export const TRANSITION_API = true;
 export const DAISYUI_THEME = {
   light: "winter",
   dark: "dracula",
-}
+};
 export const CODE_THEME = {
   light: "github-light",
   dark: "github-dark",
-}
+};
 
 // Menu items for navigation
 export const menuItems = [
-  { id: "home", text: "首页", href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
+  { id: "home", text: t("label.share"), href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
   { id: "about", text: "关于", href: "/about", svg: "material-symbols:info-outline-rounded", target: "_self" }, // About page
   {
     id: "blog",

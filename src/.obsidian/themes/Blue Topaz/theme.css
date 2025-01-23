@@ -8,8 +8,8 @@ Partial style(s) is(are) sourced or adapted from Blue Topaz (https://github.com/
 
 */
 
-/*蓝色托帕石，适合Obsidian v1.5.0。uid [20240417] flying fly flies制作。如果喜欢，可以在Github里给我星星 https://github.com/whyt-byte */
-/*Blue Topaz for Obsidian v1.5.0, uid [20240417] created by flying fly flies. Feel free to use, share and modify. If you like the theme, please star me on GitHub https://github.com/whyt-byte */
+/*蓝色托帕石，适合Obsidian v1.5.0。uid [2024121101] flying fly flies制作。如果喜欢，可以在Github里给我星星 https://github.com/whyt-byte */
+/*Blue Topaz for Obsidian v1.5.0, uid [2024121101] created by flying fly flies. Feel free to use, share and modify. If you like the theme, please star me on GitHub https://github.com/whyt-byte */
 
 /*
 MIT License
@@ -919,16 +919,6 @@ settings:
     title: Color of leaf resize handle
     title.zh: 页面大小调整条颜色
     description: --background-leaf-resize-handle
-    type: variable-themed-color
-    opacity: true
-    format: hex
-    default-light: '#'
-    default-dark: '#'
-  -
-    id: mjx-inline-math-color
-    title: Color of mathematical expressions (inline $x=0$)
-    title.zh: 数学表达式颜色(行内 $x=0$)
-    description: --mjx-inline-math-color
     type: variable-themed-color
     opacity: true
     format: hex
@@ -3378,6 +3368,14 @@ settings:
     level: 3
     collapsed: true
   -
+    id: enable-alternative-checkboxes
+    title: Enable Alternative Checkboxes
+    title.zh: 启用扩展勾选框样式
+    description: Disable this if you are using your own implementation via a CSS Snippet.
+    description.zh: 如果启用第三方勾选框样式片段请禁用此选项
+    default: true
+    type: class-toggle
+  -
     id: circular-checkbox
     title: Circular checkbox
     title.zh: 圆形勾选框
@@ -3408,12 +3406,6 @@ settings:
     id: unmute-checkbox-animation
     title: Deactivate checkbox animation
     title.zh: 取消勾选框摇摆动画
-    type: class-toggle
-    default: false
-  -
-    id: extend-checkbox-list
-    title: Extend checkbox list (unavailable)
-    title.zh: 扩充勾选框类型 (不可用)
     type: class-toggle
     default: false
   -
@@ -9593,7 +9585,9 @@ body:not(.bt-bubble-layout).color-scheme-options-simplicity-topaz.background-ima
   --background-secondary-bg-4-bt: var(--simple-tran);
   --tab-outline-color: var(--background-secondary);
 }
-
+body.color-scheme-options-simplicity-topaz.background-image-settings-switch.background-image-settings-markdown-page-transparent:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+  background-color:var(--simple-white-2);
+}
 /*
 ---------------------------
 	Title Bar
@@ -11157,13 +11151,14 @@ body.toggle-left-aligned-content :is(.markdown-preview-view,.markdown-rendered).
 }
 
 
-body.text-indentation-two-em .workspace-leaf-content[data-type="markdown"] .markdown-source-view.mod-cm6 div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line)),
-.markdown-source-view.mod-cm6.indent div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line)) {
+
+body.text-indentation-two-em .workspace-leaf-content[data-type="markdown"] .markdown-source-view.mod-cm6 div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line,.HyperMD-codeblock)),
+.markdown-source-view.mod-cm6.indent div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line,.HyperMD-codeblock)) {
   text-indent: 2em;
 }
 
-body.text-indentation-two-em  .workspace-leaf-content[data-type="markdown"]  .markdown-source-view.mod-cm6 div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line)) .cm-hmd-frontmatter:first-of-type,
-.markdown-source-view.mod-cm6.indent div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line)) .cm-hmd-frontmatter:first-of-type {
+body.text-indentation-two-em  .workspace-leaf-content[data-type="markdown"]  .markdown-source-view.mod-cm6 div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line,.HyperMD-codeblock)) .cm-hmd-frontmatter:first-of-type,
+.markdown-source-view.mod-cm6.indent div.cm-line:not(:is(.hr,.HyperMD-header,.HyperMD-quote,.HyperMD-list-line,.HyperMD-codeblock)) .cm-hmd-frontmatter:first-of-type {
   margin-left: -2em;
 }
 body.text-indentation-two-em .markdown-source-view.mod-cm6 div.has-banner.cm-line:not(.HyperMD-header) .cm-def.cm-hmd-frontmatter,
@@ -11714,12 +11709,12 @@ body.toggle-checked-decoration ul > li.task-list-item[data-task="X"] {
   filter: hue-rotate(0);
 }
 
-input[type=checkbox]:checked:after {
+body.enable-alternative-checkboxes input[type=checkbox]:checked:after {
   display: none;
 }
 
-.is-flashing input[type=checkbox]:checked,
-input[type=checkbox]:checked {
+body.enable-alternative-checkboxes .is-flashing input[type=checkbox]:checked,
+body.enable-alternative-checkboxes input[type=checkbox]:checked {
   border-radius: var(--radius-xs);
   border: none;
   background-repeat: no-repeat;
@@ -11737,123 +11732,111 @@ body:not(.unmute-checkbox-animation) input.task-list-item-checkbox[type=checkbox
 
 
 /* SVG Plane-right; bujo: task-migrated/waiting */
-input[data-task=">"]:checked,
-li[data-task=">"]>input:checked,
-li[data-task=">"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task=">"]:checked,
+body.enable-alternative-checkboxes li[data-task=">"]>input:checked,
+body.enable-alternative-checkboxes li[data-task=">"]>p>input:checked {
   background-color: var(--checkbox-color-1);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z"></path></svg>');
 }
-:is(.markdown-preview-view,.markdown-rendered) ul.contains-task-list li.task-list-item.is-checked[data-task=">"],
-:is(.markdown-preview-view,.markdown-rendered) ol.contains-task-list li.task-list-item.is-checked[data-task=">"],
-.markdown-source-view.is-live-preview input.task-list-item-checkbox[data-task=">"] {
+body.enable-alternative-checkboxes :is(.markdown-preview-view,.markdown-rendered) ul.contains-task-list li.task-list-item.is-checked[data-task=">"],
+body.enable-alternative-checkboxes :is(.markdown-preview-view,.markdown-rendered) ol.contains-task-list li.task-list-item.is-checked[data-task=">"],
+body.enable-alternative-checkboxes .markdown-source-view.is-live-preview input.task-list-item-checkbox[data-task=">"] {
   text-decoration: none !important;
   color: var(--text-normal);
 }
 /* SVG Plane-left; bujo: task-scheduled/delegated */
-input[data-task="<"]:checked,
-li[data-task="<"]>input:checked,
-li[data-task="<"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="<"]:checked,
+body.enable-alternative-checkboxes li[data-task="<"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="<"]>p>input:checked {
   background-color: var(--checkbox-color-2);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path></svg>');
 }
-input[data-task="?"]:checked,
-li[data-task="?"]>input:checked,
-li[data-task="?"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="?"]:checked,
+body.enable-alternative-checkboxes li[data-task="?"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="?"]>p>input:checked {
   background-color: var(--checkbox-color-3);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red"><path d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"></path></svg>');
 }
 
-input[data-task="!"]:checked,
-li[data-task="!"]>input:checked,
-li[data-task="!"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="!"]:checked,
+body.enable-alternative-checkboxes li[data-task="!"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="!"]>p>input:checked {
   background-color: var(--checkbox-color-4);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgb(212, 163, 0)"><path d="M9 20h6v2H9zm7.906-6.288C17.936 12.506 19 11.259 19 9c0-3.859-3.141-7-7-7S5 5.141 5 9c0 2.285 1.067 3.528 2.101 4.73.358.418.729.851 1.084 1.349.144.206.38.996.591 1.921H8v2h8v-2h-.774c.213-.927.45-1.719.593-1.925.352-.503.726-.94 1.087-1.363zm-2.724.213c-.434.617-.796 2.075-1.006 3.075h-2.351c-.209-1.002-.572-2.463-1.011-3.08a20.502 20.502 0 0 0-1.196-1.492C7.644 11.294 7 10.544 7 9c0-2.757 2.243-5 5-5s5 2.243 5 5c0 1.521-.643 2.274-1.615 3.413-.373.438-.796.933-1.203 1.512z"></path></svg>');
 }
 
-input[data-task="+"]:checked,
-li[data-task="+"]>input:checked,
-li[data-task="+"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="+"]:checked,
+body.enable-alternative-checkboxes li[data-task="+"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="+"]>p>input:checked {
   background-color: var(--checkbox-color-5);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path></svg>');
 }
-input[data-task="-"]:checked,
-li[data-task="-"]>input:checked,
-li[data-task="-"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="-"]:checked,
+body.enable-alternative-checkboxes li[data-task="-"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="-"]>p>input:checked {
   background-color: var(--checkbox-color-6);
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M5 11h14v2H5z"></path></svg>');
 }
 
-ul > li[data-task="-"].task-list-item.is-checked, .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="-"] {
+body.enable-alternative-checkboxes ul > li[data-task="-"].task-list-item.is-checked,
+body.enable-alternative-checkboxes .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="-"] {
   text-decoration: line-through !important;
 }
 
-body.extend-checkbox-list input[data-task="“"]:checked,
-body.extend-checkbox-list li[data-task="“"]>input:checked,
-body.extend-checkbox-list li[data-task="“"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="“"]:checked,
+body.enable-alternative-checkboxes li[data-task="“"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="“"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(47, 167, 188);transform: ;msFilter:;"><path d="M3.691 6.292C5.094 4.771 7.217 4 10 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 6.925 10H10a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2H3a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789zM20 20h-6a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789C16.094 4.771 18.217 4 21 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 17.925 10H21a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2z"></path></svg>');
 }
 
-body.extend-checkbox-list input[data-task="…"]:checked,
-body.extend-checkbox-list li[data-task="…"]>input:checked,
-body.extend-checkbox-list li[data-task="…"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="…"]:checked,
+body.enable-alternative-checkboxes li[data-task="…"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="…"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(128, 128, 128);transform: ;msFilter:;"><path d="M10 10h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4z"></path></svg>');
 }
 
-body.extend-checkbox-list input[data-task="/"]:checked,
-body.extend-checkbox-list li[data-task="/"]>input:checked,
-body.extend-checkbox-list li[data-task="/"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="/"]:checked,
+body.enable-alternative-checkboxes li[data-task="/"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="/"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="rgb(213, 155, 48)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z"/></svg>');
 }
 
-body.extend-checkbox-list input[data-task="."]:checked,
-body.extend-checkbox-list li[data-task="."]>input:checked,
-body.extend-checkbox-list li[data-task="."]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="."]:checked,
+body.enable-alternative-checkboxes li[data-task="."]>input:checked,
+body.enable-alternative-checkboxes li[data-task="."]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="rgb(115, 115, 115)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>');
 }
 
-body.extend-checkbox-list input[data-task="d"]:checked,
-body.extend-checkbox-list li[data-task="d"]>input:checked,
-body.extend-checkbox-list li[data-task="d"]>p>input:checked {
-  background-color: transparent;
-  background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(159, 84, 212);transform: ;msFilter:;"><path d="m14 9.586-4 4-6.293-6.293-1.414 1.414L10 16.414l4-4 4.293 4.293L16 19h6v-6l-2.293 2.293z"></path></svg>');
-}
-
-body.extend-checkbox-list input[data-task="u"]:checked,
-body.extend-checkbox-list li[data-task="u"]>input:checked,
-body.extend-checkbox-list li[data-task="u"]>p>input:checked {
-  background-color: transparent;
-  background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(32, 101, 248);transform: ;msFilter:;"><path d="m10 10.414 4 4 5.707-5.707L22 11V5h-6l2.293 2.293L14 11.586l-4-4-7.707 7.707 1.414 1.414z"></path></svg>');
-}
 
 
-body.extend-checkbox-list input[data-task="A"]:checked,
-body.extend-checkbox-list li[data-task="A"]>input:checked,
-body.extend-checkbox-list li[data-task="A"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="A"]:checked,
+body.enable-alternative-checkboxes li[data-task="A"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="A"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden"><defs><clipPath id="clip0"><rect x="1066" y="514" width="16" height="16"/></clipPath></defs><g clip-path="url(#clip0)" transform="translate(-1066 -514)"><rect x="1066" y="514" width="16.0001" height="16.0002"/></g></svg>');
 }
 
-body.extend-checkbox-list input[data-task="D"]:checked,
-body.extend-checkbox-list li[data-task="D"]>input:checked,
-body.extend-checkbox-list li[data-task="D"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="D"]:checked,
+body.enable-alternative-checkboxes li[data-task="D"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="D"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgb(218, 78, 78)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/></svg>');
 }
 
-body.extend-checkbox-list input:is([data-task="￥"],[data-task="$"]):checked,
-body.extend-checkbox-list li:is([data-task="￥"],[data-task="$"])>input:checked,
-body.extend-checkbox-list li:is([data-task="￥"],[data-task="$"])>p>input:checked {
+body.enable-alternative-checkboxes input:is([data-task="￥"],[data-task="$"]):checked,
+body.enable-alternative-checkboxes li:is([data-task="￥"],[data-task="$"])>input:checked,
+body.enable-alternative-checkboxes li:is([data-task="￥"],[data-task="$"])>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(57, 211, 49);transform: ;msFilter:;"><path d="M12 6C7.03 6 2 7.546 2 10.5v4C2 17.454 7.03 19 12 19s10-1.546 10-4.5v-4C22 7.546 16.97 6 12 6zm-8 8.5v-1.197a9.989 9.989 0 0 0 2 .86v1.881c-1.312-.514-2-1.126-2-1.544zm12 .148v1.971c-.867.179-1.867.31-3 .358v-2a21.75 21.75 0 0 0 3-.329zm-5 2.33a18.788 18.788 0 0 1-3-.358v-1.971c.959.174 1.972.287 3 .33v1.999zm7-.934v-1.881a9.931 9.931 0 0 0 2-.86V14.5c0 .418-.687 1.03-2 1.544zM12 13c-5.177 0-8-1.651-8-2.5S6.823 8 12 8s8 1.651 8 2.5-2.823 2.5-8 2.5z"></path></svg>');
 }
 
-body.extend-checkbox-list input[data-task="*"]:checked,
-body.extend-checkbox-list li[data-task="*"]>input:checked,
-body.extend-checkbox-list li[data-task="*"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="*"]:checked,
+body.enable-alternative-checkboxes li[data-task="*"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="*"]>p>input:checked {
   background-color: transparent;
   background-image: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgb(218, 192, 22)"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>');
 }
@@ -11880,11 +11863,11 @@ body.extend-checkbox-list li[data-task="*"]>p>input:checked {
 body.circular-checkbox input[type=checkbox] {
   border-radius: 50%;
 }
-
+ 
 /* headers */
 /*编辑状态是否显示H1 H2标记*/
 /*适配Live preview模式*/
-body.clutter-free-headings div:not(.cm-active).cm-line span:not(.cm-formatting-header):not(.cm-hashtag):not(.cm-inline-code):not(.cm-highlight).cm-header::before {
+body.clutter-free-headings div:not(.cm-active).cm-line span:not(.cm-formatting-header).cm-header::before {
   font-size: 0.6rem;
   width: auto;
   margin-right: 1px;
@@ -12221,6 +12204,10 @@ body.retain-header-color .cm-s-obsidian .cm-header.cm-header-6[class*="cm-strong
 /* adapted from Obsidian-Typora-Vue https://github.com/ZekunC/Obsidian-Typora-Vue-Theme */
 :is(.markdown-preview-view,.markdown-rendered) :is(h1,h2,h3,h4,h5,h6) {
   position: relative;
+}
+body:not(.remove-heading-indicator).is-mobile :is(.markdown-preview-view,.markdown-rendered) :is(h1,h2,h3,h4,h5,h6):hover::before {
+
+  margin-left: -20px;
 }
 body:not(.remove-heading-indicator) :is(.markdown-preview-view,.markdown-rendered) h1:hover::before {
   content: 'H1';
@@ -14109,17 +14096,19 @@ body.table-style-three .markdown-source-view table tbody>tr {
 .markdown-source-view.mod-cm6.fullwidth .cm-contentContainer > div,
 .markdown-source-view.mod-cm6.fullwidth .cm-contentContainer > div.cm-content {
   max-width: 100%;
-  
 }
- 
-
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks)   .markdown-source-view.mod-cm6.is-readable-line-width .cm-sizer .inline-title,
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks)   .markdown-source-view.mod-cm6.is-readable-line-width .metadata-container
+{
+  margin-left: calc((100% - var(--file-line-width)) / 2);
+}
 
 :is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width .cm-sizer,
 :is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width:not(.is-rtl) .cm-contentContainer,
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6 .cm-contentContainer,
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6 .cm-contentContainer > div,
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6 .cm-contentContainer > div.cm-content,
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6 .cm-contentContainer > div.cm-content .cm-table-widge
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer,
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div,
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div.cm-content,
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div.cm-content .cm-table-widge
 {
   max-width: 100%;
  
@@ -14132,22 +14121,22 @@ body.table-style-three .markdown-source-view table tbody>tr {
 }
 
 /*	Editing View -- set all divs back to normal width (ensuring specificity rule over some theme), then	expand to full-width for each selected css class */
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) div.markdown-source-view.mod-cm6 .cm-contentContainer > div > div,
-:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks)  div.markdown-source-view.mod-cm6 .cm-contentContainer > div > .cm-line {
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks) div.markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div,
+:is(body.full-width-table,body.full-width-dvtable,body.full-width-callout,body.full-width-backlinks)  div.markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > .cm-line {
   max-width: var(--file-line-width);
   margin-inline: auto !important;
 } /* important for margin needed because app.css:2842 use it */
 
-body.full-width-dvtable .markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block:not(.admonition-parent),
-body.full-width-dvtable .markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block>.block-language-dataviewjs ,
-body.full-width-dvtable .markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block>.block-language-dataview ,
-body.full-width-table .markdown-source-view.mod-cm6 .cm-contentContainer > div > div:is(.HyperMD-table-row, .cm-table-widget),
-body.full-width-callout .markdown-source-view.mod-cm6 .cm-contentContainer > div > div:is(.cm-callout,.admonition-parent),
-body.full-width-backlinks .markdown-source-view.mod-cm6 .cm-contentContainer > div:is(.embedded-backlinks) > div {
+body.full-width-dvtable .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block:not(.admonition-parent),
+body.full-width-dvtable .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block>.block-language-dataviewjs ,
+body.full-width-dvtable .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block>.block-language-dataview ,
+body.full-width-table .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div:is(.HyperMD-table-row, .cm-table-widget),
+body.full-width-callout .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div:is(.cm-callout,.admonition-parent),
+body.full-width-backlinks .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div:is(.embedded-backlinks) > div {
   max-width: 100%;
 }
 
-body.full-width-dvtable .markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block>div[class^="block-language"]:not([class^="block-language-dataview"])
+body.full-width-dvtable .markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block>div[class^="block-language"]:not([class^="block-language-dataview"])
 {
   max-width: var(--file-line-width);
   margin-inline: auto;
@@ -14173,10 +14162,10 @@ body.full-width-backlinks .markdown-preview-view .markdown-preview-sizer.markdow
 /*modified from https://github.com/efemkay */
 
 /*	Editing View -- set Readable Line Length (RLL) to wide (100%) for any css class with "wide" word in it. / "width:100%" added for Blue Topaz / div.cm-content added to override Mado 11 */
-div[class*="wide-"].markdown-source-view.mod-cm6 .cm-contentContainer,
-div[class*="wide-"].markdown-source-view.mod-cm6 .cm-contentContainer > div,
-div[class*="wide-"].markdown-source-view.mod-cm6 .cm-contentContainer > div.cm-content,
-div[class*="wide-"].markdown-source-view.mod-cm6 .cm-contentContainer > div.cm-content .cm-table-widget {
+div[class*="wide-"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer,
+div[class*="wide-"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div,
+div[class*="wide-"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div.cm-content,
+div[class*="wide-"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div.cm-content .cm-table-widget {
   max-width: 100%;
   /* width: 100%;  ob1.0*/
 }
@@ -14191,19 +14180,19 @@ div[class*="wide-"].markdown-preview-view .markdown-preview-sizer.markdown-previ
 
 /* === Wide Dataview, Table & Backlink === */
 /*	Editing View -- set all divs back to normal width (ensuring specificity rule over some theme), then expand to full-width for each selected css class (i.e. wide-dataview, wide-table and wide-backlinks) */
-div.markdown-source-view.mod-cm6:is(.wide-dataview,.wide-table,.wide-backlinks,.wide-callout) .cm-contentContainer > div > div,
-div.markdown-source-view.mod-cm6:is(.wide-dataview,.wide-table,.wide-backlinks,.wide-callout) .cm-contentContainer > div > .cm-line {
+div.markdown-source-view.mod-cm6.is-readable-line-width:is(.wide-dataview,.wide-table,.wide-backlinks,.wide-callout) .cm-contentContainer > div > div,
+div.markdown-source-view.mod-cm6.is-readable-line-width:is(.wide-dataview,.wide-table,.wide-backlinks,.wide-callout) .cm-contentContainer > div > .cm-line {
   max-width: var(--file-line-width);
   margin-inline: auto !important;
 } /* important for margin needed because app.css:2842 use it */
-div[class*="-dataview"].markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block:not(.admonition-parent),
-div[class*="-table"].markdown-source-view.mod-cm6 .cm-contentContainer > div > div:is(.HyperMD-table-row, .cm-table-widget),
-div[class*="-callout"].markdown-source-view.mod-cm6 .cm-contentContainer > div > div:is(.cm-callout,.admonition-parent),
-div[class*="-backlinks"].markdown-source-view.mod-cm6 .cm-contentContainer > div:is(.embedded-backlinks) > div {
+div[class*="-dataview"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block:not(.admonition-parent),
+div[class*="-table"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div:is(.HyperMD-table-row, .cm-table-widget),
+div[class*="-callout"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div:is(.cm-callout,.admonition-parent),
+div[class*="-backlinks"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div:is(.embedded-backlinks) > div {
   max-width: 100%;
 }
 
-div[class*="-dataview"].markdown-source-view.mod-cm6 .cm-contentContainer > div > div.cm-preview-code-block>div[class^="block-language"]:not(.block-language-dataview) {
+div[class*="-dataview"].markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer > div > div.cm-preview-code-block>div[class^="block-language"]:not(.block-language-dataview) {
   max-width: var(--file-line-width);
   margin-inline: auto;
 }
@@ -15192,19 +15181,21 @@ body:not(.default-icons) .workspace-leaf .search-result-container.mod-global-sea
   color: var(--text-faint);
 } 
 
-body:not(.default-icons) div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) .heading-collapse-indicator.collapse-indicator  {
   position: absolute;
   margin: 15px 0 0 -20px;
   padding: 0;
   transition: transform 20ms linear 0s;
 }
 
-body:not(.default-icons) :is(h1,h2) div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) :is(h1,h2) .heading-collapse-indicator.collapse-indicator  {
   position: absolute;
   transition: transform 20ms linear 0s;
 }
 
-body:not(.default-icons) div.heading-collapse-indicator.collapse-indicator::before {
+body:not(.default-icons) .heading-collapse-indicator.collapse-indicator::before {
+  width: 1.5em;
+  height: 1.5em;
   content: "↓";
   position: absolute;
   font-size: 15px;
@@ -15219,21 +15210,21 @@ body:not(.default-icons) .heading-collapse-indicator.collapse-indicator.collapse
   display: none;
 }
 
-body:not(.default-icons) div.is-collapsed div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) div.is-collapsed .heading-collapse-indicator.collapse-indicator  {
   transform: translateX(7px) translateY(7px) rotate(-90deg);
 }
 
-body:not(.default-icons) div.is-collapsed div.heading-collapse-indicator.collapse-indicator::before,
-body:not(.default-icons) :is(h1,h2,h3,h4,h5,h6):hover div.heading-collapse-indicator.collapse-indicator::before {
+body:not(.default-icons) div.is-collapsed .heading-collapse-indicator.collapse-indicator::before,
+body:not(.default-icons) :is(h1,h2,h3,h4,h5,h6):hover .heading-collapse-indicator.collapse-indicator::before {
   opacity: 1;
 }
 
-body:not(.default-icons) .outline .tree-item .collapse-icon {
+body:not(.default-icons) .workspace-leaf-content[data-type=outline]  .tree-item .collapse-icon {
   padding: 0;
   transition: transform 20ms linear 0s;
 }
 
-body:not(.default-icons) .outline .tree-item .collapse-icon::before {
+body:not(.default-icons) .workspace-leaf-content[data-type=outline]  .tree-item .collapse-icon::before {
   content: "↓";
   font-size: 1em;
   font-weight: bold;
@@ -15242,31 +15233,31 @@ body:not(.default-icons) .outline .tree-item .collapse-icon::before {
   transition: transform 10ms linear 0s;
 }
 
-body:not(.default-icons) .outline .tree-item .collapse-icon svg {
+body:not(.default-icons) .workspace-leaf-content[data-type=outline]  .tree-item .collapse-icon svg {
   display: none;
   color: var(--accent-strong);
   height: 7px;
   width: 7px;
 }
 
-body:not(.default-icons) .outline .tree-item.is-collapsed .collapse-icon::before {
+body:not(.default-icons) .workspace-leaf-content[data-type=outline]  .tree-item.is-collapsed .collapse-icon::before {
   transform: rotate(-90deg);
   opacity: 0.5;
 }
 
 /*vertical lines in outline page*/
-.outline .tree-item-children {
+.workspace-leaf-content[data-type=outline]  .tree-item-children {
   margin-left: 14px;
   border-left: 1px solid #94949433;
   border-radius: 0;
   transition: all 400ms ease-in-out;
 }
 
-body.default-icons .outline .tree-item-children {
+body.default-icons .workspace-leaf-content[data-type=outline]  .tree-item-children {
   margin-left: 12.5px;
 }
 
-.outline .tree-item-children:hover {
+.workspace-leaf-content[data-type=outline]  .tree-item-children:hover {
   border-left-color: var(--theme-color-translucent-04);
 }
 
@@ -15276,34 +15267,34 @@ body.default-icons .outline .tree-item-children {
   height: 1.45rem;
 }
 
-body.nowrap-outline .outline .tree-item-inner {
+body.nowrap-outline .workspace-leaf-content[data-type=outline]  .tree-item-inner {
   white-space: nowrap;
 }
 /*****from https://www.yuque.com/fanmofeng/obsidian/ioifq0 *******/
 
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .collapse-icon {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .collapse-icon {
   padding-inline-end: var(--size-2-3);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .collapse-icon::before {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .collapse-icon::before {
   content: "" !important;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item {
   position: relative;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-self {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-self {
   position: relative;
   margin-bottom: 0;
   white-space: nowrap;
   margin-top: -1px; /* fix item gap */
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-self .tree-item-inner {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-self .tree-item-inner {
   padding-left: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(var(--nav-item-size) * 1.8);
-  line-height: calc(var(--nav-item-size) * 1.8);
+  height: calc(var(--nav-item-size) * 1.5);
+  line-height: calc(var(--nav-item-size) * 1.5);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-self .tree-item-inner::before {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-self .tree-item-inner::before {
   content: "";
   width: var(--size-4-1);
   height: var(--size-4-1);
@@ -15314,29 +15305,29 @@ body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-conte
   top: 50%;
   transform: translateY(-50%);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-self .tree-item-icon ~ .tree-item-inner {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-self .tree-item-icon ~ .tree-item-inner {
   padding-left: 4px;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-self .tree-item-icon ~ .tree-item-inner::before {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-self .tree-item-icon ~ .tree-item-inner::before {
   content: none;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item.is-collapsed .tree-item-icon::before {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item.is-collapsed .tree-item-icon::before {
   box-shadow: 0 0 0 4px var(--background-modifier-hover);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item::after {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item::after {
   content: "";
   width: 1.5px;
   position: absolute;
   background-color: transparent;
-  top: calc(calc(var(--nav-item-size) * 1.8) / 2 * -1);
+  top: calc(calc(var(--nav-item-size) * 1.5) / 2 * -1);
   left: -10px;
-  height: calc(100% - calc(var(--nav-item-size) * 1.8) + var(--size-4-8));
+  height: calc(100% - calc(var(--nav-item-size) * 1.5) + var(--size-4-8));
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-icon {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-icon {
   cursor: pointer;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-icon::before {
-  margin-top: 50%;
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-icon::before {
+
   width: var(--size-4-2);
   height: var(--size-4-2);
   background-color: hsla(var(--color-accent-hsl), 0.9);
@@ -15346,33 +15337,33 @@ body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-conte
   top: 50%;
   transform: translateY(-50%);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-icon svg {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-icon svg {
   display: block;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item-icon svg path {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item-icon svg path {
   display: none;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item:hover > .tree-item-children > .tree-item::after {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item:hover > .tree-item-children > .tree-item::after {
   background-color: hsla(var(--color-accent-hsl), 0.9);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item:hover > .tree-item-self:hover + .tree-item-children .tree-item::after {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item:hover > .tree-item-self:hover + .tree-item-children .tree-item::after {
   background-color: transparent;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item:hover > .tree-item-children > .tree-item:hover::after, body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item:hover > .tree-item-children > .tree-item:hover ~ .tree-item::after {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item:hover > .tree-item-children > .tree-item:hover::after, body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item:hover > .tree-item-children > .tree-item:hover ~ .tree-item::after {
   background-color: transparent;
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline .tree-item:hover > .tree-item-children > .tree-item:hover::before {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .tree-item:hover > .tree-item-children > .tree-item:hover::before {
   content: "";
   position: absolute;
-  top: calc(calc(var(--nav-item-size) * 1.8) / 2 * -1);
+  top: calc(calc(var(--nav-item-size) * 1.5) / 2 * -1);
   left: -10px;
-  bottom: calc(100% - (calc(var(--nav-item-size) * 1.8) + var(--size-4-2)) / 2 - 1px);
+  bottom: calc(100% - (calc(var(--nav-item-size) * 1.5) + var(--size-4-2)) / 2 - 1px);
   width: 16px;
   border-bottom-left-radius: var(--radius-m);
   border-bottom: 1.5px solid hsla(var(--color-accent-hsl), 0.9);
   border-left: 2px solid hsla(var(--color-accent-hsl), 0.9);
 }
-body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content .outline :is(.tree-item-children, .tree-item-self .tree-item-self) {
+body.logseq-outline-style .workspace-leaf-content[data-type=outline] .view-content :is(.tree-item-children, .tree-item-self .tree-item-self) {
   padding-left: 0;
   margin-left: var(--size-4-5);
   border-left: none;
@@ -19349,15 +19340,15 @@ body:not(.folder-icons) .setting-item[data-id="remove-first-folder-icon"]  {
   margin-right: -25px;
 }
 
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl .heading-collapse-indicator.collapse-indicator  {
   position: absolute;
   right: -33px;
   padding-left: 0;
   transition: transform 20ms linear 0s;
 }
 
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl h1 div.heading-collapse-indicator.collapse-indicator,
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl h2 div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl h1 .heading-collapse-indicator.collapse-indicator ,
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl h2 .heading-collapse-indicator.collapse-indicator  {
   position: absolute;
   right: -32px;
   padding-left: 0;
@@ -19365,13 +19356,13 @@ body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl h2 d
   transition: transform 20ms linear 0s;
 }
 
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed h1 div.heading-collapse-indicator.collapse-indicator,
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed h2 div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed h1 .heading-collapse-indicator.collapse-indicator ,
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed h2 .heading-collapse-indicator.collapse-indicator  {
   transform: translateX(-9px) translateY(18px) rotate(90deg);
   opacity: 0.5;
 }
 
-body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons) :is(.markdown-preview-view,.markdown-rendered).rtl div.is-collapsed .heading-collapse-indicator.collapse-indicator  {
   transform: translateX(-2px) translateY(25px) rotate(90deg);
   opacity: 0.5;
 }
@@ -20897,9 +20888,9 @@ body span[alt*="+grid"] {
 /*===================================================*/
 /*==================   MOBILE   =====================*/
 /*===================================================*/
-.is-mobile :is(.markdown-preview-view,.markdown-rendered) {
+/* .is-mobile :is(.markdown-preview-view,.markdown-rendered) {
   padding: 0 18px 0 21px;
-}
+} */
 
 /* .is-mobile :is(.markdown-preview-view,.markdown-rendered) ol:not(.contains-task-list)>li:not(.task-list-item),
 .is-mobile .markdown-preview-view:not(.kanban) ul>li:not(.task-list-item) {
@@ -20907,19 +20898,19 @@ body span[alt*="+grid"] {
 } */
 
 /*collapse allows*/
-body:not(.default-icons).is-mobile h1 div.heading-collapse-indicator.collapse-indicator,
-body:not(.default-icons).is-mobile h2 div.heading-collapse-indicator.collapse-indicator,
-body:not(.default-icons).is-mobile div.heading-collapse-indicator.collapse-indicator {
+body:not(.default-icons).is-mobile h1 .heading-collapse-indicator.collapse-indicator ,
+body:not(.default-icons).is-mobile h2 .heading-collapse-indicator.collapse-indicator ,
+body:not(.default-icons).is-mobile .heading-collapse-indicator.collapse-indicator  {
   padding-left: 2px;
 }
 
-body:not(.default-icons).is-mobile div.is-collapsed div.heading-collapse-indicator.collapse-indicator {
-  transform: translateX(-11px) translateY(16px) rotate(-90deg);
+body:not(.default-icons).is-mobile div.is-collapsed .heading-collapse-indicator.collapse-indicator  {
+  transform: translateX(10px) translateY(6px) rotate(-90deg)
 }
 
-body:not(.default-icons).is-mobile div.is-collapsed h1 div.heading-collapse-indicator.collapse-indicator,
-body:not(.default-icons).is-mobile div.is-collapsed h2 div.heading-collapse-indicator.collapse-indicator {
-  transform: translateX(-2px) translateY(6px) rotate(-90deg);
+body:not(.default-icons).is-mobile div.is-collapsed h1 .heading-collapse-indicator.collapse-indicator ,
+body:not(.default-icons).is-mobile div.is-collapsed h2 .heading-collapse-indicator.collapse-indicator  {
+  transform: translateX(10px) translateY(6px) rotate(-90deg)
 }
 
 /*main body*/
@@ -22127,8 +22118,12 @@ body.folder-icons .nav-folder-children .nav-folder.is-collapsed .nav-folder-titl
   right: 0.3rem ;
   opacity: 0.7;
 }
-
-
+body.remove-arrow .tree-item-self {
+  --icon-opacity:0;
+}
+body.remove-arrow .tree-item-self .tree-item-icon {
+  --icon-opacity:0;
+}
 body.remove-arrow:not(.default-icons):not(.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked) .nav-folder-collapse-indicator::before {
   display: none;
 }
@@ -23517,10 +23512,13 @@ body.bt-toggle-colorful-folder.folder-style-change-options-colorful-border.folde
 /* ===folder-style-change-options-colorful-tab-liked============ */
  
 body.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked.folder-colorful-custom .nav-files-container>div>.tree-item.nav-folder {
-  border: 1px solid color-mix(in srgb, var(--folder-colorful-custom-color) 30%, var(--background-secondary));
+  border: none;
+  
   border-left: 2px solid var(--folder-colorful-custom-color);
   filter: var(--tab-color)  ;
- 
+  @supports (border: 1px solid color-mix(in srgb, var(--folder-colorful-custom-color) 30%, var(--background-secondary))) {
+    border: 1px solid color-mix(in srgb, var(--folder-colorful-custom-color) 30%, var(--background-secondary));
+  }
 }
  
 
@@ -24188,9 +24186,9 @@ body.background-settings-workplace-background-image .workspace::before {
   display: block;
   position: absolute;
   top: -37px;
-  right: -15px;
+  right: 0px;
   bottom: 0;
-  left: -15px;
+  left: 0px;
 }
 
 /*
@@ -25919,7 +25917,11 @@ body.border-callout-style .callout .callout-title {
   background-color: rgba(var(--callout-color), 0.4);
 }
 body.border-callout-style .callout .callout-content {
+  margin-bottom: 0px;
   background-color: rgba(var(--callout-color), 0.1);
+}
+body.border-callout-style .callout .callout-content p{
+  margin: 16px 0px; /*Fix the top margin is omitted, causing reading mode and live-preview is different. by LeCheena*/
 }
 .callout-title {
   background-color: rgba(var(--callout-color), 0.15);
@@ -29086,7 +29088,11 @@ body.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked .n
   border-left: 3px solid var(--tab-color);
 }
 body.theme-dark.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked .nav-files-container>div>.tree-item.nav-folder {
-  border: 1px solid color-mix(in srgb, var(--tab-color) 15%, var(--background-secondary));
+  border: none;
+    /* 支持 color-mix 的浏览器使用 color-mix */
+    @supports (border: 1px solid color-mix(in srgb, var(--tab-color) 15%, var(--background-secondary))) {
+      border: 1px solid color-mix(in srgb, var(--tab-color) 15%, var(--background-secondary));
+    }
   border-left: 3px solid var(--tab-color);
 }
 body.is-mobile.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked .nav-files-container>div>.tree-item.nav-folder {
@@ -29095,6 +29101,7 @@ body.is-mobile.bt-toggle-colorful-folder.folder-style-change-options-colorful-ta
 }
 body.bt-toggle-colorful-folder:is(.folder-style-change-options-colorful-tab-liked,.folder-style-change-options-colorful-border):not(.is-grabbing) .tree-item.nav-folder.is-collapsed:hover {
   background-color: color-mix(in srgb, var(--tab-color) 30%, var(--background-secondary));
+ 
 }
 
 body.bt-toggle-colorful-folder:is(.folder-style-change-options-colorful-tab-liked,.folder-style-change-options-colorful-border):not(.is-grabbing) .tree-item.nav-folder.is-collapsed .tree-item-self.is-clickable.nav-folder-title:hover
@@ -29239,11 +29246,13 @@ body.bt-toggle-colorful-folder:is(.folder-style-change-options-colorful-tab-like
   --tab-color: var(--FoldI);
 }
   
+
+
 body.bt-toggle-colorful-folder:is(.folder-style-change-options-colorful-tab-liked,.folder-style-change-options-colorful-border) .nav-files-container>div>.tree-item.nav-folder:nth-child(20n+1)::before,
-body.bt-toggle-colorful-folder.folder-style-change-options-colorful-tab-liked .nav-files-container>div>.tree-item.nav-folder:nth-child(20n+1) {
+body.bt-toggle-colorful-folder:is(.folder-style-change-options-colorful-tab-liked,.folder-style-change-options-colorful-border) .nav-files-container>div>.tree-item.nav-folder:nth-child(20n+1) {
   --tab-color: var(--FoldJ);
 }
-
+  
 body.remove-first-folder-icon .nav-files-container>div>.tree-item.nav-folder>.tree-item-self.is-clickable.nav-folder-title .nav-folder-title-content::before
 {
   display: none;
@@ -29296,12 +29305,12 @@ body.nowrap-edit-codebox .HyperMD-codeblock {
 
 
 
-input[data-task="\""]:checked,
-input[data-task="“"]:checked,
-li[data-task="\""]>input:checked,
-li[data-task="\""]>p>input:checked,
-li[data-task="“"]>input:checked,
-li[data-task="“"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="\""]:checked,
+body.enable-alternative-checkboxes input[data-task="“"]:checked,
+body.enable-alternative-checkboxes li[data-task="\""]>input:checked,
+body.enable-alternative-checkboxes li[data-task="\""]>p>input:checked,
+body.enable-alternative-checkboxes li[data-task="“"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="“"]>p>input:checked {
     background-position: 50% 50%;
     background-color: var(--green);
     border-color: var(--green);
@@ -29309,35 +29318,35 @@ li[data-task="“"]>p>input:checked {
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"%3E%3Cpath fill="white" d="M6.5 10c-.223 0-.437.034-.65.065c.069-.232.14-.468.254-.68c.114-.308.292-.575.469-.844c.148-.291.409-.488.601-.737c.201-.242.475-.403.692-.604c.213-.21.492-.315.714-.463c.232-.133.434-.28.65-.35l.539-.222l.474-.197l-.485-1.938l-.597.144c-.191.048-.424.104-.689.171c-.271.05-.56.187-.882.312c-.318.142-.686.238-1.028.466c-.344.218-.741.4-1.091.692c-.339.301-.748.562-1.05.945c-.33.358-.656.734-.909 1.162c-.293.408-.492.856-.702 1.299c-.19.443-.343.896-.468 1.336c-.237.882-.343 1.72-.384 2.437c-.034.718-.014 1.315.028 1.747c.015.204.043.402.063.539l.025.168l.026-.006A4.5 4.5 0 1 0 6.5 10zm11 0c-.223 0-.437.034-.65.065c.069-.232.14-.468.254-.68c.114-.308.292-.575.469-.844c.148-.291.409-.488.601-.737c.201-.242.475-.403.692-.604c.213-.21.492-.315.714-.463c.232-.133.434-.28.65-.35l.539-.222l.474-.197l-.485-1.938l-.597.144c-.191.048-.424.104-.689.171c-.271.05-.56.187-.882.312c-.317.143-.686.238-1.028.467c-.344.218-.741.4-1.091.692c-.339.301-.748.562-1.05.944c-.33.358-.656.734-.909 1.162c-.293.408-.492.856-.702 1.299c-.19.443-.343.896-.468 1.336c-.237.882-.343 1.72-.384 2.437c-.034.718-.014 1.315.028 1.747c.015.204.043.402.063.539l.025.168l.026-.006A4.5 4.5 0 1 0 17.5 10z"%2F%3E%3C%2Fsvg%3E')
 }
 
-.theme-dark input[data-task="\""]:checked,
-.theme-dark input[data-task="“"]:checked,
-.theme-dark li[data-task="\""]>input:checked,
-.theme-dark li[data-task="\""]>p>input:checked,
-.theme-dark li[data-task="“"]>input:checked,
-.theme-dark li[data-task="“"]>p>input:checked {
+body.enable-alternative-checkboxes.theme-dark input[data-task="\""]:checked,
+body.enable-alternative-checkboxes.theme-dark input[data-task="“"]:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="\""]>input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="\""]>p>input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="“"]>input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="“"]>p>input:checked {
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"%3E%3Cpath fill="black" fill-opacity="0.7" d="M6.5 10c-.223 0-.437.034-.65.065c.069-.232.14-.468.254-.68c.114-.308.292-.575.469-.844c.148-.291.409-.488.601-.737c.201-.242.475-.403.692-.604c.213-.21.492-.315.714-.463c.232-.133.434-.28.65-.35l.539-.222l.474-.197l-.485-1.938l-.597.144c-.191.048-.424.104-.689.171c-.271.05-.56.187-.882.312c-.318.142-.686.238-1.028.466c-.344.218-.741.4-1.091.692c-.339.301-.748.562-1.05.945c-.33.358-.656.734-.909 1.162c-.293.408-.492.856-.702 1.299c-.19.443-.343.896-.468 1.336c-.237.882-.343 1.72-.384 2.437c-.034.718-.014 1.315.028 1.747c.015.204.043.402.063.539l.025.168l.026-.006A4.5 4.5 0 1 0 6.5 10zm11 0c-.223 0-.437.034-.65.065c.069-.232.14-.468.254-.68c.114-.308.292-.575.469-.844c.148-.291.409-.488.601-.737c.201-.242.475-.403.692-.604c.213-.21.492-.315.714-.463c.232-.133.434-.28.65-.35l.539-.222l.474-.197l-.485-1.938l-.597.144c-.191.048-.424.104-.689.171c-.271.05-.56.187-.882.312c-.317.143-.686.238-1.028.467c-.344.218-.741.4-1.091.692c-.339.301-.748.562-1.05.944c-.33.358-.656.734-.909 1.162c-.293.408-.492.856-.702 1.299c-.19.443-.343.896-.468 1.336c-.237.882-.343 1.72-.384 2.437c-.034.718-.014 1.315.028 1.747c.015.204.043.402.063.539l.025.168l.026-.006A4.5 4.5 0 1 0 17.5 10z"%2F%3E%3C%2Fsvg%3E')
 }
 
 
-body:not(.tasks) .markdown-preview-view ul li[data-task="-"].task-list-item.is-checked,
-body:not(.tasks) .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task]:is([data-task="-"]),
-body:not(.tasks) li[data-task="-"].task-list-item.is-checked {
+body.enable-alternative-checkboxes:not(.tasks) .markdown-preview-view ul li[data-task="-"].task-list-item.is-checked,
+body.enable-alternative-checkboxes:not(.tasks) .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task]:is([data-task="-"]),
+body.enable-alternative-checkboxes:not(.tasks) li[data-task="-"].task-list-item.is-checked {
     color: var(--text-faint);
     text-decoration: line-through solid var(--text-faint) 1px
 }
 
-input[data-task="*"]:checked,
-li[data-task="*"]>input:checked,
-li[data-task="*"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="*"]:checked,
+body.enable-alternative-checkboxes li[data-task="*"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="*"]>p>input:checked {
     color: var(--yellow);
     background-image: none;
     background-color: currentColor;
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' /%3E%3C/svg%3E")
 }
 
-input[data-task="l"]:checked,
-li[data-task="l"]>input:checked,
-li[data-task="l"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="l"]:checked,
+body.enable-alternative-checkboxes li[data-task="l"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="l"]>p>input:checked {
     color: var(--red);
     background-image: none;
     background-color: currentColor;
@@ -29348,9 +29357,9 @@ li[data-task="l"]>p>input:checked {
 
 /* n — Note */
 
-input[data-task=n]:checked,
-li[data-task=n] > input:checked,
-li[data-task=n] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=n]:checked,
+body.enable-alternative-checkboxes li[data-task=n] > input:checked,
+body.enable-alternative-checkboxes li[data-task=n] > p > input:checked {
   cursor: default;
   background-position: center;
   background: none;
@@ -29363,18 +29372,18 @@ li[data-task=n] > p > input:checked {
 
 
 
-input[data-task="S"]:checked,
-li[data-task="S"]>input:checked,
-li[data-task="S"]>p>input:checked {
+body.enable-alternative-checkboxes input[data-task="S"]:checked,
+body.enable-alternative-checkboxes li[data-task="S"]>input:checked,
+body.enable-alternative-checkboxes li[data-task="S"]>p>input:checked {
     border-color: var(--green);
     background-color: var(--green);
     background-size: 100%;
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"%3E%3Cpath fill="white" fill-rule="evenodd" d="M26 8a2 2 0 1 0-4 0v2a8 8 0 1 0 0 16v8a4.002 4.002 0 0 1-3.773-2.666a2 2 0 0 0-3.771 1.332A8.003 8.003 0 0 0 22 38v2a2 2 0 1 0 4 0v-2a8 8 0 1 0 0-16v-8a4.002 4.002 0 0 1 3.773 2.666a2 2 0 0 0 3.771-1.332A8.003 8.003 0 0 0 26 10V8Zm-4 6a4 4 0 0 0 0 8v-8Zm4 12v8a4 4 0 0 0 0-8Z" clip-rule="evenodd"%2F%3E%3C%2Fsvg%3E')
 }
 
-.theme-dark input[data-task="S"]:checked,
-.theme-dark li[data-task="S"]>input:checked,
-.theme-dark li[data-task="S"]>p>input:checked {
+body.enable-alternative-checkboxes.theme-dark input[data-task="S"]:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="S"]>input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="S"]>p>input:checked {
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"%3E%3Cpath fill-opacity="0.8" fill="black" fill-rule="evenodd" d="M26 8a2 2 0 1 0-4 0v2a8 8 0 1 0 0 16v8a4.002 4.002 0 0 1-3.773-2.666a2 2 0 0 0-3.771 1.332A8.003 8.003 0 0 0 22 38v2a2 2 0 1 0 4 0v-2a8 8 0 1 0 0-16v-8a4.002 4.002 0 0 1 3.773 2.666a2 2 0 0 0 3.771-1.332A8.003 8.003 0 0 0 26 10V8Zm-4 6a4 4 0 0 0 0 8v-8Zm4 12v8a4 4 0 0 0 0-8Z" clip-rule="evenodd"%2F%3E%3C%2Fsvg%3E')
 }
 
@@ -29382,9 +29391,9 @@ li[data-task="S"]>p>input:checked {
 
 /* i — Info */
 
-input[data-task=i]:checked,
-li[data-task=i] > input:checked,
-li[data-task=i] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=i]:checked,
+body.enable-alternative-checkboxes li[data-task=i] > input:checked,
+body.enable-alternative-checkboxes li[data-task=i] > p > input:checked {
   cursor: default;
   color:var(--text-normal);
   background-position: center;
@@ -29394,29 +29403,30 @@ li[data-task=i] > p > input:checked {
 
 
 /* / — In Progress */
-input[data-task="/"],
-li[data-task="/"] > input,
-li[data-task="/"] > p > input {
+body.enable-alternative-checkboxes input[data-task="/"],
+body.enable-alternative-checkboxes li[data-task="/"] > input,
+body.enable-alternative-checkboxes li[data-task="/"] > p > input {
   border-radius: var(--ch-radius);
 }
-input[data-task="/"]:checked,
-li[data-task="/"] > input:checked,
-li[data-task="/"] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task="/"]:checked,
+body.enable-alternative-checkboxes li[data-task="/"] > input:checked,
+body.enable-alternative-checkboxes li[data-task="/"] > p > input:checked {
   background-image: none;
 }
-.theme-light input[data-task="/"]:checked, .theme-dark input[data-task="/"]:checked,
-.theme-light li[data-task="/"] > input:checked,
-.theme-dark li[data-task="/"] > input:checked,
-.theme-light li[data-task="/"] > p > input:checked,
-.theme-dark li[data-task="/"] > p > input:checked {
+body.enable-alternative-checkboxes.theme-light input[data-task="/"]:checked,
+body.enable-alternative-checkboxes.theme-dark input[data-task="/"]:checked,
+body.enable-alternative-checkboxes.theme-light li[data-task="/"] > input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="/"] > input:checked,
+body.enable-alternative-checkboxes.theme-light li[data-task="/"] > p > input:checked,
+body.enable-alternative-checkboxes.theme-dark li[data-task="/"] > p > input:checked {
   background: var(--text-faint);
 }
 
 /* S — Amount */
 
-input[data-task=S]:checked,
-li[data-task=S] > input:checked,
-li[data-task=S] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=S]:checked,
+body.enable-alternative-checkboxes li[data-task=S] > input:checked,
+body.enable-alternative-checkboxes li[data-task=S] > p > input:checked {
   cursor: default;
   background-position: center;
   background-size: 100%;
@@ -29425,8 +29435,8 @@ li[data-task=S] > p > input:checked {
 
 
 /* " — Quote */
-input[data-task='"']:checked,
-li[data-task='"'] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task='"']:checked,
+body.enable-alternative-checkboxes li[data-task='"'] > p > input:checked {
   cursor: default;
   background-position: center;
   background-size: 80%;
@@ -29436,9 +29446,9 @@ li[data-task='"'] > p > input:checked {
 
 /* I — Idea / Lightbulb */
 
-input[data-task=I]:checked,
-li[data-task=I] > input:checked,
-li[data-task=I] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=I]:checked,
+body.enable-alternative-checkboxes li[data-task=I] > input:checked,
+body.enable-alternative-checkboxes li[data-task=I] > p > input:checked {
     background-color:var(--yellow);
     background-image: none;
     -webkit-mask-size: 100%;
@@ -29449,9 +29459,9 @@ li[data-task=I] > p > input:checked {
 
 /* p - Pro */
 
-input[data-task=p]:checked,
-li[data-task=p] > input:checked,
-li[data-task=p] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=p]:checked,
+body.enable-alternative-checkboxes li[data-task=p] > input:checked,
+body.enable-alternative-checkboxes li[data-task=p] > p > input:checked {
   cursor: default;
   background-color: var(--yellow);
   background-image: none;
@@ -29463,9 +29473,9 @@ li[data-task=p] > p > input:checked {
 
 /* c - Con */
 
-input[data-task=c]:checked,
-li[data-task=c] > input:checked,
-li[data-task=c] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=c]:checked,
+body.enable-alternative-checkboxes li[data-task=c] > input:checked,
+body.enable-alternative-checkboxes li[data-task=c] > p > input:checked {
   cursor: default;
   background-image: none;
   background-color: var(--text-faint);
@@ -29478,9 +29488,9 @@ li[data-task=c] > p > input:checked {
 
 /* b - Bookmark */
 
-input[data-task=b]:checked,
-li[data-task=b] > input:checked,
-li[data-task=b] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=b]:checked,
+body.enable-alternative-checkboxes li[data-task=b] > input:checked,
+body.enable-alternative-checkboxes li[data-task=b] > p > input:checked {
   cursor: default;
   background-image: none;
   -webkit-mask-size: 100%;
@@ -29490,9 +29500,9 @@ li[data-task=b] > p > input:checked {
 
 
 /* f - Fire */
-input[data-task=f]:checked,
-li[data-task=f] > input:checked,
-li[data-task=f] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=f]:checked,
+body.enable-alternative-checkboxes li[data-task=f] > input:checked,
+body.enable-alternative-checkboxes li[data-task=f] > p > input:checked {
   cursor: default;
   background-color: var(--red);
   background-image: none;
@@ -29504,9 +29514,9 @@ li[data-task=f] > p > input:checked {
 
 /* w - Win */
 
-input[data-task=w]:checked,
-li[data-task=w] > input:checked,
-li[data-task=w] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=w]:checked,
+body.enable-alternative-checkboxes li[data-task=w] > input:checked,
+body.enable-alternative-checkboxes li[data-task=w] > p > input:checked {
   cursor: default;
   background-color: var(--yellow);
   background-position: center;
@@ -29517,9 +29527,9 @@ li[data-task=w] > p > input:checked {
 }
 
 /* k - Key */
-input[data-task=k]:checked,
-li[data-task=k] > input:checked,
-li[data-task=k] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=k]:checked,
+body.enable-alternative-checkboxes li[data-task=k] > input:checked,
+body.enable-alternative-checkboxes li[data-task=k] > p > input:checked {
   cursor: default;
   background-color: var(--green);
   background-position: center;
@@ -29531,9 +29541,9 @@ li[data-task=k] > p > input:checked {
 
 
 /* u - Up */
-input[data-task=u]:checked,
-li[data-task=u] > input:checked,
-li[data-task=u] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=u]:checked,
+body.enable-alternative-checkboxes li[data-task=u] > input:checked,
+body.enable-alternative-checkboxes li[data-task=u] > p > input:checked {
   cursor: default;
   background-color: var(--green);
   background-position: center center;
@@ -29543,9 +29553,9 @@ li[data-task=u] > p > input:checked {
 
 
 /* d - Down */
-input[data-task=d]:checked,
-li[data-task=d] > input:checked,
-li[data-task=d] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=d]:checked,
+body.enable-alternative-checkboxes li[data-task=d] > input:checked,
+body.enable-alternative-checkboxes li[data-task=d] > p > input:checked {
   cursor: default;
   background-color: var(--blue);
   background-position: center center;
@@ -29556,9 +29566,9 @@ li[data-task=d] > p > input:checked {
 
 /* r - Rule/Law */
 
-input[data-task=r]:checked,
-li[data-task=r] > input:checked,
-li[data-task=r] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=r]:checked,
+body.enable-alternative-checkboxes li[data-task=r] > input:checked,
+body.enable-alternative-checkboxes li[data-task=r] > p > input:checked {
   cursor: default;
   background-color:var(--green);
   background-image: none;
@@ -29568,9 +29578,9 @@ li[data-task=r] > p > input:checked {
 
 /* m - Measure */
 
-input[data-task=m]:checked,
-li[data-task=m] > input:checked,
-li[data-task=m] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=m]:checked,
+body.enable-alternative-checkboxes li[data-task=m] > input:checked,
+body.enable-alternative-checkboxes li[data-task=m] > p > input:checked {
   cursor: default;
   background-color:var(--blue);
   background-image: none;
@@ -29581,9 +29591,9 @@ li[data-task=m] > p > input:checked {
 
 
 /* M - Medical */
-input[data-task=M]:checked,
-li[data-task=M] > input:checked,
-li[data-task=M] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=M]:checked,
+body.enable-alternative-checkboxes li[data-task=M] > input:checked,
+body.enable-alternative-checkboxes li[data-task=M] > p > input:checked {
   cursor: default;
   background-color: var(--red);
   background-position: center center;
@@ -29594,9 +29604,9 @@ li[data-task=M] > p > input:checked {
 
 /* t - Time */
 
-input[data-task=t]:checked,
-li[data-task=t] > input:checked,
-li[data-task=t] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=t]:checked,
+body.enable-alternative-checkboxes li[data-task=t] > input:checked,
+body.enable-alternative-checkboxes li[data-task=t] > p > input:checked {
   cursor: default;
   background-color:var(--text-accent);
   background-position: center center;
@@ -29607,9 +29617,9 @@ li[data-task=t] > p > input:checked {
 
 /* T - Telephone */
 
-input[data-task=T]:checked,
-li[data-task=T] > input:checked,
-li[data-task=T] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=T]:checked,
+body.enable-alternative-checkboxes li[data-task=T] > input:checked,
+body.enable-alternative-checkboxes li[data-task=T] > p > input:checked {
   cursor: default;
   background-color:var(--blue);
   background-image: none;
@@ -29621,9 +29631,9 @@ li[data-task=T] > p > input:checked {
 
 /* P - Person */
 
-input[data-task=P]:checked,
-li[data-task=P] > input:checked,
-li[data-task=P] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=P]:checked,
+body.enable-alternative-checkboxes li[data-task=P] > input:checked,
+body.enable-alternative-checkboxes li[data-task=P] > p > input:checked {
   cursor: default;
   background-position: center center;
   background-size: 90%;
@@ -29631,9 +29641,9 @@ li[data-task=P] > p > input:checked {
 }
 
 
-input[data-task="#"]:checked,
-li[data-task="#"] > input:checked,
-li[data-task="#"] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task="#"]:checked,
+body.enable-alternative-checkboxes li[data-task="#"] > input:checked,
+body.enable-alternative-checkboxes li[data-task="#"] > p > input:checked {
   cursor: default;
   background-color:var(--green);
   background-image: none;
@@ -29643,9 +29653,9 @@ li[data-task="#"] > p > input:checked {
 }
 
 
-input[data-task=F]:checked,
-li[data-task=F] > input:checked,
-li[data-task=F] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=F]:checked,
+body.enable-alternative-checkboxes li[data-task=F] > input:checked,
+body.enable-alternative-checkboxes li[data-task=F] > p > input:checked {
   cursor: default;
   background-color:var(--yellow);
   background-image: none;
@@ -29655,9 +29665,9 @@ li[data-task=F] > p > input:checked {
 }
 
 /* L - Translate/Language */
-input[data-task=L]:checked,
-li[data-task=L] > input:checked,
-li[data-task=L] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=L]:checked,
+body.enable-alternative-checkboxes li[data-task=L] > input:checked,
+body.enable-alternative-checkboxes li[data-task=L] > p > input:checked {
   cursor: default;
   background-color: var(--green);
   background-position: center center;
@@ -29665,9 +29675,9 @@ li[data-task=L] > p > input:checked {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 6 6'%3E%3C/path%3E%3Cpath d='m4 14 6-6 2-3'%3E%3C/path%3E%3Cpath d='M2 5h12'%3E%3C/path%3E%3Cpath d='M7 2h1'%3E%3C/path%3E%3Cpath d='m22 22-5-10-5 10'%3E%3C/path%3E%3Cpath d='M14 18h6'%3E%3C/path%3E%3C/svg%3E");
 }
 
-input[data-task=W]:checked,
-li[data-task=W] > input:checked,
-li[data-task=W] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=W]:checked,
+body.enable-alternative-checkboxes li[data-task=W] > input:checked,
+body.enable-alternative-checkboxes li[data-task=W] > p > input:checked {
   cursor: default;
   background-position: center center;
   background-size: 100%;
@@ -29675,9 +29685,9 @@ li[data-task=W] > p > input:checked {
 }
 
 
-input[data-task=U]:checked,
-li[data-task=U] > input:checked,
-li[data-task=U] > p > input:checked {
+body.enable-alternative-checkboxes input[data-task=U]:checked,
+body.enable-alternative-checkboxes li[data-task=U] > input:checked,
+body.enable-alternative-checkboxes li[data-task=U] > p > input:checked {
   cursor: default;
   background-position: center center;
   background-size: 95%;

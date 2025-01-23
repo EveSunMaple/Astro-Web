@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/dawn-blossoms-plucked-at-dusk.md",
+                "file": "content/blog/life-is-vast-errors-can-be-redone.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "dawn-blossoms-plucked-at-dusk"
+              "title": "life-is-vast-errors-can-be-redone"
             }
           }
         ],
@@ -194,8 +194,12 @@
   },
   "active": "e2993f7243492989",
   "lastOpenFiles": [
-    "content/blog/under-the-sacred-hall.md",
     "content/blog/dawn-blossoms-plucked-at-dusk.md",
+    "content/blog/life-is-vast-errors-can-be-redone.md",
+    "content/blog/conic-section-2.md",
+    "content/blog/conic-section-1.md",
+    "content/blog/emotion-confict.md",
+    "content/blog/under-the-sacred-hall.md",
     "content/blog/o-my-prose.md",
     "content/blog/状态压缩DP.md",
     "content/blog/在网络的另一头相遇.md",
@@ -204,11 +208,8 @@
     "content/blog/a-cat.md",
     "content/blog/费马小定理.md",
     "content/blog/Brønsted–Lowry.md",
-    "content/blog/emotion-confict.md",
     "content/blog/yuwen-to-learn.md",
     "content/blog/weights.md",
-    "content/blog/conic-section-2.md",
-    "content/blog/conic-section-1.md",
     "content/blog/micawberism.md",
     "components/template/md.md",
     "content/blog/k阶常系数线性递推方程.md",
@@ -224,7 +225,6 @@
     "content/blog/gcd、exgcd、质数筛法、逆元与同余方程组复习笔记（已废弃）.md",
     "content/blog/强连通分量.md",
     "content/blog/用 Astro 搭建一个高性能博客.mdx",
-    "content/blog/inner.md",
     "content/blog/cauchy.mdx",
     "content/blog/frosti-mdx copy.mdx",
     "pages/hi.mdx",

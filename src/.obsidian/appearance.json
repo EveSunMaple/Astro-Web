@@ -1,8 +1,10 @@
 {
-  "cssTheme": "Blue Topaz",
-  "monospaceFontFamily": "Cascadia Code PL",
+  "cssTheme": "Obsidian Nord",
+  "monospaceFontFamily": "Maple Mono NF CN",
   "enabledCssSnippets": [],
   "theme": "system",
-  "textFontFamily": "可口可乐在乎体 楷体",
-  "baseFontSize": 20
+  "textFontFamily": "Maple Mono NF CN",
+  "baseFontSize": 16,
+  "interfaceFontFamily": "Maple Mono NF CN",
+  "accentColor": ""
 }

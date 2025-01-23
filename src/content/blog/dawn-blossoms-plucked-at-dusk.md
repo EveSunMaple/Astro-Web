@@ -8,6 +8,7 @@ tags:
   - 语文
 categories:
   - 阅读随笔
+badge: 读后感
 ---
 ## 正文
 

@@ -31,7 +31,7 @@ export const CODE_THEME = {
 
 // Menu items for navigation
 export const menuItems = [
-  { id: "home", text: t("label.share"), href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
+  { id: "home", text: "首页", href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
   { id: "about", text: "关于", href: "/about", svg: "material-symbols:info-outline-rounded", target: "_self" }, // About page
   {
     id: "blog",

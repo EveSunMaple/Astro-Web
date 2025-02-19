@@ -3,268 +3,242 @@ import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 
 const skills = {
-    "Programming Languages": [
-        { name: "JavaScript", icon: "logos:javascript" },
-        { name: "TypeScript", icon: "logos:typescript-icon" },
-        { name: "Python", icon: "logos:python" },
-        { name: "C++", icon: "logos:c-plusplus" },
-    ],
-    "Tools & Others": [
-        { name: "Git", icon: "logos:git-icon" },
-        { name: "Docker", icon: "logos:docker-icon" },
-        { name: "VS Code", icon: "logos:visual-studio-code" },
-        { name: "Linux", icon: "logos:linux-tux" },
-    ],
+  "Programming Languages": [
+    { name: "JavaScript", icon: "logos:javascript" },
+    { name: "TypeScript", icon: "logos:typescript-icon" },
+    { name: "Python", icon: "logos:python" },
+    { name: "C++", icon: "logos:c-plusplus" },
+  ],
+  "Tools & Others": [
+    { name: "Git", icon: "logos:git-icon" },
+    { name: "Docker", icon: "logos:docker-icon" },
+    { name: "VS Code", icon: "logos:visual-studio-code" },
+    { name: "Linux", icon: "logos:linux-tux" },
+  ],
 };
 
 const timeline = [
-    {
-        year: "2025",
-        title: "Building...",
-        description: "Waiting for the future to unfold...",
-    },
+  {
+    year: "2025",
+    title: "Building...",
+    description: "Waiting for the future to unfold...",
+  },
 ];
 
 const achievements = [
-    {
-        icon: "lucide:code",
-        title: "2023 CSP-S",
-        description: "Won the first prize in the CSP-S competition",
-    },
-    {
-        icon: "lucide:code",
-        title: "2024 NOIP",
-        description: "Third prize in the NOIP competition",
-    },
+  {
+    icon: "lucide:code",
+    title: "2023 CSP-S",
+    description: "Won the first prize in the CSP-S competition",
+  },
+  {
+    icon: "lucide:code",
+    title: "2024 NOIP",
+    description: "Third prize in the NOIP competition",
+  },
 ];
 
 const socialLinks = [
-    {
-        name: "GitHub",
-        href: "https://github.com/EveSunMaple",
-        icon: "ri:github-line",
-    },
-    {
-        name: "BiliBili",
-        href: "https://space.bilibili.com/438392347",
-        icon: "ri:bilibili-line",
-    },
-    {
-        name: "Telegram",
-        href: "https://t.me/EveSunMaple",
-        icon: "ri:telegram-line",
-    },
-    {
-        name: "X (Twitter)",
-        href: "https://x.com/EveSunMaple",
-        icon: "ri:twitter-x-line",
-    },
-    {
-        name: "Support",
-        href: "https://afdian.com/a/saroprock",
-        icon: "ri:cup-line",
-    },
+  {
+    name: "GitHub",
+    href: "https://github.com/EveSunMaple",
+    icon: "ri:github-line",
+  },
+  {
+    name: "BiliBili",
+    href: "https://space.bilibili.com/438392347",
+    icon: "ri:bilibili-line",
+  },
+  {
+    name: "Telegram",
+    href: "https://t.me/EveSunMaple",
+    icon: "ri:telegram-line",
+  },
+  {
+    name: "X (Twitter)",
+    href: "https://x.com/EveSunMaple",
+    icon: "ri:twitter-x-line",
+  },
+  {
+    name: "Support",
+    href: "https://afdian.com/a/saroprock",
+    icon: "ri:cup-line",
+  },
 ];
 ---
 
 <Layout
-    title="About Me - SunMaple"
-    description="Learn more about SunMaple, a student passionate about programming and technology"
+  title="About Me - SunMaple"
+  description="Learn more about SunMaple, a student passionate about programming and technology"
 >
-    <div class="max-w-4xl mx-auto px-4 py-8 animate-fade-in">
-        <!-- Hero Section -->
-        <section class="text-center mb-16">
-            <div class="relative w-32 h-32 mx-auto mb-6 group">
-                <img
-                    src="https://github.com/EveSunMaple.png"
-                    alt="SunMaple"
-                    class="rounded-full shadow-lg group-hover:scale-105 transition-all duration-300"
-                    width="128"
-                    height="128"
-                />
-                <div
-                    class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-                >
-                </div>
-            </div>
-            <h1 class="text-4xl font-bold mb-4">SunMaple</h1>
-            <p class="text-xl text-base-content/80 mb-6">
-                这是一个关于页面，但是我还没写完...
-            </p>
-            <div class="flex justify-center gap-4">
-                {
-                    socialLinks.map((link) => (
-                        <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="btn btn-ghost btn-circle"
-                            aria-label={link.name}
-                        >
-                            <Icon name={link.icon} class="w-6 h-6" />
-                        </a>
-                    ))
-                }
-            </div>
-        </section>
+  <div class="max-w-4xl mx-auto px-4 py-8 animate-fade-in">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <div class="relative w-32 h-32 mx-auto mb-6 group">
+        <img
+          src="https://github.com/EveSunMaple.png"
+          alt="SunMaple"
+          class="rounded-full shadow-lg group-hover:scale-105 transition-all duration-300"
+          width="128"
+          height="128"
+        />
+        <div
+          class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+        >
+        </div>
+      </div>
+      <h1 class="text-4xl font-bold mb-4">SunMaple</h1>
+      <p class="text-xl text-base-content/80 mb-6">这是一个关于页面，但是我还没写完...</p>
+      <div class="flex justify-center gap-4">
+        {
+          socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-ghost btn-circle"
+              aria-label={link.name}
+            >
+              <Icon name={link.icon} class="w-6 h-6" />
+            </a>
+          ))
+        }
+      </div>
+    </section>
 
-        <!-- Skills Section -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
-                <Icon name="lucide:code" class="w-8 h-8" />
-                Technical Skills
-            </h2>
-            <div class="grid gap-8">
-                {
-                    Object.entries(skills).map(([category, items]) => (
-                        <div class="card bg-base-200/50 backdrop-blur-sm">
-                            <div class="card-body">
-                                <h3 class="card-title mb-4">{category}</h3>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {items.map((skill) => (
-                                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-base-300/50 transition-colors">
-                                            <Icon
-                                                name={skill.icon}
-                                                class="w-6 h-6"
-                                            />
-                                            <span>{skill.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- Timeline Section -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
-                <Icon name="lucide:history" class="w-8 h-8" />
-                Journey
-            </h2>
-            <div class="relative">
-                {
-                    timeline.map((event, index) => (
-                        <div class="flex gap-4 mb-8">
-                            <div class="flex flex-col items-center">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                                    <span class="font-bold">{event.year}</span>
-                                </div>
-                                {index !== timeline.length - 1 && (
-                                    <div class="w-0.5 h-full bg-base-300 mt-2" />
-                                )}
-                            </div>
-                            <div class="flex-1">
-                                <div class="card bg-base-200/50 backdrop-blur-sm">
-                                    <div class="card-body">
-                                        <h3 class="card-title">
-                                            {event.title}
-                                        </h3>
-                                        <p class="text-base-content/80">
-                                            {event.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- Achievements Section -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
-                <Icon name="lucide:award" class="w-8 h-8" />
-                Achievements
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {
-                    achievements.map((achievement) => (
-                        <div class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                            <div class="card-body">
-                                <div class="flex items-center gap-2 mb-4">
-                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                                        <Icon
-                                            name={achievement.icon}
-                                            class="w-6 h-6"
-                                        />
-                                    </div>
-                                    <h3 class="card-title">
-                                        {achievement.title}
-                                    </h3>
-                                </div>
-                                <p class="text-base-content/80">
-                                    {achievement.description}
-                                </p>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section>
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
-                <Icon name="lucide:mail" class="w-8 h-8" />
-                Get in Touch
-            </h2>
+    <!-- Skills Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:code" class="w-8 h-8" />
+        Technical Skills
+      </h2>
+      <div class="grid gap-8">
+        {
+          Object.entries(skills).map(([category, items]) => (
             <div class="card bg-base-200/50 backdrop-blur-sm">
-                <div class="card-body">
-                    <p class="text-lg mb-6">
-                        Feel free to reach out if you'd like to collaborate on a
-                        project or just want to say hi!
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a
-                            href="mailto:evesunmaple@outlook.com"
-                            class="btn btn-primary gap-2"
-                        >
-                            <Icon name="lucide:mail" class="w-5 h-5" />
-                            Email Me
-                        </a>
-                        <a
-                            href="https://t.me/EveSunMaple"
-                            target="_blank"
-                            class="btn btn-ghost gap-2"
-                        >
-                            <Icon name="ri:telegram-line" class="w-5 h-5" />
-                            Telegram
-                        </a>
+              <div class="card-body">
+                <h3 class="card-title mb-4">{category}</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {items.map((skill) => (
+                    <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-base-300/50 transition-colors">
+                      <Icon name={skill.icon} class="w-6 h-6" />
+                      <span>{skill.name}</span>
                     </div>
+                  ))}
                 </div>
+              </div>
             </div>
-        </section>
-    </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:history" class="w-8 h-8" />
+        Journey
+      </h2>
+      <div class="relative">
+        {
+          timeline.map((event, index) => (
+            <div class="flex gap-4 mb-8">
+              <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span class="font-bold">{event.year}</span>
+                </div>
+                {index !== timeline.length - 1 && <div class="w-0.5 h-full bg-base-300 mt-2" />}
+              </div>
+              <div class="flex-1">
+                <div class="card bg-base-200/50 backdrop-blur-sm">
+                  <div class="card-body">
+                    <h3 class="card-title">{event.title}</h3>
+                    <p class="text-base-content/80">{event.description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:award" class="w-8 h-8" />
+        Achievements
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {
+          achievements.map((achievement) => (
+            <div class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-shadow">
+              <div class="card-body">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Icon name={achievement.icon} class="w-6 h-6" />
+                  </div>
+                  <h3 class="card-title">{achievement.title}</h3>
+                </div>
+                <p class="text-base-content/80">{achievement.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section>
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:mail" class="w-8 h-8" />
+        Get in Touch
+      </h2>
+      <div class="card bg-base-200/50 backdrop-blur-sm">
+        <div class="card-body">
+          <p class="text-lg mb-6">
+            Feel free to reach out if you'd like to collaborate on a project or just want to say hi!
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="mailto:evesunmaple@outlook.com" class="btn btn-primary gap-2">
+              <Icon name="lucide:mail" class="w-5 h-5" />
+              Email Me
+            </a>
+            <a href="https://t.me/EveSunMaple" target="_blank" class="btn btn-ghost gap-2">
+              <Icon name="ri:telegram-line" class="w-5 h-5" />
+              Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>
 
 <style>
-    .animate-fade-in {
-        animation: fadeIn 1s ease-out;
-    }
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-    /* Optimize performance */
-    .card {
-        will-change: transform;
-        transform: translateZ(0);
-    }
+  /* Optimize performance */
+  .card {
+    will-change: transform;
+    transform: translateZ(0);
+  }
 
-    /* Ensure smooth transitions */
-    .transition-all {
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  /* Ensure smooth transitions */
+  .transition-all {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
 </style>

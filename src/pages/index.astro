@@ -9,9 +9,7 @@ const posts = await getCollection("blog", ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-const recentPosts = posts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 2);
+const recentPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 2);
 
 const socialLinks = [
   {
@@ -42,10 +40,7 @@ const socialLinks = [
 ];
 ---
 
-<Layout
-  title="SunMaple - Personal Website"
-  description="A student who loves programming and technology"
->
+<Layout title="SunMaple - Personal Website" description="A student who loves programming and technology">
   <div class="max-w-4xl mx-auto">
     <!-- Header Section -->
     <header class="text-center py-16 animate-fade-in">

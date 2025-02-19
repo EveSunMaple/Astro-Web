@@ -1,0 +1,161 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  slug: string;
+  parentId?: string;
+}
+
+const { slug, parentId } = Astro.props;
+---
+
+<form class="comment-form space-y-4" data-slug={slug} data-parent-id={parentId}>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Nickname*</span>
+      </label>
+      <input type="text" name="nickname" class="input input-bordered w-full" required minlength="2" maxlength="50" />
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Email*</span>
+      </label>
+      <input type="email" name="email" class="input input-bordered w-full" required />
+    </div>
+  </div>
+
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text">Website</span>
+    </label>
+    <input type="url" name="website" class="input input-bordered w-full" placeholder="https://" />
+  </div>
+
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text">Comment*</span>
+    </label>
+    <textarea name="content" class="textarea textarea-bordered h-24" required minlength="2"></textarea>
+    <label class="label">
+      <span class="label-text-alt">Supports Markdown</span>
+    </label>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    {
+      parentId && (
+        <button type="button" class="btn btn-ghost cancel-reply">
+          Cancel Reply
+        </button>
+      )
+    }
+    <button type="submit" class="btn btn-primary submit-button">
+      <Icon name="lucide:send" class="w-4 h-4 mr-2" />
+      Submit
+    </button>
+  </div>
+</form>
+
+<script>
+  import * as AV from "leancloud-storage";
+  import { marked } from "marked";
+  import gravatar from "gravatar";
+
+  // Initialize LeanCloud
+  AV.init({
+    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
+    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
+    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
+  });
+
+  function initCommentForm() {
+    const forms = document.querySelectorAll(".comment-form");
+
+    forms.forEach((form) => {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const submitBtn = form.querySelector(".submit-button") as HTMLButtonElement;
+        const originalBtnContent = submitBtn.innerHTML;
+
+        try {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Submitting...';
+
+          const formData = new FormData(form);
+          const data = {
+            nickname: formData.get("nickname"),
+            email: formData.get("email"),
+            website: formData.get("website") || null,
+            content: formData.get("content"),
+            slug: form.dataset.slug,
+            parentId: form.dataset.parentId || null,
+            avatar: gravatar.url(formData.get("email") as string, {
+              s: "100",
+              d: "mp",
+            }),
+          };
+
+          // Create comment
+          const Comment = AV.Object.extend("Comment");
+          const comment = new Comment();
+
+          await comment.save({
+            ...data,
+            content: marked(data.content as string),
+          });
+
+          // Reset form
+          form.reset();
+
+          // Remove reply form if it's a reply
+          if (form.closest(".reply-form")) {
+            form.closest(".reply-form").remove();
+          }
+
+          // Refresh comments
+          document.dispatchEvent(new CustomEvent("commentsUpdated"));
+
+          // Show success message
+          const toast = document.createElement("div");
+          toast.className = "toast toast-bottom toast-center";
+          toast.innerHTML = `
+            <div class="alert alert-success">
+              <span>Comment submitted successfully!</span>
+            </div>
+          `;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3000);
+        } catch (error) {
+          console.error("Error submitting comment:", error);
+          const toast = document.createElement("div");
+          toast.className = "toast toast-bottom toast-center";
+          toast.innerHTML = `
+            <div class="alert alert-error">
+              <span>Error submitting comment. Please try again.</span>
+            </div>
+          `;
+          document.body.appendChild(toast);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnContent;
+        }
+      });
+    });
+
+    // Handle cancel reply
+    document.querySelectorAll(".cancel-reply").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const replyForm = btn.closest(".reply-form");
+        if (replyForm) {
+          replyForm.remove();
+        }
+      });
+    });
+  }
+
+  // Initialize on page load and after navigation
+  document.addEventListener("astro:page-load", initCommentForm);
+</script>

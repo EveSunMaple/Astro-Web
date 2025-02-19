@@ -1,26 +1,24 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
-  type: "content",
+  type: 'content',
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    pubDate: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    image: z.string().optional(),
-    badge: z.string().optional(),
-    categories: z
-      .array(z.string())
-      .refine((items) => new Set(items).size === items.length, {
-        message: "categories must be unique",
-      })
-      .optional(),
-    tags: z
-      .array(z.string())
-      .refine((items) => new Set(items).size === items.length, {
-        message: "tags must be unique",
-      })
-      .optional(),
+    pubDate: z.date(),
+    updatedDate: z.date().optional(),
+    featuredImage: z.string().optional(),
+    categories: z.array(z.string()),
+    tags: z.array(z.string()),
+    badges: z.array(z.string()).optional(),
+    draft: z.boolean().default(false),
+    audioUrl: z.string().optional(),
+    attachments: z.array(z.object({
+      name: z.string(),
+      url: z.string(),
+      type: z.string(),
+      size: z.string().optional(),
+    })).optional(),
   }),
 });
 

@@ -1,0 +1,137 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const reactions = [
+  { name: "like", icon: "lucide:heart", label: "Like" },
+  { name: "celebrate", icon: "lucide:party-popper", label: "Celebrate" },
+  { name: "support", icon: "lucide:thumbs-up", label: "Support" },
+  { name: "bookmark", icon: "lucide:thumbs-down", label: "Dislike" },
+];
+---
+
+<div class="reactions-container" data-slug={slug}>
+  <div class="flex flex-wrap gap-2">
+    {
+      reactions.map((reaction) => (
+        <button class="btn btn-ghost gap-2 reaction-button" data-reaction={reaction.name}>
+          <Icon name={reaction.icon} class="w-5 h-5" />
+          <span class="reaction-label">{reaction.label}</span>
+          <span class="badge badge-sm reaction-count">0</span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import * as AV from "leancloud-storage";
+
+  function initReactions() {
+    const container = document.querySelector(".reactions-container");
+    const slug = container.dataset.slug;
+    let userReactions = new Set();
+
+    // Load user's previous reactions from localStorage
+    try {
+      const stored = localStorage.getItem(`reactions_${slug}`);
+      if (stored) {
+        userReactions = new Set(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error("Error loading stored reactions:", e);
+    }
+
+    async function loadReactions() {
+      try {
+        const query = new AV.Query("Reaction");
+        query.equalTo("slug", slug);
+        const results = await query.find();
+
+        // Count reactions
+        const counts = {};
+        results.forEach((result) => {
+          const type = result.get("type");
+          counts[type] = (counts[type] || 0) + 1;
+        });
+
+        // Update UI
+        document.querySelectorAll(".reaction-button").forEach((button) => {
+          const type = button.dataset.reaction;
+          const count = counts[type] || 0;
+          const countEl = button.querySelector(".reaction-count");
+          countEl.textContent = count;
+
+          // Mark user's reactions
+          if (userReactions.has(type)) {
+            button.classList.add("btn-primary");
+          } else {
+            button.classList.remove("btn-primary");
+          }
+        });
+      } catch (error) {
+        console.error("Error loading reactions:", error);
+      }
+    }
+
+    async function handleReaction(type) {
+      try {
+        if (userReactions.has(type)) {
+          // Remove reaction
+          const query = new AV.Query("Reaction");
+          query.equalTo("slug", slug);
+          query.equalTo("type", type);
+          const results = await query.find();
+          if (results.length) {
+            await AV.Object.destroyAll(results);
+          }
+          userReactions.delete(type);
+        } else {
+          // Add reaction
+          const Reaction = AV.Object.extend("Reaction");
+          const reaction = new Reaction();
+          await reaction.save({
+            slug,
+            type,
+          });
+          userReactions.add(type);
+        }
+
+        // Save to localStorage
+        localStorage.setItem(`reactions_${slug}`, JSON.stringify([...userReactions]));
+
+        // Reload reactions
+        await loadReactions();
+      } catch (error) {
+        console.error("Error handling reaction:", error);
+        const toast = document.createElement("div");
+        toast.className = "toast toast-bottom toast-center";
+        toast.innerHTML = `
+          <div class="alert alert-error">
+            <span>Error updating reaction. Please try again.</span>
+          </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+    }
+
+    // Add click handlers
+    document.querySelectorAll(".reaction-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        handleReaction(button.dataset.reaction);
+      });
+    });
+
+    // Load initial reactions
+    loadReactions();
+  }
+
+  // Initialize on page load and after navigation
+  document.addEventListener("astro:page-load", initReactions);
+</script>

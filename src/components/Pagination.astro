@@ -1,0 +1,51 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+const prevUrl = currentPage > 1 ? `${baseUrl}/${currentPage - 1}` : baseUrl;
+const nextUrl = currentPage < totalPages ? `${baseUrl}/${currentPage + 1}` : null;
+---
+
+<nav class="flex justify-center items-center mt-12 gap-2" aria-label="Pagination">
+  {
+    currentPage > 1 && (
+      <a href={prevUrl} class="btn btn-ghost btn-sm gap-2 hover:bg-base-200/60" aria-label="Previous page">
+        <Icon name="lucide:chevron-left" class="h-4 w-4" />
+        <span class="hidden sm:inline">Previous</span>
+      </a>
+    )
+  }
+
+  <div class="join bg-base-200/40 backdrop-blur-sm">
+    {
+      Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+        <a
+          href={pageNum === 1 ? baseUrl : `${baseUrl}/${pageNum}`}
+          class={`join-item btn btn-sm min-w-[2.5rem] ${
+            currentPage === pageNum ? "btn-primary" : "btn-ghost hover:bg-base-200/60"
+          }`}
+          aria-current={currentPage === pageNum ? "page" : undefined}
+          aria-label={`Page ${pageNum}`}
+        >
+          {pageNum}
+        </a>
+      ))
+    }
+  </div>
+
+  {
+    nextUrl && (
+      <a href={nextUrl} class="btn btn-ghost btn-sm gap-2 hover:bg-base-200/60" aria-label="Next page">
+        <span class="hidden sm:inline">Next</span>
+        <Icon name="lucide:chevron-right" class="h-4 w-4" />
+      </a>
+    )
+  }
+</nav>

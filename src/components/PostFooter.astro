@@ -1,0 +1,147 @@
+---
+import Signature from "./Signature.astro";
+import { Icon } from "astro-icon/components";
+import { format } from "date-fns";
+
+interface Props {
+  title: string;
+  url: string;
+  pubDate: Date;
+  categories: string[];
+  tags: string[];
+  author: {
+    name: string;
+    avatar: string;
+    bio: string;
+  };
+}
+
+const { title, url, pubDate, categories, tags, author } = Astro.props;
+
+const socialPlatforms = [
+  {
+    name: "X (Twitter)",
+    icon: "ri:twitter-x-line",
+    url: `https://twitter.com/intent/tweet/?text=${title}&url=${url}`,
+  },
+  {
+    name: "Telegram",
+    icon: "ri:telegram-line",
+    url: `https://telegram.me/share/url?text=${title}&url=${url}`,
+  },
+  {
+    name: "Reddit",
+    icon: "ri:reddit-line",
+    url: `https://reddit.com/submit/?url=${url}&title=${title}`,
+  },
+  {
+    name: "Facebook",
+    icon: "ri:facebook-circle-line",
+    url: `https://facebook.com/sharer/sharer.php?u=${url}`,
+  },
+  {
+    name: "Email",
+    icon: "ri:mail-line",
+    url: `mailto:?subject=${title}&body=${url}`,
+  },
+];
+---
+
+<footer class="mt-16 pt-8 border-t transition">
+  <div class="card bg-base-200/50 backdrop-blur-sm rounded-2xl">
+    <div class="card-body">
+      <!-- Copyright Notice -->
+      <div class="flex items-center gap-2 mb-6">
+        <Icon name="lucide:copyright" class="w-5 h-5" />
+        <p>
+          This content is licensed under{" "}
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link link-primary"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+      </div>
+
+      <!-- Permanent Link -->
+      <div class="flex items-center gap-2 mb-6">
+        <Icon name="lucide:link" class="w-5 h-5" />
+        <a href={url} class="link link-primary break-all">
+          {url}
+        </a>
+      </div>
+
+      <!-- Author Info -->
+      <div class="flex items-start gap-4 mb-6">
+        <img src={author.avatar} alt={author.name} class="w-16 h-16 rounded-full object-cover" loading="lazy" />
+        <div>
+          <h3 class="text-lg font-semibold">{author.name}</h3>
+          <p class="text-base-content/70">{author.bio}</p>
+        </div>
+      </div>
+
+      <!-- Metadata -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <h4 class="text-sm font-semibold mb-2">Published</h4>
+          <time datetime={pubDate.toISOString()} class="text-base-content/70">
+            {format(pubDate, "MMMM d, yyyy")}
+          </time>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold mb-2">Categories</h4>
+          <div class="flex flex-wrap gap-2">
+            {
+              categories.map((category) => (
+                <a href={`/category/${category.toLowerCase()}`} class="badge badge-primary">
+                  {category}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold mb-2">Tags</h4>
+          <div class="flex flex-wrap gap-2">
+            {
+              tags.map((tag) => (
+                <a href={`/tag/${tag.toLowerCase()}`} class="badge badge-outline">
+                  {tag}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="p-4">
+          <Signature />
+        </div>
+      </div>
+
+      <!-- Share Buttons -->
+      <div>
+        <h4 class="text-sm font-semibold mb-2">Share</h4>
+        <div class="flex gap-2">
+          {
+            socialPlatforms.map((platform) => (
+              <a
+                href={platform.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-circle btn-ghost"
+                aria-label={`Share on ${platform.name}`}
+              >
+                <Icon name={platform.icon} class="w-5 h-5" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

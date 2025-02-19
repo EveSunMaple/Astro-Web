@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import Pagination from "../../components/Pagination.astro";
+
+const POSTS_PER_PAGE = 6;
+
+const posts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+const currentPosts = sortedPosts.slice(0, POSTS_PER_PAGE);
+---
+
+<Layout title="Blog" description="Latest blog posts about technology, programming, and more.">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">Blog</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        currentPosts.map((post) => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.pubDate}
+            categories={post.data.categories}
+            tags={post.data.tags}
+            thumbnail={post.data.featuredImage}
+            slug={post.slug}
+          />
+        ))
+      }
+    </div>
+    <Pagination currentPage={1} totalPages={totalPages} baseUrl="/blog" />
+  </div>
+</Layout>

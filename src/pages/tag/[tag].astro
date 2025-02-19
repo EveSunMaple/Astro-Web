@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+
+  return tags.map((tag) => {
+    const tagPosts = posts.filter((post) => post.data.tags.includes(tag));
+    return {
+      params: { tag: tag.toLowerCase() },
+      props: { tag, posts: tagPosts },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Layout title={`Tag: ${tag}`} description={`Blog posts tagged with ${tag}`}>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">Tag: {tag}</h1>
+    <section class="mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          posts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.pubDate}
+              categories={post.data.categories}
+              tags={post.data.tags}
+              thumbnail={post.data.featuredImage}
+              slug={post.slug}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>

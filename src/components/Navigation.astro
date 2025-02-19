@@ -1,0 +1,40 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import { Icon } from "astro-icon/components";
+
+const navigation = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Blog", href: "/blog/1" },
+];
+---
+
+<div class="navbar container mx-auto px-4" transition:name="navbar" transition:persist>
+  <div class="flex-none lg:hidden">
+    <label for="drawer-nav" class="btn btn-square btn-ghost drawer-button">
+      <Icon name="lucide:menu" class="h-6 w-6 stroke-current" />
+    </label>
+  </div>
+
+  <div class="flex-1">
+    <a href="/" class="text-xl font-bold">SaroProck</a>
+  </div>
+
+  <div class="flex-none hidden lg:block">
+    <ul class="menu menu-horizontal px-1 gap-2">
+      {
+        navigation.map((item) => (
+          <li>
+            <a href={item.href} class="hover:text-primary transition-colors">
+              {item.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="flex-none ml-4">
+    <ThemeToggle />
+  </div>
+</div>

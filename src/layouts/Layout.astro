@@ -1,0 +1,68 @@
+---
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import { ClientRouter } from "astro:transitions";
+import background from "../assets/background.svg";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh" class="bg-base-300" data-theme="light">
+  <head>
+    <ClientRouter />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {image && <meta property="og:image" content={image} />}
+  </head>
+  <body
+    class="min-h-screen bg-base-100 text-base-content transition-colors duration-300"
+    style={`background-image: url(${background.src}); background-size: cover; background-position: center; background-attachment: fixed;`}
+  >
+    <div class="drawer">
+      <input id="drawer-nav" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col min-h-screen">
+        <!-- Navbar -->
+        <header class="sticky top-0 z-40 w-full backdrop-blur supports-backdrop-blur:bg-base-100/95">
+          <Navigation />
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 py-8">
+          <slot />
+        </main>
+
+        <Footer />
+      </div>
+
+      <div class="drawer-side z-50">
+        <label for="drawer-nav" aria-label="close sidebar" class="drawer-overlay"></label>
+        <div class="menu p-4 w-80 min-h-full bg-base-200">
+          <div class="flex justify-between items-center mb-4">
+            <a href="/" class="text-xl font-bold">Your Name</a>
+          </div>
+          <ul class="menu menu-vertical gap-2">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

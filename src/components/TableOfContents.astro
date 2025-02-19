@@ -1,0 +1,96 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+---
+
+<div class="toc-container sticky top-24 bg-base-200/50 backdrop-blur-sm rounded-2xl p-4 transition">
+  <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+    <Icon name="lucide:list" class="h-5 w-5" />
+    Table of Contents
+  </h2>
+  <div class="p-4 max-h-[calc(90vh-8rem)] overflow-y-auto" id="toc-box">
+    <nav class="toc">
+      <ul class="space-y-2" id="toc-list">
+        {
+          headings.map((heading) => (
+            <li class={`${heading.depth === 2 ? "ml-0" : "ml-4"} hover:text-primary`}>
+              <a href={`#${heading.slug}`} class="block py-1 text-sm toc-item" data-heading={heading.slug}>
+                {heading.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  let observer;
+
+  function updateToc() {
+    const headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
+    const tocItems = document.querySelectorAll(".toc-item");
+    const tocBox = document.getElementById("toc-box");
+
+    if (observer) observer.disconnect();
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        let found = false;
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute("id");
+          const tocItem = document.querySelector(`[data-heading="${id}"]`);
+
+          if (tocItem && entry.isIntersecting && !found) {
+            found = true;
+
+            document.querySelector(".toc-item.active")?.classList.remove("text-primary", "font-medium", "active");
+            tocItem.classList.add("text-primary", "font-medium", "active");
+
+            tocBox.scrollTo({
+              top: tocItem.offsetTop - 150,
+              behavior: "smooth",
+            });
+          }
+        });
+      },
+      {
+        rootMargin: "-50px 0px -75%",
+        threshold: [0.1, 0.5, 1.0],
+      },
+    );
+
+    headings.forEach((heading) => observer.observe(heading));
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateToc();
+
+    document.querySelectorAll(".toc a").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute("href").slice(1);
+        const target = document.getElementById(targetId);
+
+        if (target) {
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: "smooth",
+          });
+
+          history.pushState(null, "", `#${targetId}`);
+        }
+      });
+    });
+
+    window.addEventListener("popstate", updateToc);
+  });
+
+  document.addEventListener("astro:after-swap", updateToc);
+</script>

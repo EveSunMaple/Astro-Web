@@ -1,0 +1,40 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  readingTime: {
+    minutes: number;
+    words: number;
+    characters: number;
+    chineseCharacters: number;
+    englishWords: number;
+  };
+}
+
+const { readingTime } = Astro.props;
+
+// Format numbers with thousands separator
+const formatNumber = (num: number) => new Intl.NumberFormat("en-US").format(num);
+---
+
+<div class="stats stats-vertical lg:stats-horizontal bg-base-200/50 backdrop-blur-sm w-full mt-6">
+  <div class="stat">
+    <div class="stat-figure text-primary">
+      <Icon name="lucide:clock" class="w-8 h-8" />
+    </div>
+    <div class="stat-title">Reading Time</div>
+    <div class="stat-value">{readingTime.minutes} min</div>
+    <div class="stat-desc">Based on average reading speed</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-secondary">
+      <Icon name="lucide:text" class="w-8 h-8" />
+    </div>
+    <div class="stat-title">Word Count</div>
+    <div class="stat-value">{formatNumber(readingTime.words)}</div>
+    <div class="stat-desc">
+      {formatNumber(readingTime.chineseCharacters)} Chinese + {formatNumber(readingTime.englishWords)} English
+    </div>
+  </div>
+</div>

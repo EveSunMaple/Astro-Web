@@ -21,6 +21,17 @@ const { slug } = Astro.props;
   function initCommentList() {
     const commentsList = document.querySelector(".comments-list");
     const slug = commentsList.dataset.slug;
+    let userLikes = new Set();
+
+    // Load user's likes from localStorage
+    try {
+      const stored = localStorage.getItem(`comment_likes_${slug}`);
+      if (stored) {
+        userLikes = new Set(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error("Error loading stored likes:", e);
+    }
 
     async function loadComments() {
       try {
@@ -31,7 +42,21 @@ const { slug } = Astro.props;
 
         const comments = await query.find();
         const commentTree = buildCommentTree(comments);
-        commentsList.innerHTML = renderComments(commentTree);
+
+        // Load likes for all comments
+        const likesQuery = new AV.Query("CommentLike");
+        likesQuery.equalTo("slug", slug);
+        const likes = await likesQuery.find();
+
+        // Count likes per comment
+        const likeCounts = {};
+        likes.forEach((like) => {
+          const commentId = like.get("commentId");
+          const count = like.get("count") || 1;
+          likeCounts[commentId] = (likeCounts[commentId] || 0) + count;
+        });
+
+        commentsList.innerHTML = renderComments(commentTree, likeCounts);
 
         // Initialize handlers after rendering
         initializeHandlers();
@@ -58,7 +83,7 @@ const { slug } = Astro.props;
           createdAt: new Date(comment.createdAt),
         };
         commentMap.set(data.id, data);
-        console.log(data);
+
         if (data.parentComment) {
           const parent = commentMap.get(data.parentComment);
           if (parent) {
@@ -72,7 +97,7 @@ const { slug } = Astro.props;
       return roots;
     }
 
-    function renderComments(comments, level = 0) {
+    function renderComments(comments, likeCounts, level = 0) {
       if (!comments.length) {
         return '<p class="text-center text-base-content/70">No comments yet. Be the first to comment!</p>';
       }
@@ -99,6 +124,10 @@ const { slug } = Astro.props;
                 <span class="text-sm text-base-content/60">
                   ${format(comment.createdAt, "PPp")}
                 </span>
+                <button class="btn btn-ghost btn-xs like-button ${userLikes.has(comment.id) ? "text-primary" : ""}" data-comment-id="${comment.id}">
+                  ♥️
+                  <span class="like-count">${likeCounts[comment.id] || 0}</span>
+                </button>
                 ${
                   canDeleteComment(comment)
                     ? `<button class="btn btn-ghost btn-xs delete-button" data-comment-id="${comment.id}">
@@ -124,11 +153,71 @@ const { slug } = Astro.props;
               </button>
             </div>
           </div>
-          ${comment.children.length ? renderComments(comment.children, level + 1) : ""}
+          ${comment.children.length ? renderComments(comment.children, likeCounts, level + 1) : ""}
         </div>
       `,
         )
         .join("");
+    }
+
+    async function handleLike(commentId) {
+      try {
+        const query = new AV.Query("CommentLike");
+        query.equalTo("slug", slug);
+        query.equalTo("commentId", commentId);
+        const results = await query.find();
+
+        if (userLikes.has(commentId)) {
+          // Remove like
+          if (results.length) {
+            const like = results[0];
+            const currentCount = like.get("count") || 1;
+            if (currentCount > 1) {
+              like.set("count", currentCount - 1);
+              await like.save();
+            } else {
+              await like.destroy();
+            }
+          }
+          userLikes.delete(commentId);
+        } else {
+          // Add like
+          if (results.length) {
+            const like = results[0];
+            const currentCount = like.get("count") || 1;
+            like.set("count", currentCount + 1);
+            await like.save();
+          } else {
+            const CommentLike = AV.Object.extend("CommentLike");
+            const like = new CommentLike();
+            await like.save({
+              slug,
+              commentId,
+              count: 1,
+            });
+          }
+          userLikes.add(commentId);
+        }
+
+        // Save to localStorage
+        localStorage.setItem(
+          `comment_likes_${slug}`,
+          JSON.stringify([...userLikes]),
+        );
+
+        // Reload comments to update like counts
+        await loadComments();
+
+        // Add visual feedback
+        const button = document.querySelector(
+          `[data-comment-id="${commentId}"] .like-button`,
+        );
+        button.classList.add("scale-110");
+        setTimeout(() => button.classList.remove("scale-110"), 200);
+      } catch (error) {
+        console.error("Error handling like:", error);
+        showToast("Error updating like", "error");
+      }
     }
 
     function canDeleteComment(comment) {
@@ -137,6 +226,14 @@ const { slug } = Astro.props;
     }
 
     function initializeHandlers() {
+      // Add like handlers
+      document.querySelectorAll(".like-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const commentId = button.dataset.commentId;
+          handleLike(commentId);
+        });
+      });
+
       // Add reply handlers
       document.querySelectorAll(".reply-button").forEach((button) => {
         button.addEventListener("click", () => {
@@ -144,7 +241,9 @@ const { slug } = Astro.props;
           const comment = button.closest(".comment");
 
           // Remove any existing reply forms
-          document.querySelectorAll(".reply-form").forEach((form) => form.remove());
+          document
+            .querySelectorAll(".reply-form")
+            .forEach((form) => form.remove());
 
           // Add new reply form
           const replyForm = document.createElement("div");
@@ -213,7 +312,11 @@ const { slug } = Astro.props;
           const commentId = button.dataset.commentId;
 
           // Show confirmation dialog
-          if (await showConfirmDialog("Are you sure you want to delete this comment?")) {
+          if (
+            await showConfirmDialog(
+              "Are you sure you want to delete this comment?",
+            )
+          ) {
             try {
               const query = new AV.Query("Comment");
               const comment = await query.get(commentId);
@@ -221,7 +324,10 @@ const { slug } = Astro.props;
               // Check if comment is still within 5-minute window
               const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
               if (comment.createdAt < fiveMinutesAgo) {
-                showToast("Comments can only be deleted within 5 minutes of posting", "error");
+                showToast(
+                  "Comments can only be deleted within 5 minutes of posting",
+                  "error",
+                );
                 return;
               }
 
@@ -245,9 +351,9 @@ const { slug } = Astro.props;
 
         try {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Submitting...';
+          submitBtn.innerHTML =
+            '<span class="loading loading-spinner"></span> Submitting...';
 
-          console.log(form.dataset.parentComment);
           const formData = new FormData(form);
           const data = {
             nickname: formData.get("nickname"),
@@ -387,7 +493,8 @@ const { slug } = Astro.props;
         var lWordCount;
         var lMessageLength = string.length;
         var lNumberOfWords_temp1 = lMessageLength + 8;
-        var lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
+        var lNumberOfWords_temp2 =
+          (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
         var lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
         var lWordArray = Array(lNumberOfWords - 1);
         var lBytePosition = 0;
@@ -395,12 +502,15 @@ const { slug } = Astro.props;
         while (lByteCount < lMessageLength) {
           lWordCount = (lByteCount - (lByteCount % 4)) / 4;
           lBytePosition = (lByteCount % 4) * 8;
-          lWordArray[lWordCount] = lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition);
+          lWordArray[lWordCount] =
+            lWordArray[lWordCount] |
+            (string.charCodeAt(lByteCount) << lBytePosition);
           lByteCount++;
         }
         lWordCount = (lByteCount - (lByteCount % 4)) / 4;
         lBytePosition = (lByteCount % 4) * 8;
-        lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
+        lWordArray[lWordCount] =
+          lWordArray[lWordCount] | (0x80 << lBytePosition);
         lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
         lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
         return lWordArray;
@@ -414,7 +524,9 @@ const { slug } = Astro.props;
         for (lCount = 0; lCount <= 3; lCount++) {
           lByte = (lValue >>> (lCount * 8)) & 255;
           WordToHexValue_temp = "0" + lByte.toString(16);
-          WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+          WordToHexValue =
+            WordToHexValue +
+            WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
         }
         return WordToHexValue;
       }
@@ -554,3 +666,18 @@ const { slug } = Astro.props;
   // Initialize on page load and after navigation
   document.addEventListener("astro:page-load", initCommentList);
 </script>
+
+<style>
+  .like-button {
+    transition: all 0.3s ease;
+  }
+
+  .like-button:hover {
+    transform: scale(1.05);
+  }
+
+  .like-button.text-primary svg {
+    fill: currentColor;
+    animation: pulse 0.5s infinite;
+  }
+</style>

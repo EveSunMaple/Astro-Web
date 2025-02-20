@@ -19,8 +19,14 @@ const reactions = [
   <div class="flex flex-wrap gap-2">
     {
       reactions.map((reaction) => (
-        <button class="btn btn-ghost gap-2 reaction-button" data-reaction={reaction.name}>
-          <Icon name={reaction.icon} class="w-5 h-5" />
+        <button
+          class="btn btn-ghost gap-2 reaction-button"
+          data-reaction={reaction.name}
+        >
+          <Icon
+            name={reaction.icon}
+            class="w-5 h-5 transition-colors duration-300"
+          />
           <span class="reaction-label">{reaction.label}</span>
           <span class="badge badge-sm reaction-count">0</span>
         </button>
@@ -53,11 +59,12 @@ const reactions = [
         query.equalTo("slug", slug);
         const results = await query.find();
 
-        // Count reactions
+        // Count reactions using the count field
         const counts = {};
         results.forEach((result) => {
           const type = result.get("type");
-          counts[type] = (counts[type] || 0) + 1;
+          const count = result.get("count") || 1;
+          counts[type] = (counts[type] || 0) + count;
         });
 
         // Update UI
@@ -69,9 +76,15 @@ const reactions = [
 
           // Mark user's reactions
           if (userReactions.has(type)) {
+            button.classList.remove("btn-ghost");
             button.classList.add("btn-primary");
+            button.querySelector("svg").classList.add("text-primary-content");
           } else {
+            button.classList.add("btn-ghost");
             button.classList.remove("btn-primary");
+            button
+              .querySelector("svg")
+              .classList.remove("text-primary-content");
           }
         });
       } catch (error) {
@@ -81,29 +94,53 @@ const reactions = [
 
     async function handleReaction(type) {
       try {
+        const query = new AV.Query("Reaction");
+        query.equalTo("slug", slug);
+        query.equalTo("type", type);
+        const results = await query.find();
+
         if (userReactions.has(type)) {
-          // Remove reaction
-          const query = new AV.Query("Reaction");
-          query.equalTo("slug", slug);
-          query.equalTo("type", type);
-          const results = await query.find();
+          // Remove reaction by decrementing count
           if (results.length) {
-            await AV.Object.destroyAll(results);
+            const reaction = results[0];
+            const currentCount = reaction.get("count") || 1;
+            if (currentCount > 1) {
+              reaction.set("count", currentCount - 1);
+              await reaction.save();
+            } else {
+              await reaction.destroy();
+            }
           }
           userReactions.delete(type);
         } else {
-          // Add reaction
-          const Reaction = AV.Object.extend("Reaction");
-          const reaction = new Reaction();
-          await reaction.save({
-            slug,
-            type,
-          });
+          // Add reaction by incrementing count or creating new
+          if (results.length) {
+            const reaction = results[0];
+            const currentCount = reaction.get("count") || 1;
+            reaction.set("count", currentCount + 1);
+            await reaction.save();
+          } else {
+            const Reaction = AV.Object.extend("Reaction");
+            const reaction = new Reaction();
+            await reaction.save({
+              slug,
+              type,
+              count: 1,
+            });
+          }
           userReactions.add(type);
         }
 
         // Save to localStorage
-        localStorage.setItem(`reactions_${slug}`, JSON.stringify([...userReactions]));
+        localStorage.setItem(
+          `reactions_${slug}`,
+          JSON.stringify([...userReactions]),
+        );
+
+        // Add visual feedback
+        const button = document.querySelector(`[data-reaction="${type}"]`);
+        button.classList.add("scale-110");
+        setTimeout(() => button.classList.remove("scale-110"), 200);
 
         // Reload reactions
         await loadReactions();
@@ -135,3 +172,29 @@ const reactions = [
   // Initialize on page load and after navigation
   document.addEventListener("astro:page-load", initReactions);
 </script>
+
+<style>
+  .reaction-button {
+    transition: all 0.3s ease;
+  }
+
+  .reaction-button:hover {
+    transform: scale(1.05);
+  }
+
+  .reaction-button.btn-primary svg {
+    animation: pulse 1s ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>

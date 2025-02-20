@@ -1,0 +1,52 @@
+---
+import { Icon } from "astro-icon/components";
+import { format, differenceInDays } from "date-fns";
+
+interface Props {
+    stats: {
+        total_posts: number;
+        total_comments: number;
+        diary_start_date: string;
+        diary_count: number;
+        updated_at: string;
+    };
+}
+
+const { stats } = Astro.props;
+
+const diaryStartDate = new Date(stats.diary_start_date);
+const daysCount = differenceInDays(new Date(), diaryStartDate);
+---
+
+<div
+    class="stats stats-vertical lg:stats-horizontal shadow bg-base-200/50 backdrop-blur-sm w-full"
+>
+    <div class="stat">
+        <div class="stat-figure text-primary">
+            <Icon name="lucide:book-open" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Total Posts</div>
+        <div class="stat-value">{stats.total_posts}</div>
+        <div class="stat-desc">Articles & Tutorials</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-figure text-secondary">
+            <Icon name="lucide:book" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Daily Diary</div>
+        <div class="stat-value">{stats.diary_count}</div>
+        <div class="stat-desc">
+            Since {format(diaryStartDate, "MMM d, yyyy")} ({daysCount} days)
+        </div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-figure text-accent">
+            <Icon name="lucide:message-circle" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Comments</div>
+        <div class="stat-value">{stats.total_comments}</div>
+        <div class="stat-desc">Community Interactions</div>
+    </div>
+</div>

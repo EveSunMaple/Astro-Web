@@ -200,18 +200,13 @@ const { slug } = Astro.props;
         }
 
         // Save to localStorage
-        localStorage.setItem(
-          `comment_likes_${slug}`,
-          JSON.stringify([...userLikes]),
-        );
+        localStorage.setItem(`comment_likes_${slug}`, JSON.stringify([...userLikes]));
 
         // Reload comments to update like counts
         await loadComments();
 
         // Add visual feedback
-        const button = document.querySelector(
-          `[data-comment-id="${commentId}"] .like-button`,
-        );
+        const button = document.querySelector(`[data-comment-id="${commentId}"] .like-button`);
         button.classList.add("scale-110");
         setTimeout(() => button.classList.remove("scale-110"), 200);
       } catch (error) {
@@ -241,9 +236,7 @@ const { slug } = Astro.props;
           const comment = button.closest(".comment");
 
           // Remove any existing reply forms
-          document
-            .querySelectorAll(".reply-form")
-            .forEach((form) => form.remove());
+          document.querySelectorAll(".reply-form").forEach((form) => form.remove());
 
           // Add new reply form
           const replyForm = document.createElement("div");
@@ -312,11 +305,7 @@ const { slug } = Astro.props;
           const commentId = button.dataset.commentId;
 
           // Show confirmation dialog
-          if (
-            await showConfirmDialog(
-              "Are you sure you want to delete this comment?",
-            )
-          ) {
+          if (await showConfirmDialog("Are you sure you want to delete this comment?")) {
             try {
               const query = new AV.Query("Comment");
               const comment = await query.get(commentId);
@@ -324,10 +313,7 @@ const { slug } = Astro.props;
               // Check if comment is still within 5-minute window
               const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
               if (comment.createdAt < fiveMinutesAgo) {
-                showToast(
-                  "Comments can only be deleted within 5 minutes of posting",
-                  "error",
-                );
+                showToast("Comments can only be deleted within 5 minutes of posting", "error");
                 return;
               }
 
@@ -351,8 +337,7 @@ const { slug } = Astro.props;
 
         try {
           submitBtn.disabled = true;
-          submitBtn.innerHTML =
-            '<span class="loading loading-spinner"></span> Submitting...';
+          submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Submitting...';
 
           const formData = new FormData(form);
           const data = {
@@ -493,8 +478,7 @@ const { slug } = Astro.props;
         var lWordCount;
         var lMessageLength = string.length;
         var lNumberOfWords_temp1 = lMessageLength + 8;
-        var lNumberOfWords_temp2 =
-          (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
+        var lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
         var lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
         var lWordArray = Array(lNumberOfWords - 1);
         var lBytePosition = 0;
@@ -502,15 +486,12 @@ const { slug } = Astro.props;
         while (lByteCount < lMessageLength) {
           lWordCount = (lByteCount - (lByteCount % 4)) / 4;
           lBytePosition = (lByteCount % 4) * 8;
-          lWordArray[lWordCount] =
-            lWordArray[lWordCount] |
-            (string.charCodeAt(lByteCount) << lBytePosition);
+          lWordArray[lWordCount] = lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition);
           lByteCount++;
         }
         lWordCount = (lByteCount - (lByteCount % 4)) / 4;
         lBytePosition = (lByteCount % 4) * 8;
-        lWordArray[lWordCount] =
-          lWordArray[lWordCount] | (0x80 << lBytePosition);
+        lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
         lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
         lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
         return lWordArray;
@@ -524,9 +505,7 @@ const { slug } = Astro.props;
         for (lCount = 0; lCount <= 3; lCount++) {
           lByte = (lValue >>> (lCount * 8)) & 255;
           WordToHexValue_temp = "0" + lByte.toString(16);
-          WordToHexValue =
-            WordToHexValue +
-            WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+          WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
         }
         return WordToHexValue;
       }

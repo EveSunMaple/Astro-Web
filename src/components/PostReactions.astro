@@ -19,14 +19,8 @@ const reactions = [
   <div class="flex flex-wrap gap-2">
     {
       reactions.map((reaction) => (
-        <button
-          class="btn btn-ghost gap-2 reaction-button"
-          data-reaction={reaction.name}
-        >
-          <Icon
-            name={reaction.icon}
-            class="w-5 h-5 transition-colors duration-300"
-          />
+        <button class="btn btn-ghost gap-2 reaction-button" data-reaction={reaction.name}>
+          <Icon name={reaction.icon} class="w-5 h-5 transition-colors duration-300" />
           <span class="reaction-label">{reaction.label}</span>
           <span class="badge badge-sm reaction-count">0</span>
         </button>
@@ -82,9 +76,7 @@ const reactions = [
           } else {
             button.classList.add("btn-ghost");
             button.classList.remove("btn-primary");
-            button
-              .querySelector("svg")
-              .classList.remove("text-primary-content");
+            button.querySelector("svg").classList.remove("text-primary-content");
           }
         });
       } catch (error) {
@@ -132,10 +124,7 @@ const reactions = [
         }
 
         // Save to localStorage
-        localStorage.setItem(
-          `reactions_${slug}`,
-          JSON.stringify([...userReactions]),
-        );
+        localStorage.setItem(`reactions_${slug}`, JSON.stringify([...userReactions]));
 
         // Add visual feedback
         const button = document.querySelector(`[data-reaction="${type}"]`);

@@ -1,0 +1,82 @@
+---
+import Layout from "./Layout.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout {title} {description}>
+  <div id="auth-container" class="min-h-screen flex items-center justify-center">
+    <div class="card bg-base-200/50 backdrop-blur-sm w-full max-w-md">
+      <div class="card-body">
+        <h2 class="card-title">Admin Login</h2>
+        <form id="login-form" class="space-y-4">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Username</span>
+            </label>
+            <input type="text" id="username" class="input input-bordered" required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input type="password" id="password" class="input input-bordered" required />
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-container" class="hidden">
+    <slot />
+  </div>
+</Layout>
+
+<script>
+  // Check authentication on page load
+  document.addEventListener("astro:page-load", () => {
+    const isAuthenticated = sessionStorage.getItem("admin-auth");
+    const authContainer = document.getElementById("auth-container");
+    const contentContainer = document.getElementById("content-container");
+
+    if (isAuthenticated) {
+      authContainer.classList.add("hidden");
+      contentContainer.classList.remove("hidden");
+    }
+
+    // Login form handler
+    const loginForm = document.getElementById("login-form");
+    loginForm?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = (document.getElementById("username") as HTMLInputElement).value;
+      const password = (document.getElementById("password") as HTMLInputElement).value;
+
+      if (username === "admin" && password === "123456") {
+        sessionStorage.setItem("admin-auth", "true");
+        authContainer.classList.add("hidden");
+        contentContainer.classList.remove("hidden");
+      } else {
+        showToast("Invalid credentials", "error");
+      }
+    });
+  });
+
+  function showToast(message: string, type: "success" | "error" = "success") {
+    const toast = document.createElement("div");
+    toast.className = "toast toast-bottom toast-center";
+    toast.innerHTML = `
+      <div class="alert alert-${type}">
+        <span>${message}</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+</script>

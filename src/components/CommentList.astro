@@ -8,7 +8,7 @@ interface Props {
 const { slug } = Astro.props;
 ---
 
-<div class="comments-list space-y-6" data-slug={slug}>
+<div class="comments-list space-y-8" data-slug={slug}>
   <div class="loading-comments flex justify-center">
     <span class="loading loading-spinner loading-lg"></span>
   </div>
@@ -17,6 +17,10 @@ const { slug } = Astro.props;
 <script>
   import * as AV from "leancloud-storage";
   import { format } from "date-fns";
+
+  const badgeMap = {
+    "evesunmaple@outlook.com": "Author",
+  };
 
   function initCommentList() {
     const commentsList = document.querySelector(".comments-list");
@@ -105,54 +109,77 @@ const { slug } = Astro.props;
       return comments
         .map(
           (comment) => `
-        <div class="comment" style="margin-left: ${level * 2}rem" data-comment-id="${comment.id}">
-          <div class="flex gap-4">
-            <div class="avatar">
-              <div class="w-10 h-10 rounded-full">
-                <img src="${comment.avatar}" alt="${comment.nickname}" />
+        <div class="comment-thread" style="margin-left: ${level > 0 ? "1.5rem" : "0"}">
+          <div class="comment relative ${level > 0 ? "nested-comment" : ""}" data-comment-id="${comment.id}">
+            <div class="flex gap-4">
+              <div class="avatar flex-shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full">
+                  <img src="${comment.avatar}" alt="${comment.nickname}" />
+                </div>
               </div>
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                ${
-                  comment.website
-                    ? `<a href="${comment.website}" class="font-semibold hover:text-primary" target="_blank" rel="noopener noreferrer">
-                    ${comment.nickname}
-                  </a>`
-                    : `<span class="font-semibold">${comment.nickname}</span>`
-                }
-                <span class="text-sm text-base-content/60">
-                  ${format(comment.createdAt, "PPp")}
-                </span>
-                <button class="btn btn-ghost btn-xs like-button ${userLikes.has(comment.id) ? "text-primary" : ""}" data-comment-id="${comment.id}">
-                  ♥️
-                  <span class="like-count">${likeCounts[comment.id] || 0}</span>
+
+              <div class="flex-1 min-w-0">
+                <!-- Comment Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                  <div class="flex items-center gap-2 min-w-0">
+                    ${
+                      comment.website
+                        ? `<a href="${comment.website}"
+                            class="font-semibold text-primary hover:text-primary-focus truncate"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            ${comment.nickname}
+                          </a>`
+                        : `<span class="font-semibold truncate">${comment.nickname}</span>`
+                    }
+                    <span class="text-sm text-base-content/60">
+                      ${format(comment.createdAt, "PPp")}
+                    </span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    ${badgeMap[comment.email] ? `<div class="badge badge-primary badge-outline">${badgeMap[comment.email]}</div>` : ""}
+                    <button class="btn btn-ghost btn-sm gap-1 min-w-[4rem] like-button ${
+                      userLikes.has(comment.id) ? "text-primary" : ""
+                    }" data-comment-id="${comment.id}">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                      </svg>
+                      <span class="like-count">${likeCounts[comment.id] || 0}</span>
+                    </button>
+
+                    ${
+                      canDeleteComment(comment)
+                        ? `<button class="btn btn-ghost btn-sm gap-1 delete-button" data-comment-id="${comment.id}">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M3 6h18"></path>
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            </svg>
+                            <span class="hidden sm:inline">Delete</span>
+                          </button>`
+                        : ""
+                    }
+                  </div>
+                </div>
+
+                <!-- Comment Content -->
+                <div class="prose prose-sm max-w-none mb-3">
+                  ${comment.content}
+                </div>
+
+                <!-- Reply Button -->
+                <button class="btn btn-ghost btn-sm gap-1 reply-button" data-comment-id="${comment.id}">
+                  <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 17 4 12 9 7"></polyline>
+                    <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                  </svg>
+                  <span>Reply</span>
                 </button>
-                ${
-                  canDeleteComment(comment)
-                    ? `<button class="btn btn-ghost btn-xs delete-button" data-comment-id="${comment.id}">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M3 6h18"></path>
-                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                        </svg>
-                        Delete
-                      </button>`
-                    : ""
-                }
               </div>
-              <div class="prose prose-sm max-w-none mb-2">
-                ${comment.content}
-              </div>
-              <button class="btn btn-ghost btn-sm reply-button" data-comment-id="${comment.id}">
-                <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 17 4 12 9 7"></polyline>
-                  <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
-                </svg>
-                Reply
-              </button>
             </div>
           </div>
+
           ${comment.children.length ? renderComments(comment.children, likeCounts, level + 1) : ""}
         </div>
       `,

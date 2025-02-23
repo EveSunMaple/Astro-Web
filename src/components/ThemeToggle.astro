@@ -40,7 +40,7 @@
 <script is:inline>
   (function () {
     const themeToggle = document.getElementById("theme-toggle");
-    const userPreferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const userPreferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "winter";
     const theme = userPreferredTheme;
     console.log(themeToggle);
     themeToggle.checked = theme === "dark";

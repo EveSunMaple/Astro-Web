@@ -30,6 +30,27 @@ const socialLinks = [
     icon: "ri:cup-line",
   },
 ];
+
+const friendLinks = [
+  {
+    name: "Astro",
+    description: "The web framework for content-driven websites",
+    href: "https://astro.build",
+    icon: "https://astro.build/favicon.svg",
+  },
+  {
+    name: "DaisyUI",
+    description: "The most popular component library for Tailwind CSS",
+    href: "https://daisyui.com",
+    icon: "https://daisyui.com/favicon.ico",
+  },
+  {
+    name: "Tailwind CSS",
+    description: "A utility-first CSS framework",
+    href: "https://tailwindcss.com",
+    icon: "https://tailwindcss.com/favicons/favicon.ico",
+  },
+];
 ---
 
 <footer class="bg-base-200/50 backdrop-blur-sm transition-colors">
@@ -51,6 +72,26 @@ const socialLinks = [
           </li>
           <li>
             <a href="/blog/1" class="link link-hover text-base-content/80">Blog</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold">Resources</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="/rss.xml" class="link link-hover text-base-content/80 flex items-center gap-2"> RSS Feed </a>
+          </li>
+          <li>
+            <a href="/sitemap.xml" class="link link-hover text-base-content/80 flex items-center gap-2"> Sitemap </a>
+          </li>
+          <li>
+            <button
+              class="link link-hover text-base-content/80 flex items-center gap-2"
+              onclick="friend_links_modal.showModal()"
+            >
+              Friend Links
+            </button>
           </li>
         </ul>
       </div>
@@ -92,3 +133,58 @@ const socialLinks = [
     </div>
   </div>
 </footer>
+
+<!-- Friend Links Modal -->
+<dialog id="friend_links_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+      <Icon name="ri:links-line" class="h-5 w-5" />
+      Friend Links
+    </h3>
+    <div class="grid gap-4">
+      {
+        friendLinks.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card bg-base-200/50 backdrop-blur-sm hover:bg-base-200 transition-colors duration-300"
+          >
+            <div class="card-body py-4">
+              <div class="flex items-center gap-3">
+                <img src={link.icon} alt={link.name} class="w-8 h-8 rounded" />
+                <div>
+                  <h4 class="font-medium">{link.name}</h4>
+                  <p class="text-sm text-base-content/70">{link.description}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn btn-ghost">Close</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<style>
+  .modal-box {
+    max-width: 32rem;
+  }
+
+  .card {
+    transform: translateY(0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+  }
+</style>

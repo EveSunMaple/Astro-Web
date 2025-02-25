@@ -41,14 +41,22 @@ const socialLinks = [
 ---
 
 <Layout title="Home - SaroProck" description="A student who loves programming and technology">
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-4xl mx-auto px-4 py-8">
     <!-- Header Section -->
-    <header class="text-center py-16 animate-fade-in">
-      <img
-        src="https://github.com/EveSunMaple.png"
-        alt="SunMaple"
-        class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-      />
+    <section class="text-center mb-16 animate-fade-in">
+      <div class="relative w-32 h-32 mx-auto mb-6 group">
+        <img
+          src="/profile.webp"
+          alt="SunMaple"
+          class="rounded-full shadow-lg group-hover:scale-105 transition-all duration-300"
+          width="128"
+          height="128"
+        />
+        <div
+          class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+        >
+        </div>
+      </div>
       <h1
         class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
       >
@@ -75,10 +83,10 @@ const socialLinks = [
           ))
         }
       </div>
-    </header>
+    </section>
 
     <!-- About Section -->
-    <section class="prose prose-lg max-w-2xl mb-16 mx-auto">
+    <section class="prose prose-lg max-w-2xl mb-16 mx-auto animate-fade-in">
       <p>
         我时常觉得自己很健忘：忘记了一些人和事，忘记了自己从哪里来、又要到哪里去。所以我给我自己写了一个博客、一个“不受控制”的博客、一个“只属于我”的博客，让我可以写点东西、记点东西，不至于把过去忘得一干二净。
       </p>

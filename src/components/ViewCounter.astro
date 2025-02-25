@@ -1,0 +1,65 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="view-counter inline-flex items-center gap-1 text-base-content/70" data-slug={slug}>
+  <Icon name="lucide:eye" class="w-4 h-4" />
+  <span class="view-count">--</span> views
+</div>
+
+<script>
+  import * as AV from "leancloud-storage";
+
+  function initViewCounter() {
+    const counters = document.querySelectorAll(".view-counter");
+
+    counters.forEach(async (counter) => {
+      const slug = counter.getAttribute("data-slug");
+      if (!slug) return;
+
+      try {
+        // Get or create view record
+        const query = new AV.Query("PostView");
+        query.equalTo("slug", slug);
+        let viewRecord = await query.first();
+
+        if (!viewRecord) {
+          const PostView = AV.Object.extend("PostView");
+          viewRecord = new PostView();
+          viewRecord.set("slug", slug);
+          viewRecord.set("views", 0);
+        }
+
+        // Check if user has viewed recently
+        const viewKey = `post_view_${slug}`;
+        const lastView = localStorage.getItem(viewKey);
+        const now = Date.now();
+        const viewTimeout = 30 * 60 * 1000; // 30 minutes
+
+        if (!lastView || now - parseInt(lastView) > viewTimeout) {
+          // Increment view count
+          viewRecord.increment("views");
+          await viewRecord.save();
+          localStorage.setItem(viewKey, now.toString());
+        }
+
+        // Update view count display
+        const viewCount = counter.querySelector(".view-count");
+        if (viewCount) {
+          viewCount.textContent = viewRecord.get("views").toString();
+        }
+      } catch (error) {
+        console.error("Error updating view count:", error);
+      }
+    });
+  }
+
+  // Initialize on page load and after navigation
+  document.addEventListener("astro:page-load", initViewCounter);
+</script>

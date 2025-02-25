@@ -7,7 +7,7 @@ categories:
   - Personal Essays
 tags:
   - Life
-  - Reflections
+  - Reflection
   - Development
 badges:
   - New

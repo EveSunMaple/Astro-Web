@@ -5,6 +5,7 @@ import TableOfContents from "../../components/TableOfContents.astro";
 import PostStats from "../../components/PostStats.astro";
 import PostFooter from "../../components/PostFooter.astro";
 import Comments from "../../components/Comments.astro";
+import ViewCounter from "../../components/ViewCounter.astro";
 import { getReadingTime } from "../../utils/readingTime";
 import { format } from "date-fns";
 import { Icon } from "astro-icon/components";
@@ -34,7 +35,7 @@ const author = {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<Layout title={post.data.title} description={post.data.description} image={post.data.featuredImage}>
+<Layout title={`${post.data.title} - SaroProck`} description={post.data.description} image={post.data.featuredImage}>
   <div class="container mx-auto px-4 lg:px-8">
     <div class="flex flex-col xl:flex-row xl:gap-8">
       <!-- Main Content -->
@@ -74,6 +75,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 </time>
               )
             }
+            <ViewCounter slug={post.slug} />
           </div>
 
           <div class="flex flex-wrap gap-2">

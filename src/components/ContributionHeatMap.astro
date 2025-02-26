@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import { Octokit } from "octokit";
 
 interface Props {
@@ -65,7 +66,9 @@ function getContributionColor(count: number) {
 
 <div class="card bg-base-200/50 backdrop-blur-sm">
   <div class="card-body">
-    <h3 class="card-title">Contribution Activity</h3>
+    <h3 class="card-title mb-4">
+      <Icon name="lucide:cpu" class="w-6 h-6" />Contribution Activity
+    </h3>
     <div class="contribution-container">
       <div class="contribution-grid">
         {

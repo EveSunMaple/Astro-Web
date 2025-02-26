@@ -157,5 +157,5 @@ const { slug, parentId } = Astro.props;
   }
 
   // Initialize on page load and after navigation
-  document.addEventListener("astro:page-load", initCommentForm);
+  document.addEventListener("swup:page:view", initCommentForm);
 </script>

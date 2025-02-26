@@ -369,7 +369,7 @@ const description = "Manage and moderate comments across your blog posts";
   }
 
   // Event Listeners
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("swup:page:view", () => {
     // Check authentication
     if (!sessionStorage.getItem("admin-auth")) {
       return;

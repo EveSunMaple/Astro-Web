@@ -1,0 +1,57 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  name: string;
+  description: string;
+  language: string;
+  stars: number;
+  url: string;
+  homepage?: string;
+  topics: string[];
+  screenshots?: string[];
+  features?: string[];
+  techStack?: string[];
+}
+
+const { name, description, language, stars, url, homepage, topics, screenshots, features, techStack } = Astro.props;
+---
+
+<div class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+  <div class="card-body">
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="card-title flex items-center gap-2">
+        <Icon name="lucide:folder" class="w-5 h-5" />
+        {name}
+      </h3>
+      <div class="flex items-center gap-2">
+        <span class="flex items-center gap-1">
+          <Icon name="lucide:star" class="w-4 h-4" />
+          {stars}
+        </span>
+      </div>
+    </div>
+
+    <p class="text-base-content/80 mb-4 line-clamp-2">{description}</p>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+      {language && <span class="badge badge-primary">{language}</span>}
+      {topics.map((topic) => <span class="badge badge-outline">{topic}</span>)}
+    </div>
+
+    <div class="card-actions justify-end">
+      <a href={url} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+        <Icon name="ri:github-line" class="w-4 h-4" />
+        Repository
+      </a>
+      {
+        homepage && (
+          <a href={homepage} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            <Icon name="lucide:external-link" class="w-4 h-4" />
+            Preview
+          </a>
+        )
+      }
+    </div>
+  </div>
+</div>

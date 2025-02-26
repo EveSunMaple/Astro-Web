@@ -670,7 +670,7 @@ const { slug } = Astro.props;
   }
 
   // Initialize on page load and after navigation
-  document.addEventListener("astro:page-load", initCommentList);
+  document.addEventListener("swup:page:view", initCommentList);
 </script>
 
 <style>

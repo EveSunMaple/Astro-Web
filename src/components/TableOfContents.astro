@@ -92,5 +92,5 @@ const { headings } = Astro.props;
     window.addEventListener("popstate", updateToc);
   });
 
-  document.addEventListener("astro:after-swap", updateToc);
+  document.addEventListener("swup:page:view", updateToc);
 </script>

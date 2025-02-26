@@ -1,0 +1,171 @@
+---
+import { Icon } from "astro-icon/components";
+import { Octokit } from "octokit";
+
+interface Props {
+  username: string;
+}
+
+const { username } = Astro.props;
+
+const octokit = new Octokit({
+  auth: import.meta.env.GITHUB_TOKEN,
+});
+
+// Fetch user data and stats
+const { data: userData } = await octokit.rest.users.getByUsername({
+  username,
+});
+
+// Fetch repositories
+const { data: repos } = await octokit.rest.repos.listForUser({
+  username,
+  sort: "updated",
+  per_page: 100,
+});
+
+// Calculate total stars
+const totalStars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+
+// Calculate language statistics
+const languages = repos.reduce((acc, repo) => {
+  if (repo.language) {
+    acc[repo.language] = (acc[repo.language] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const topLanguages = Object.entries(languages)
+  .sort(([, a], [, b]) => b - a)
+  .slice(0, 5);
+
+const stats = {
+  publicRepos: userData.public_repos,
+  followers: userData.followers,
+  following: userData.following,
+  totalStars,
+};
+---
+
+<div class="stats stats-vertical lg:stats-horizontal shadow bg-base-200/50 backdrop-blur-sm w-full">
+  <div class="stat">
+    <div class="stat-figure text-primary">
+      <Icon name="lucide:book" class="w-8 h-8" />
+    </div>
+    <div class="stat-title">Repository</div>
+    <div class="stat-value">{stats.publicRepos}</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-secondary">
+      <Icon name="lucide:star" class="w-8 h-8" />
+    </div>
+    <div class="stat-title">Total Stars</div>
+    <div class="stat-value">{stats.totalStars}</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-accent">
+      <Icon name="lucide:users" class="w-8 h-8" />
+    </div>
+    <div class="stat-title">Followers</div>
+    <div class="stat-value">{stats.followers}</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+  <!-- Language Distribution -->
+  <div class="card bg-base-200/50 backdrop-blur-sm">
+    <div class="card-body">
+      <h3 class="card-title flex items-center gap-2">
+        <Icon name="lucide:code" class="w-6 h-6" />
+        Top Languages
+      </h3>
+      <div class="space-y-4">
+        {
+          topLanguages.map(([language, count], index) => (
+            <div class="flex items-center gap-4">
+              <span class="flex-1">{language}</span>
+              <div class="flex-1">
+                <div
+                  class={`progress progress-${["primary", "secondary", "accent", "info", "success"][index % 5]} w-full`}
+                >
+                  <div class="progress-bar" style={`width: ${(count / repos.length) * 100}%`} role="progressbar" />
+                </div>
+              </div>
+              <span class="text-sm opacity-70">{Math.round((count / repos.length) * 100)}%</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="card bg-base-200/50 backdrop-blur-sm">
+    <div class="card-body">
+      <h3 class="card-title flex items-center gap-2">
+        <Icon name="lucide:activity" class="w-6 h-6" />
+        Recent Activity
+      </h3>
+      <div class="space-y-2">
+        {
+          repos.slice(0, 3).map((repo) => (
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 hover bg-base-300/50 p-2 rounded-lg transition-colors"
+            >
+              <Icon name="lucide:git-branch" class="w-4 h-4" />
+              <span class="flex-1 truncate">{repo.name}</span>
+              <span class="text-sm opacity-70">{new Date(repo.updated_at).toLocaleDateString()}</span>
+            </a>
+          ))
+        }
+        <a
+          href={`https://github.com/${username}?tab=repositories`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 btn btn-primary btn-sm"
+        >
+          More Repositories
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .progress {
+    height: 8px;
+    border-radius: 9999px;
+    background-color: oklch(var(--p) / 0.2);
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+    background-color: oklch(var(--p));
+    transition: width 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .space-y-4 > * + * {
+      margin-top: 1rem;
+    }
+  }
+</style>

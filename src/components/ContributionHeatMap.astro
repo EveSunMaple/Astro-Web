@@ -1,0 +1,149 @@
+---
+import { Octokit } from "octokit";
+
+interface Props {
+  username: string;
+}
+
+const { username } = Astro.props;
+
+const octokit = new Octokit({
+  auth: import.meta.env.GITHUB_TOKEN,
+});
+
+const query = `
+    query($username: String!) {
+        user(login: $username) {
+            contributionsCollection {
+                contributionCalendar {
+                    totalContributions
+                    weeks {
+                        contributionDays {
+                            contributionCount
+                            date
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+let weeks = [];
+let maxContributions = 0;
+
+try {
+  const response = await octokit.graphql(query, { username });
+  if (response.user) {
+    const user = response.user;
+    if (user.contributionsCollection && user.contributionsCollection.contributionCalendar) {
+      const calendar = user.contributionsCollection.contributionCalendar;
+      weeks = calendar.weeks.map((week) =>
+        week.contributionDays.map((day) => ({
+          count: day.contributionCount,
+          date: day.date,
+        })),
+      );
+      const days = weeks.reduce((acc, week) => acc.concat(week), []);
+      maxContributions = Math.max(...days.map((day) => day.count));
+    } else {
+      console.error("Contributions data not found for the user.");
+    }
+  } else {
+    console.error(`用户 "${username}" 不存在或数据缺失。`);
+  }
+} catch (error) {
+  console.error("获取贡献数据时出错:", error);
+}
+
+function getContributionColor(count: number) {
+  if (count === 0) return "bg-base-300";
+  const intensity = Math.min((count / maxContributions) * 4, 4);
+  return `bg-primary opacity-${Math.round(intensity * 20)}`; // 使用更柔和的颜色和较低透明度
+}
+---
+
+<div class="card bg-base-200/50 backdrop-blur-sm">
+  <div class="card-body">
+    <h3 class="card-title">Contribution Activity</h3>
+    <div class="contribution-container">
+      <div class="contribution-grid">
+        {
+          weeks.map((week) => (
+            <div class="contribution-week">
+              {week.map((day) => (
+                <div
+                  class={`contribution-day ${getContributionColor(day.count)}`}
+                  title={`${day.count} contributions on ${new Date(day.date).toLocaleDateString()}`}
+                />
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-2 mt-4">
+      <span class="text-sm">Less</span>
+      <div class="display-day bg-base-300"></div>
+      <div class="display-day bg-primary opacity-20"></div>
+      <div class="display-day bg-primary opacity-40"></div>
+      <div class="display-day bg-primary opacity-60"></div>
+      <div class="display-day bg-primary opacity-80"></div>
+      <span class="text-sm">More</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .contribution-container {
+    width: 100%;
+    overflow: hidden; /* 防止内容溢出 */
+  }
+
+  .contribution-grid {
+    display: flex;
+    gap: 4px; /* 间隙 */
+    justify-content: space-between; /* 均匀分布 */
+  }
+
+  .contribution-week {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* 间隙 */
+    flex: 1; /* 每个星期等宽 */
+  }
+
+  .contribution-day {
+    width: 100%; /* 宽度自适应 */
+    aspect-ratio: 1; /* 保持正方形 */
+    border-radius: 2px;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease; /* 添加透明度过渡 */
+  }
+
+  .contribution-day:hover {
+    transform: scale(1.2);
+    opacity: 1; /* hover 时增加透明度 */
+  }
+
+  .display-day {
+    width: 12px; /* 桌面设备上增加方块大小 */
+    height: 12px;
+    border-radius: 2px;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease; /* 添加透明度过渡 */
+  }
+
+  @media (max-width: 768px) {
+    .contribution-grid {
+      gap: 2px; /* 小屏幕上减小间隙 */
+    }
+
+    .contribution-week {
+      gap: 2px; /* 小屏幕上减小间隙 */
+    }
+  }
+</style>

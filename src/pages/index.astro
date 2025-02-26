@@ -3,6 +3,21 @@ import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 import Layout from "../layouts/Layout.astro";
 import BlogCard from "../components/BlogCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { Octokit } from "octokit";
+import { marked } from "marked";
+import emojiRegex from "emoji-regex";
+
+marked.setOptions({
+  gfm: true,
+});
+
+function decodeEmojis(content) {
+  const regex = emojiRegex();
+  return content.replace(regex, (match) => {
+    return `<span class="emoji">${match}</span>`;
+  });
+}
 
 // Fetch recent blog posts
 const posts = await getCollection("blog", ({ data }) => {
@@ -38,6 +53,41 @@ const socialLinks = [
     icon: "ri:cup-line",
   },
 ];
+
+// Fetch GitHub projects
+const octokit = new Octokit({
+  auth: import.meta.env.GITHUB_TOKEN,
+});
+
+const featuredRepos = ["EveSunMaple/Frosti"];
+
+const projects = await Promise.all(
+  featuredRepos.map(async (repo) => {
+    const [owner, name] = repo.split("/");
+    try {
+      const { data } = await octokit.rest.repos.get({
+        owner,
+        repo: name,
+      });
+
+      return {
+        name: data.name,
+        description: data.description || "",
+        language: data.language,
+        stars: data.stargazers_count,
+        url: data.html_url,
+        homepage: data.homepage,
+        topics: data.topics || [],
+        features: [], // Add features manually or fetch from README
+        techStack: [], // Add tech stack manually or fetch from README
+        screenshots: [], // Add screenshots manually or fetch from repository
+      };
+    } catch (error) {
+      console.error(`Error fetching repo ${repo}:`, error);
+      return null;
+    }
+  }),
+).then((results) => results.filter(Boolean));
 ---
 
 <Layout title="Home - SaroProck" description="A student who loves programming and technology">
@@ -88,8 +138,19 @@ const socialLinks = [
     <!-- About Section -->
     <section class="prose prose-lg max-w-2xl mb-16 mx-auto animate-fade-in">
       <p>
-        我时常觉得自己很健忘：忘记了一些人和事，忘记了自己从哪里来、又要到哪里去。所以我给我自己写了一个博客、一个“不受控制”的博客、一个“只属于我”的博客，让我可以写点东西、记点东西，不至于把过去忘得一干二净。
+        我时常觉得自己很健忘：忘记了一些人和事，忘记了自己从哪里来、又要到哪里去。所以我给我自己写了一个博客、一个"不受控制"的博客、一个"只属于我"的博客，让我可以写点东西、记点东西，不至于把过去忘得一干二净。
       </p>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:code" class="w-8 h-8" />
+        Featured Projects
+      </h2>
+      <div class="grid grid-cols-1 gap-8">
+        {projects.map((project) => <ProjectCard {...project} />)}
+      </div>
     </section>
 
     <!-- Recent Blog Posts -->

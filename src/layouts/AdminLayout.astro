@@ -41,7 +41,7 @@ const { title, description } = Astro.props;
 
 <script>
   // Check authentication on page load
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("swup:page:view", () => {
     const isAuthenticated = sessionStorage.getItem("admin-auth");
     const authContainer = document.getElementById("auth-container");
     const contentContainer = document.getElementById("content-container");

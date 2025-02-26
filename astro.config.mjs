@@ -3,6 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import playformCompress from "@playform/compress";
 import terser from "@rollup/plugin-terser";
+import swup from "@swup/astro";
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
@@ -11,7 +12,7 @@ import remarkMath from "remark-math";
 
 export default defineConfig({
   site: "https://www.saroprock.com",
-  integrations: [mdx(), icon(), terser({
+  integrations: [mdx(), swup(), icon(), terser({
     compress: true,
     mangle: true,
   }), sitemap(), tailwind(), pagefind(), playformCompress()],

@@ -1,10 +1,12 @@
+# .github/workflows/daily-deploy-hook.yml
 name: Daily Redeploy via Hook
 on:
   schedule:
-    - cron: "0 0 * * *" # UTC时间每天00:00
+    - cron: "0 0 * * *"  # UTC时间每天0点
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Vercel deploy
-        run: curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_svgCaeCTjMLMKDNcnhrAc80kXosg/oruIFf17TL"
+      - name: Trigger Deploy
+        run: |
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"

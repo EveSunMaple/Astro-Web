@@ -25,20 +25,15 @@ const description = "Manage and moderate comments across your blog posts";
       </div>
     </div>
 
-    <!-- Search and Filter Section -->
     <div class="card bg-base-200/50 backdrop-blur-sm mb-6">
       <div class="card-body">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Search</span>
-            </label>
+            <label class="label"><span class="label-text">Search</span></label>
             <input type="text" id="search-input" placeholder="Search comments..." class="input input-bordered w-full" />
           </div>
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Date Range</span>
-            </label>
+            <label class="label"><span class="label-text">Date Range</span></label>
             <select id="date-filter" class="select select-bordered w-full">
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -47,9 +42,7 @@ const description = "Manage and moderate comments across your blog posts";
             </select>
           </div>
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Sort By</span>
-            </label>
+            <label class="label"><span class="label-text">Sort By</span></label>
             <select id="sort-by" class="select select-bordered w-full">
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -59,16 +52,11 @@ const description = "Manage and moderate comments across your blog posts";
       </div>
     </div>
 
-    <!-- Comments Table -->
     <div class="overflow-x-auto">
       <table class="table table-zebra w-full">
         <thead>
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" id="select-all" />
-              </label>
-            </th>
+            <th><label><input type="checkbox" class="checkbox" id="select-all" /></label></th>
             <th>Author</th>
             <th>Comment</th>
             <th>Post</th>
@@ -77,42 +65,34 @@ const description = "Manage and moderate comments across your blog posts";
           </tr>
         </thead>
         <tbody id="comments-table-body">
-          <tr>
-            <td colspan="6" class="text-center py-4">
-              <span class="loading loading-spinner loading-lg"></span>
-            </td>
-          </tr>
+          <tr><td colspan="6" class="text-center py-4"><span class="loading loading-spinner loading-lg"></span></td></tr
+          >
         </tbody>
       </table>
     </div>
 
-    <!-- Pagination -->
     <div class="flex justify-between items-center mt-4">
       <div class="text-sm text-base-content/70">
-        Showing <span id="showing-start">0</span> to <span id="showing-end">0</span> of
-        <span id="total-items">0</span> comments
+        Showing <span id="showing-start">0</span> to <span id="showing-end">0</span> of <span id="total-items">0</span> comments
       </div>
       <div class="join">
-        <button class="join-item btn btn-sm" id="prev-page" disabled>
-          <Icon name="lucide:chevron-left" class="w-4 h-4" />
-        </button>
+        <button class="join-item btn btn-sm" id="prev-page" disabled
+          ><Icon name="lucide:chevron-left" class="w-4 h-4" /></button
+        >
         <button class="join-item btn btn-sm">Page <span id="current-page">1</span></button>
-        <button class="join-item btn btn-sm" id="next-page" disabled>
-          <Icon name="lucide:chevron-right" class="w-4 h-4" />
-        </button>
+        <button class="join-item btn btn-sm" id="next-page" disabled
+          ><Icon name="lucide:chevron-right" class="w-4 h-4" /></button
+        >
       </div>
     </div>
 
-    <!-- Edit Comment Modal -->
     <dialog id="edit-modal" class="modal">
       <div class="modal-box">
         <h3 class="font-bold text-lg mb-4">Edit Comment</h3>
         <form id="edit-form">
           <input type="hidden" id="edit-comment-id" />
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Comment Content</span>
-            </label>
+            <label class="label"><span class="label-text">Comment Content</span></label>
             <textarea
               id="edit-content"
               class="textarea textarea-bordered h-24"
@@ -120,14 +100,12 @@ const description = "Manage and moderate comments across your blog posts";
               required></textarea>
           </div>
           <div class="modal-action">
-            <button id="edit-cancel" type="button" class="btn btn-ghost" onclick="editModal.close()">Cancel</button>
+            <button id="edit-cancel" type="button" class="btn btn-ghost">Cancel</button>
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </div>
         </form>
       </div>
-      <form method="dialog" class="modal-backdrop">
-        <button>close</button>
-      </form>
+      <form method="dialog" class="modal-backdrop"><button>close</button></form>
     </dialog>
   </div>
 </AdminLayout>
@@ -137,249 +115,202 @@ const description = "Manage and moderate comments across your blog posts";
   import { marked } from "marked";
   import { format } from "date-fns";
 
-  // Initialize LeanCloud
   AV.init({
     appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
     appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
     serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
   });
 
-  // State
-  let currentPage = 1;
-  const pageSize = 10;
-  let totalComments = 0;
-  let selectedComments = new Set();
+  function initCommentsAdmin() {
+    if (!sessionStorage.getItem("admin-auth")) return;
 
-  // Elements
-  const editModal = document.getElementById("edit-modal") as HTMLDialogElement;
-  const searchInput = document.getElementById("search-input") as HTMLInputElement;
-  const dateFilter = document.getElementById("date-filter") as HTMLSelectElement;
-  const sortBy = document.getElementById("sort-by") as HTMLSelectElement;
-  const selectAllCheckbox = document.getElementById("select-all") as HTMLInputElement;
-  const deleteSelectedBtn = document.getElementById("delete-selected-btn") as HTMLButtonElement;
-  const refreshBtn = document.getElementById("refresh-btn") as HTMLButtonElement;
-  const prevPageBtn = document.getElementById("prev-page") as HTMLButtonElement;
-  const nextPageBtn = document.getElementById("next-page") as HTMLButtonElement;
-  const currentPageSpan = document.getElementById("current-page") as HTMLSpanElement;
-  const showingStartSpan = document.getElementById("showing-start") as HTMLSpanElement;
-  const showingEndSpan = document.getElementById("showing-end") as HTMLSpanElement;
-  const totalItemsSpan = document.getElementById("total-items") as HTMLSpanElement;
+    const editModal = document.getElementById("edit-modal");
+    const searchInput = document.getElementById("search-input");
+    const dateFilter = document.getElementById("date-filter");
+    const sortBy = document.getElementById("sort-by");
+    const selectAllCheckbox = document.getElementById("select-all");
+    const deleteSelectedBtn = document.getElementById("delete-selected-btn");
+    const refreshBtn = document.getElementById("refresh-btn");
+    const prevPageBtn = document.getElementById("prev-page");
+    const nextPageBtn = document.getElementById("next-page");
+    const currentPageSpan = document.getElementById("current-page");
+    const showingStartSpan = document.getElementById("showing-start");
+    const showingEndSpan = document.getElementById("showing-end");
+    const totalItemsSpan = document.getElementById("total-items");
 
-  // Load comments with filters
-  async function loadComments() {
-    const query = new AV.Query("Comment");
-
-    // Apply search filter
-    if (searchInput.value) {
-      query.contains("content", searchInput.value);
-    }
-
-    // Apply date filter
-    const now = new Date();
-    switch (dateFilter.value) {
-      case "today":
-        query.greaterThan("createdAt", new Date(now.setHours(0, 0, 0, 0)));
-        break;
-      case "week":
-        query.greaterThan("createdAt", new Date(now.setDate(now.getDate() - 7)));
-        break;
-      case "month":
-        query.greaterThan("createdAt", new Date(now.setMonth(now.getMonth() - 1)));
-        break;
-    }
-
-    // Apply sorting
-    if (sortBy.value === "oldest") {
-      query.ascending("createdAt");
-    } else {
-      query.descending("createdAt");
-    }
-
-    // Pagination
-    query.skip((currentPage - 1) * pageSize);
-    query.limit(pageSize);
-
-    try {
-      const [comments, count] = await Promise.all([query.find(), query.count()]);
-      totalComments = count;
-      renderComments(comments);
-      updatePagination();
-    } catch (error) {
-      console.error("Error loading comments:", error);
-      showToast("Error loading comments", "error");
-    }
-  }
-
-  // Render comments to table
-  function renderComments(comments: AV.Object[]) {
-    const tbody = document.getElementById("comments-table-body");
-    tbody.innerHTML = comments
-      .map(
-        (comment) => `
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="checkbox" data-id="${comment.id}"
-                ${selectedComments.has(comment.id) ? "checked" : ""} />
-            </label>
-          </td>
-          <td>
-            <div class="flex items-center gap-2">
-              <div class="avatar">
-                <div class="w-8 h-8 rounded-full">
-                  <img src="${comment.get("avatar")}" alt="${comment.get("nickname")}" />
-                </div>
-              </div>
-              <div>
-                <div class="font-bold">${comment.get("nickname")}</div>
-                <div class="text-sm opacity-50">${comment.get("email")}</div>
-              </div>
-            </div>
-          </td>
-          <td class="max-w-md">
-            <div class="line-clamp-2">${comment.get("content")}</div>
-          </td>
-          <td>
-            <a href="/blog/${comment.get("slug")}" class="link link-hover">
-              ${comment.get("slug")}
-            </a>
-          </td>
-          <td>${format(comment.createdAt, "PPp")}</td>
-          <td>
-            <div class="flex gap-2">
-              <button class="btn btn-ghost btn-xs edit-btn" data-id="${comment.id}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
-              </button>
-              <button class="btn btn-ghost btn-xs delete-btn" data-id="${comment.id}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 6h18"></path>
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-      `,
-      )
-      .join("");
-
-    // Add event listeners for edit and delete buttons
-    document.querySelectorAll(".edit-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        if (id) editComment(id);
-      });
-    });
-
-    document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        if (id) deleteComment(id);
-      });
-    });
-  }
-
-  // Update pagination info
-  function updatePagination() {
-    const start = (currentPage - 1) * pageSize + 1;
-    const end = Math.min(currentPage * pageSize, totalComments);
-
-    showingStartSpan.textContent = start.toString();
-    showingEndSpan.textContent = end.toString();
-    totalItemsSpan.textContent = totalComments.toString();
-    currentPageSpan.textContent = currentPage.toString();
-
-    prevPageBtn.disabled = currentPage === 1;
-    nextPageBtn.disabled = end >= totalComments;
-  }
-
-  // Edit comment
-  async function editComment(id: string) {
-    try {
-      const query = new AV.Query("Comment");
-      const comment = await query.get(id);
-
-      const editContentTextarea = document.getElementById("edit-content") as HTMLTextAreaElement;
-      const editCommentIdInput = document.getElementById("edit-comment-id") as HTMLInputElement;
-
-      editContentTextarea.value = comment.get("content");
-      editCommentIdInput.value = id;
-
-      editModal.showModal();
-    } catch (error) {
-      console.error("Error loading comment for edit:", error);
-      showToast("Error loading comment", "error");
-    }
-  }
-
-  // Delete comment
-  async function deleteComment(id: string) {
-    if (!confirm("Are you sure you want to delete this comment?")) return;
-
-    try {
-      const query = new AV.Query("Comment");
-      const comment = await query.get(id);
-      await comment.destroy();
-      showToast("Comment deleted successfully");
-      loadComments();
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-      showToast("Error deleting comment", "error");
-    }
-  }
-
-  // Delete selected comments
-  async function deleteSelectedComments() {
-    if (!confirm(`Are you sure you want to delete ${selectedComments.size} comments?`)) return;
-
-    try {
-      const query = new AV.Query("Comment");
-      query.containedIn("objectId", Array.from(selectedComments));
-      const comments = await query.find();
-      await AV.Object.destroyAll(comments);
-
-      selectedComments.clear();
-      deleteSelectedBtn.disabled = true;
-      selectAllCheckbox.checked = false;
-      showToast("Comments deleted successfully");
-      loadComments();
-    } catch (error) {
-      console.error("Error deleting comments:", error);
-      showToast("Error deleting comments", "error");
-    }
-  }
-
-  // Show toast message
-  function showToast(message: string, type: "success" | "error" = "success") {
-    const toast = document.createElement("div");
-    toast.className = "toast toast-bottom toast-center";
-    toast.innerHTML = `
-      <div class="alert alert-${type}">
-        <span>${message}</span>
-      </div>
-    `;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-
-  // Event Listeners
-  document.addEventListener("swup:page:view", () => {
-    // Check authentication
-    if (!sessionStorage.getItem("admin-auth")) {
+    if (
+      !editModal ||
+      !searchInput ||
+      !dateFilter ||
+      !sortBy ||
+      !selectAllCheckbox ||
+      !deleteSelectedBtn ||
+      !refreshBtn ||
+      !prevPageBtn ||
+      !nextPageBtn ||
+      !currentPageSpan ||
+      !showingStartSpan ||
+      !showingEndSpan ||
+      !totalItemsSpan
+    ) {
+      console.error("One or more elements not found in comments admin");
       return;
     }
 
-    // Load initial comments
+    let currentPage = 1;
+    const pageSize = 10;
+    let totalComments = 0;
+    let selectedComments = new Set();
+
+    async function loadComments() {
+      const query = new AV.Query("Comment");
+      if (searchInput.value) query.contains("content", searchInput.value);
+
+      const now = new Date();
+      switch (dateFilter.value) {
+        case "today":
+          query.greaterThan("createdAt", new Date(now.setHours(0, 0, 0, 0)));
+          break;
+        case "week":
+          query.greaterThan("createdAt", new Date(now.setDate(now.getDate() - 7)));
+          break;
+        case "month":
+          query.greaterThan("createdAt", new Date(now.setMonth(now.getMonth() - 1)));
+          break;
+      }
+
+      if (sortBy.value === "oldest") query.ascending("createdAt");
+      else query.descending("createdAt");
+
+      query.skip((currentPage - 1) * pageSize);
+      query.limit(pageSize);
+
+      try {
+        const [comments, count] = await Promise.all([query.find(), query.count()]);
+        totalComments = count;
+        renderComments(comments);
+        updatePagination();
+      } catch (error) {
+        console.error("Error loading comments:", error);
+        showToast("Error loading comments", "error");
+      }
+    }
+
+    function renderComments(comments) {
+      const tbody = document.getElementById("comments-table-body");
+      if (tbody) {
+        tbody.innerHTML = comments
+          .map(
+            (comment) => `
+            <tr>
+              <td><label><input type="checkbox" class="checkbox" data-id="${comment.id}" ${selectedComments.has(comment.id) ? "checked" : ""} /></label></td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <div class="avatar"><div class="w-8 h-8 rounded-full"><img src="${comment.get("avatar")}" alt="${comment.get("nickname")}" /></div></div>
+                  <div><div class="font-bold">${comment.get("nickname")}</div><div class="text-sm opacity-50">${comment.get("email")}</div></div>
+                </div>
+              </td>
+              <td class="max-w-md"><div class="line-clamp-2">${comment.get("content")}</div></td>
+              <td><a href="/blog/${comment.get("slug")}" class="link link-hover">${comment.get("slug")}</a></td>
+              <td>${format(comment.createdAt, "PPp")}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost btn-xs edit-btn" data-id="${comment.id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button class="btn btn-ghost btn-xs delete-btn" data-id="${comment.id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 6h18"></path>
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `,
+          )
+          .join("");
+
+        document
+          .querySelectorAll(".edit-btn")
+          .forEach((btn) => btn.addEventListener("click", () => editComment(btn.getAttribute("data-id"))));
+        document
+          .querySelectorAll(".delete-btn")
+          .forEach((btn) => btn.addEventListener("click", () => deleteComment(btn.getAttribute("data-id"))));
+      }
+    }
+
+    function updatePagination() {
+      const start = (currentPage - 1) * pageSize + 1;
+      const end = Math.min(currentPage * pageSize, totalComments);
+      showingStartSpan.textContent = start.toString();
+      showingEndSpan.textContent = end.toString();
+      totalItemsSpan.textContent = totalComments.toString();
+      currentPageSpan.textContent = currentPage.toString();
+      prevPageBtn.disabled = currentPage === 1;
+      nextPageBtn.disabled = end >= totalComments;
+    }
+
+    async function editComment(id) {
+      try {
+        const query = new AV.Query("Comment");
+        const comment = await query.get(id);
+        document.getElementById("edit-content").value = comment.get("content");
+        document.getElementById("edit-comment-id").value = id;
+        editModal.showModal();
+      } catch (error) {
+        console.error("Error loading comment for edit:", error);
+        showToast("Error loading comment", "error");
+      }
+    }
+
+    async function deleteComment(id) {
+      if (!confirm("Are you sure you want to delete this comment?")) return;
+      try {
+        const query = new AV.Query("Comment");
+        const comment = await query.get(id);
+        await comment.destroy();
+        showToast("Comment deleted successfully");
+        loadComments();
+      } catch (error) {
+        console.error("Error deleting comment:", error);
+        showToast("Error deleting comment", "error");
+      }
+    }
+
+    async function deleteSelectedComments() {
+      if (!confirm(`Are you sure you want to delete ${selectedComments.size} comments?`)) return;
+      try {
+        const query = new AV.Query("Comment");
+        query.containedIn("objectId", Array.from(selectedComments));
+        const comments = await query.find();
+        await AV.Object.destroyAll(comments);
+        selectedComments.clear();
+        deleteSelectedBtn.disabled = true;
+        selectAllCheckbox.checked = false;
+        showToast("Comments deleted successfully");
+        loadComments();
+      } catch (error) {
+        console.error("Error deleting comments:", error);
+        showToast("Error deleting comments", "error");
+      }
+    }
+
+    function showToast(message, type = "success") {
+      const toast = document.createElement("div");
+      toast.className = "toast toast-bottom toast-center";
+      toast.innerHTML = `<div class="alert alert-${type}"><span>${message}</span></div>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
     loadComments();
 
-    // Search input
-    let searchTimeout: NodeJS.Timeout;
+    let searchTimeout;
     searchInput.addEventListener("input", () => {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
@@ -388,19 +319,16 @@ const description = "Manage and moderate comments across your blog posts";
       }, 300);
     });
 
-    // Date filter
     dateFilter.addEventListener("change", () => {
       currentPage = 1;
       loadComments();
     });
 
-    // Sort by
     sortBy.addEventListener("change", () => {
       currentPage = 1;
       loadComments();
     });
 
-    // Pagination
     prevPageBtn.addEventListener("click", () => {
       if (currentPage > 1) {
         currentPage--;
@@ -415,27 +343,21 @@ const description = "Manage and moderate comments across your blog posts";
       }
     });
 
-    // Select all checkbox
     selectAllCheckbox.addEventListener("change", () => {
-      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-id]');
+      const checkboxes = document.querySelectorAll('input[type="checkbox"][data-id]');
       checkboxes.forEach((checkbox) => {
         checkbox.checked = selectAllCheckbox.checked;
-        if (selectAllCheckbox.checked) {
-          selectedComments.add(checkbox.dataset.id);
-        } else {
-          selectedComments.delete(checkbox.dataset.id);
-        }
+        if (selectAllCheckbox.checked) selectedComments.add(checkbox.dataset.id);
+        else selectedComments.delete(checkbox.dataset.id);
       });
       deleteSelectedBtn.disabled = selectedComments.size === 0;
     });
 
-    // Individual checkboxes
     document.addEventListener("change", (e) => {
-      const checkbox = e.target as HTMLInputElement;
+      const checkbox = e.target;
       if (checkbox.matches('input[type="checkbox"][data-id]')) {
-        if (checkbox.checked) {
-          selectedComments.add(checkbox.dataset.id);
-        } else {
+        if (checkbox.checked) selectedComments.add(checkbox.dataset.id);
+        else {
           selectedComments.delete(checkbox.dataset.id);
           selectAllCheckbox.checked = false;
         }
@@ -443,26 +365,19 @@ const description = "Manage and moderate comments across your blog posts";
       }
     });
 
-    // Delete selected button
     deleteSelectedBtn.addEventListener("click", deleteSelectedComments);
-
-    // Refresh button
     refreshBtn.addEventListener("click", loadComments);
 
-    // Edit form
-    const editCancel = document.getElementById("edit-cancel");
     const editForm = document.getElementById("edit-form");
     editForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const editContentTextarea = document.getElementById("edit-content") as HTMLTextAreaElement;
-      const editCommentIdInput = document.getElementById("edit-comment-id") as HTMLInputElement;
-
+      const editContent = document.getElementById("edit-content").value;
+      const editCommentId = document.getElementById("edit-comment-id").value;
       try {
         const query = new AV.Query("Comment");
-        const comment = await query.get(editCommentIdInput.value);
-        comment.set("content", marked(editContentTextarea.value));
+        const comment = await query.get(editCommentId);
+        comment.set("content", marked(editContent));
         await comment.save();
-
         editModal.close();
         showToast("Comment updated successfully");
         loadComments();
@@ -471,6 +386,11 @@ const description = "Manage and moderate comments across your blog posts";
         showToast("Error updating comment", "error");
       }
     });
-    editCancel?.addEventListener("click", () => editModal.close());
-  });
+
+    document.getElementById("edit-cancel").addEventListener("click", () => editModal.close());
+  }
+
+  document.addEventListener("DOMContentLoaded", initCommentsAdmin);
+  document.addEventListener("swup:page:view", initCommentsAdmin);
+  initCommentsAdmin();
 </script>

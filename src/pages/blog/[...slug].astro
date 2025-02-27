@@ -62,6 +62,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             {post.data.title}
           </h2>
 
+          {
+            post.data.description && (
+              <div class="description-container bg-base-200/50 backdrop-blur-sm p-4 rounded-lg mb-6 animate-slide-in">
+                <div class="flex items-start gap-3">
+                  <Icon name="lucide:info" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <p class="text-base-content/80 italic">{post.data.description}</p>
+                </div>
+              </div>
+            )
+          }
+
           <div class="flex flex-wrap gap-4 text-sm text-base-content/70 mb-4 mt-6">
             <time datetime={post.data.pubDate.toISOString()} class="flex items-center">
               <Icon name="lucide:calendar" class="inline h-4 w-4 mr-1" />
@@ -142,7 +153,35 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     }
   }
 
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
   .animate-fade-up {
     animation: fadeUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.6s ease-out forwards;
+  }
+
+  .description-container {
+    border-left: 3px solid oklch(var(--p));
+    transition: all 0.3s ease;
+  }
+
+  .description-container:hover {
+    background-color: oklch(var(--b2) / 0.7);
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 </style>

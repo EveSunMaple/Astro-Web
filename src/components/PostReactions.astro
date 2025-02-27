@@ -33,16 +33,16 @@ const reactions = [
   import * as AV from "leancloud-storage";
 
   function initReactions() {
-    const container = document.querySelector(".reactions-container");
+    const container = document.querySelector(".reactions-container:not([data-initialized])");
+    if (!container) return;
+
+    container.setAttribute("data-initialized", "true");
     const slug = container.dataset.slug;
     let userReactions = new Set();
 
-    // Load user's previous reactions from localStorage
     try {
       const stored = localStorage.getItem(`reactions_${slug}`);
-      if (stored) {
-        userReactions = new Set(JSON.parse(stored));
-      }
+      if (stored) userReactions = new Set(JSON.parse(stored));
     } catch (e) {
       console.error("Error loading stored reactions:", e);
     }
@@ -53,22 +53,18 @@ const reactions = [
         query.equalTo("slug", slug);
         const results = await query.find();
 
-        // Count reactions using the count field
         const counts = {};
         results.forEach((result) => {
           const type = result.get("type");
-          const count = result.get("count") || 1;
-          counts[type] = (counts[type] || 0) + count;
+          counts[type] = (counts[type] || 0) + (result.get("count") || 1);
         });
 
-        // Update UI
         document.querySelectorAll(".reaction-button").forEach((button) => {
           const type = button.dataset.reaction;
           const count = counts[type] || 0;
           const countEl = button.querySelector(".reaction-count");
           countEl.textContent = count;
 
-          // Mark user's reactions
           if (userReactions.has(type)) {
             button.classList.remove("btn-ghost");
             button.classList.add("btn-primary");
@@ -92,7 +88,6 @@ const reactions = [
         const results = await query.find();
 
         if (userReactions.has(type)) {
-          // Remove reaction by decrementing count
           if (results.length) {
             const reaction = results[0];
             const currentCount = reaction.get("count") || 1;
@@ -105,76 +100,59 @@ const reactions = [
           }
           userReactions.delete(type);
         } else {
-          // Add reaction by incrementing count or creating new
           if (results.length) {
             const reaction = results[0];
-            const currentCount = reaction.get("count") || 1;
-            reaction.set("count", currentCount + 1);
+            reaction.set("count", (reaction.get("count") || 1) + 1);
             await reaction.save();
           } else {
             const Reaction = AV.Object.extend("Reaction");
             const reaction = new Reaction();
-            await reaction.save({
-              slug,
-              type,
-              count: 1,
-            });
+            await reaction.save({ slug, type, count: 1 });
           }
           userReactions.add(type);
         }
 
-        // Save to localStorage
         localStorage.setItem(`reactions_${slug}`, JSON.stringify([...userReactions]));
-
-        // Add visual feedback
         const button = document.querySelector(`[data-reaction="${type}"]`);
         button.classList.add("scale-110");
         setTimeout(() => button.classList.remove("scale-110"), 200);
-
-        // Reload reactions
         await loadReactions();
       } catch (error) {
         console.error("Error handling reaction:", error);
-        const toast = document.createElement("div");
-        toast.className = "toast toast-bottom toast-center";
-        toast.innerHTML = `
-          <div class="alert alert-error">
-            <span>Error updating reaction. Please try again.</span>
-          </div>
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+        showToast("Error updating reaction");
       }
     }
 
-    // Add click handlers
     document.querySelectorAll(".reaction-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        handleReaction(button.dataset.reaction);
-      });
+      button.addEventListener("click", () => handleReaction(button.dataset.reaction));
     });
 
-    // Load initial reactions
     loadReactions();
+
+    function showToast(message) {
+      const toast = document.createElement("div");
+      toast.className = "toast toast-bottom toast-center";
+      toast.innerHTML = `<div class="alert alert-error"><span>${message}</span></div>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
   }
 
-  // Initialize on page load and after navigation
+  document.addEventListener("DOMContentLoaded", initReactions);
   document.addEventListener("swup:page:view", initReactions);
+  initReactions(); // 立即执行初始化
 </script>
 
 <style>
   .reaction-button {
     transition: all 0.3s ease;
   }
-
   .reaction-button:hover {
     transform: scale(1.05);
   }
-
   .reaction-button.btn-primary svg {
     animation: pulse 1s ease-in-out;
   }
-
   @keyframes pulse {
     0% {
       transform: scale(1);

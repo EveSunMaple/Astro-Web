@@ -16,15 +16,20 @@ const { slug } = Astro.props;
 <script>
   import * as AV from "leancloud-storage";
 
-  function initViewCounter() {
-    const counters = document.querySelectorAll(".view-counter");
+  AV.init({
+    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
+    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
+    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
+  });
 
+  function initViewCounter() {
+    const counters = document.querySelectorAll(".view-counter:not([data-initialized])");
     counters.forEach(async (counter) => {
+      counter.setAttribute("data-initialized", "true");
       const slug = counter.getAttribute("data-slug");
       if (!slug) return;
 
       try {
-        // Get or create view record
         const query = new AV.Query("PostView");
         query.equalTo("slug", slug);
         let viewRecord = await query.first();
@@ -36,30 +41,26 @@ const { slug } = Astro.props;
           viewRecord.set("views", 0);
         }
 
-        // Check if user has viewed recently
         const viewKey = `post_view_${slug}`;
         const lastView = localStorage.getItem(viewKey);
         const now = Date.now();
-        const viewTimeout = 30 * 60 * 1000; // 30 minutes
+        const viewTimeout = 30 * 60 * 1000;
 
         if (!lastView || now - parseInt(lastView) > viewTimeout) {
-          // Increment view count
           viewRecord.increment("views");
           await viewRecord.save();
           localStorage.setItem(viewKey, now.toString());
         }
 
-        // Update view count display
         const viewCount = counter.querySelector(".view-count");
-        if (viewCount) {
-          viewCount.textContent = viewRecord.get("views").toString();
-        }
+        if (viewCount) viewCount.textContent = viewRecord.get("views").toString();
       } catch (error) {
         console.error("Error updating view count:", error);
       }
     });
   }
 
-  // Initialize on page load and after navigation
+  document.addEventListener("DOMContentLoaded", initViewCounter);
   document.addEventListener("swup:page:view", initViewCounter);
+  initViewCounter(); // 立即执行初始化
 </script>

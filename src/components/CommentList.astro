@@ -23,16 +23,18 @@ const { slug } = Astro.props;
   };
 
   function initCommentList() {
-    const commentsList = document.querySelector(".comments-list");
+    // 只初始化未标记的元素，防止重复执行
+    const commentsList = document.querySelector(".comments-list:not([data-initialized])");
+    if (!commentsList) return;
+
+    commentsList.setAttribute("data-initialized", "true");
     const slug = commentsList.dataset.slug;
     let userLikes = new Set();
 
-    // Load user's likes from localStorage
+    // 从 localStorage 加载用户点赞记录
     try {
       const stored = localStorage.getItem(`comment_likes_${slug}`);
-      if (stored) {
-        userLikes = new Set(JSON.parse(stored));
-      }
+      if (stored) userLikes = new Set(JSON.parse(stored));
     } catch (e) {
       console.error("Error loading stored likes:", e);
     }
@@ -47,22 +49,17 @@ const { slug } = Astro.props;
         const comments = await query.find();
         const commentTree = buildCommentTree(comments);
 
-        // Load likes for all comments
         const likesQuery = new AV.Query("CommentLike");
         likesQuery.equalTo("slug", slug);
         const likes = await likesQuery.find();
 
-        // Count likes per comment
         const likeCounts = {};
         likes.forEach((like) => {
           const commentId = like.get("commentId");
-          const count = like.get("count") || 1;
-          likeCounts[commentId] = (likeCounts[commentId] || 0) + count;
+          likeCounts[commentId] = (likeCounts[commentId] || 0) + (like.get("count") || 1);
         });
 
         commentsList.innerHTML = renderComments(commentTree, likeCounts);
-
-        // Initialize handlers after rendering
         initializeHandlers();
       } catch (error) {
         console.error("Error loading comments:", error);
@@ -77,27 +74,22 @@ const { slug } = Astro.props;
     function buildCommentTree(comments) {
       const commentMap = new Map();
       const roots = [];
-
       comments.forEach((comment) => {
         const data = {
           id: comment.id,
-          parentComment: comment.parentComment,
+          parentComment: comment.get("parent")?.id,
           ...comment.toJSON(),
           children: [],
           createdAt: new Date(comment.createdAt),
         };
         commentMap.set(data.id, data);
-
         if (data.parentComment) {
           const parent = commentMap.get(data.parentComment);
-          if (parent) {
-            parent.children.push(data);
-          }
+          if (parent) parent.children.push(data);
         } else {
           roots.push(data);
         }
       });
-
       return roots;
     }
 
@@ -105,84 +97,63 @@ const { slug } = Astro.props;
       if (!comments.length) {
         return '<p class="text-center text-base-content/70">No comments yet. Be the first to comment!</p>';
       }
-
       return comments
         .map(
           (comment) => `
-        <div class="comment-thread" style="margin-left: ${level > 0 ? "1.5rem" : "0"}">
-          <div class="comment relative ${level > 0 ? "nested-comment" : ""}" data-comment-id="${comment.id}">
-            <div class="flex gap-4">
-              <div class="avatar flex-shrink-0">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full">
-                  <img src="${comment.avatar}" alt="${comment.nickname}" />
-                </div>
-              </div>
-
-              <div class="flex-1 min-w-0">
-                <!-- Comment Header -->
-                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
-                  <div class="flex items-center gap-2 min-w-0">
-                    ${
-                      comment.website
-                        ? `<a href="${comment.website}"
-                            class="font-semibold text-primary hover:text-primary-focus truncate"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            ${comment.nickname}
-                          </a>`
-                        : `<span class="font-semibold truncate">${comment.nickname}</span>`
-                    }
-                    <span class="text-sm text-base-content/60">
-                      ${format(comment.createdAt, "PPp")}
-                    </span>
+            <div class="comment-thread" style="margin-left: ${level > 0 ? "1.5rem" : "0"}">
+              <div class="comment relative ${level > 0 ? "nested-comment" : ""}" data-comment-id="${comment.id}">
+                <div class="flex gap-4">
+                  <div class="avatar flex-shrink-0">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full">
+                      <img src="${comment.avatar}" alt="${comment.nickname}" />
+                    </div>
                   </div>
-
-                  <div class="flex items-center gap-2">
-                    ${badgeMap[comment.email] ? `<div class="badge badge-primary badge-outline">${badgeMap[comment.email]}</div>` : ""}
-                    <button class="btn btn-ghost btn-sm gap-1 min-w-[4rem] like-button ${
-                      userLikes.has(comment.id) ? "text-primary" : ""
-                    }" data-comment-id="${comment.id}">
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                  <div class="flex-1 min-w-0">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                      <div class="flex items-center gap-2 min-w-0">
+                        ${
+                          comment.website
+                            ? `<a href="${comment.website}" class="font-semibold text-primary hover:text-primary-focus truncate" target="_blank" rel="noopener noreferrer">${comment.nickname}</a>`
+                            : `<span class="font-semibold truncate">${comment.nickname}</span>`
+                        }
+                        <span class="text-sm text-base-content/60">${format(comment.createdAt, "PPp")}</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        ${badgeMap[comment.email] ? `<div class="badge badge-primary badge-outline">${badgeMap[comment.email]}</div>` : ""}
+                        <button class="btn btn-ghost btn-sm gap-1 min-w-[4rem] like-button ${userLikes.has(comment.id) ? "text-primary" : ""}" data-comment-id="${comment.id}">
+                          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                          </svg>
+                          <span class="like-count">${likeCounts[comment.id] || 0}</span>
+                        </button>
+                        ${
+                          canDeleteComment(comment)
+                            ? `<button class="btn btn-ghost btn-sm gap-1 delete-button" data-comment-id="${comment.id}">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M3 6h18"></path>
+                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                </svg>
+                                <span class="hidden sm:inline">Delete</span>
+                              </button>`
+                            : ""
+                        }
+                      </div>
+                    </div>
+                    <div class="prose prose-sm max-w-none mb-3">${comment.content}</div>
+                    <button class="btn btn-ghost btn-sm gap-1 reply-button" data-comment-id="${comment.id}">
+                      <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 17 4 12 9 7"></polyline>
+                        <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
                       </svg>
-                      <span class="like-count">${likeCounts[comment.id] || 0}</span>
+                      <span>Reply</span>
                     </button>
-
-                    ${
-                      canDeleteComment(comment)
-                        ? `<button class="btn btn-ghost btn-sm gap-1 delete-button" data-comment-id="${comment.id}">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <path d="M3 6h18"></path>
-                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                            </svg>
-                            <span class="hidden sm:inline">Delete</span>
-                          </button>`
-                        : ""
-                    }
                   </div>
                 </div>
-
-                <!-- Comment Content -->
-                <div class="prose prose-sm max-w-none mb-3">
-                  ${comment.content}
-                </div>
-
-                <!-- Reply Button -->
-                <button class="btn btn-ghost btn-sm gap-1 reply-button" data-comment-id="${comment.id}">
-                  <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 17 4 12 9 7"></polyline>
-                    <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
-                  </svg>
-                  <span>Reply</span>
-                </button>
               </div>
+              ${comment.children.length ? renderComments(comment.children, likeCounts, level + 1) : ""}
             </div>
-          </div>
-
-          ${comment.children.length ? renderComments(comment.children, likeCounts, level + 1) : ""}
-        </div>
-      `,
+          `,
         )
         .join("");
     }
@@ -195,7 +166,6 @@ const { slug } = Astro.props;
         const results = await query.find();
 
         if (userLikes.has(commentId)) {
-          // Remove like
           if (results.length) {
             const like = results[0];
             const currentCount = like.get("count") || 1;
@@ -208,31 +178,21 @@ const { slug } = Astro.props;
           }
           userLikes.delete(commentId);
         } else {
-          // Add like
           if (results.length) {
             const like = results[0];
-            const currentCount = like.get("count") || 1;
-            like.set("count", currentCount + 1);
+            like.set("count", (like.get("count") || 1) + 1);
             await like.save();
           } else {
             const CommentLike = AV.Object.extend("CommentLike");
             const like = new CommentLike();
-            await like.save({
-              slug,
-              commentId,
-              count: 1,
-            });
+            await like.save({ slug, commentId, count: 1 });
           }
           userLikes.add(commentId);
         }
 
-        // Save to localStorage
         localStorage.setItem(`comment_likes_${slug}`, JSON.stringify([...userLikes]));
-
-        // Reload comments to update like counts
         await loadComments();
 
-        // Add visual feedback
         const button = document.querySelector(`[data-comment-id="${commentId}"] .like-button`);
         button.classList.add("scale-110");
         setTimeout(() => button.classList.remove("scale-110"), 200);
@@ -248,56 +208,38 @@ const { slug } = Astro.props;
     }
 
     function initializeHandlers() {
-      // Add like handlers
       document.querySelectorAll(".like-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const commentId = button.dataset.commentId;
-          handleLike(commentId);
-        });
+        button.addEventListener("click", () => handleLike(button.dataset.commentId));
       });
 
-      // Add reply handlers
       document.querySelectorAll(".reply-button").forEach((button) => {
         button.addEventListener("click", () => {
           const commentId = button.dataset.commentId;
           const comment = button.closest(".comment");
-
-          // Remove any existing reply forms
           document.querySelectorAll(".reply-form").forEach((form) => form.remove());
 
-          // Add new reply form
           const replyForm = document.createElement("div");
           replyForm.className = "reply-form mt-4 ml-14";
           replyForm.innerHTML = `
             <form class="comment-form" data-slug="${slug}" data-parent-comment="${commentId}">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-control">
-                  <label class="label">
-                    <span class="label-text">Nickname*</span>
-                  </label>
+                  <label class="label"><span class="label-text">Nickname*</span></label>
                   <input type="text" name="nickname" class="input input-bordered w-full" required minlength="2" maxlength="50">
                 </div>
                 <div class="form-control">
-                  <label class="label">
-                    <span class="label-text">Email*</span>
-                  </label>
+                  <label class="label"><span class="label-text">Email*</span></label>
                   <input type="email" name="email" class="input input-bordered w-full" required>
                 </div>
               </div>
               <div class="form-control">
-                <label class="label">
-                  <span class="label-text">Website</span>
-                </label>
+                <label class="label"><span class="label-text">Website</span></label>
                 <input type="url" name="website" class="input input-bordered w-full" placeholder="https://">
               </div>
               <div class="form-control">
-                <label class="label">
-                  <span class="label-text">Comment*</span>
-                </label>
+                <label class="label"><span class="label-text">Comment*</span></label>
                 <textarea name="content" class="textarea textarea-bordered h-24" required minlength="2"></textarea>
-                <label class="label">
-                  <span class="label-text-alt">Supports Markdown</span>
-                </label>
+                <label class="label"><span class="label-text-alt">Supports Markdown</span></label>
               </div>
               <div class="flex justify-end gap-2">
                 <button type="button" class="btn btn-ghost cancel-reply">Cancel Reply</button>
@@ -311,39 +253,27 @@ const { slug } = Astro.props;
               </div>
             </form>
           `;
-
           comment.appendChild(replyForm);
 
-          // Initialize form handlers
           const form = replyForm.querySelector("form");
           initializeFormHandlers(form);
 
-          // Initialize cancel button
-          const cancelBtn = replyForm.querySelector(".cancel-reply");
-          cancelBtn.addEventListener("click", () => {
-            replyForm.remove();
-          });
+          replyForm.querySelector(".cancel-reply").addEventListener("click", () => replyForm.remove());
         });
       });
 
-      // Add delete handlers
       document.querySelectorAll(".delete-button").forEach((button) => {
         button.addEventListener("click", async () => {
           const commentId = button.dataset.commentId;
-
-          // Show confirmation dialog
           if (await showConfirmDialog("Are you sure you want to delete this comment?")) {
             try {
               const query = new AV.Query("Comment");
               const comment = await query.get(commentId);
-
-              // Check if comment is still within 5-minute window
               const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
               if (comment.createdAt < fiveMinutesAgo) {
                 showToast("Comments can only be deleted within 5 minutes of posting", "error");
                 return;
               }
-
               await comment.destroy();
               await loadComments();
               showToast("Comment deleted successfully", "success");
@@ -381,10 +311,7 @@ const { slug } = Astro.props;
           await comment.save(data);
 
           form.reset();
-          if (form.closest(".reply-form")) {
-            form.closest(".reply-form").remove();
-          }
-
+          if (form.closest(".reply-form")) form.closest(".reply-form").remove();
           await loadComments();
           showToast("Comment submitted successfully", "success");
         } catch (error) {
@@ -411,18 +338,13 @@ const { slug } = Astro.props;
             </div>
           </div>
         `;
-
         document.body.appendChild(dialog);
 
-        const cancelBtn = dialog.querySelector(".cancel-btn");
-        const confirmBtn = dialog.querySelector(".confirm-btn");
-
-        cancelBtn.addEventListener("click", () => {
+        dialog.querySelector(".cancel-btn").addEventListener("click", () => {
           dialog.remove();
           resolve(false);
         });
-
-        confirmBtn.addEventListener("click", () => {
+        dialog.querySelector(".confirm-btn").addEventListener("click", () => {
           dialog.remove();
           resolve(true);
         });
@@ -432,21 +354,16 @@ const { slug } = Astro.props;
     function showToast(message, type = "success") {
       const toast = document.createElement("div");
       toast.className = "toast toast-bottom toast-center";
-      toast.innerHTML = `
-        <div class="alert alert-${type}">
-          <span>${message}</span>
-        </div>
-      `;
+      toast.innerHTML = `<div class="alert alert-${type}"><span>${message}</span></div>`;
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 3000);
     }
 
-    // MD5 function for Gravatar
+    // MD5 函数用于生成 Gravatar 头像（保持不变）
     function MD5(string) {
       function RotateLeft(lValue, iShiftBits) {
         return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
       }
-
       function AddUnsigned(lX, lY) {
         var lX4, lY4, lX8, lY8, lResult;
         lX8 = lX & 0x80000000;
@@ -454,20 +371,13 @@ const { slug } = Astro.props;
         lX4 = lX & 0x40000000;
         lY4 = lY & 0x40000000;
         lResult = (lX & 0x3fffffff) + (lY & 0x3fffffff);
-        if (lX4 & lY4) {
-          return lResult ^ 0x80000000 ^ lX8 ^ lY8;
-        }
+        if (lX4 & lY4) return lResult ^ 0x80000000 ^ lX8 ^ lY8;
         if (lX4 | lY4) {
-          if (lResult & 0x40000000) {
-            return lResult ^ 0xc0000000 ^ lX8 ^ lY8;
-          } else {
-            return lResult ^ 0x40000000 ^ lX8 ^ lY8;
-          }
-        } else {
-          return lResult ^ lX8 ^ lY8;
+          if (lResult & 0x40000000) return lResult ^ 0xc0000000 ^ lX8 ^ lY8;
+          else return lResult ^ 0x40000000 ^ lX8 ^ lY8;
         }
+        return lResult ^ lX8 ^ lY8;
       }
-
       function F(x, y, z) {
         return (x & y) | (~x & z);
       }
@@ -480,27 +390,22 @@ const { slug } = Astro.props;
       function I(x, y, z) {
         return y ^ (x | ~z);
       }
-
       function FF(a, b, c, d, x, s, ac) {
         a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
         return AddUnsigned(RotateLeft(a, s), b);
       }
-
       function GG(a, b, c, d, x, s, ac) {
         a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
         return AddUnsigned(RotateLeft(a, s), b);
       }
-
       function HH(a, b, c, d, x, s, ac) {
         a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
         return AddUnsigned(RotateLeft(a, s), b);
       }
-
       function II(a, b, c, d, x, s, ac) {
         a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
         return AddUnsigned(RotateLeft(a, s), b);
       }
-
       function ConvertToWordArray(string) {
         var lWordCount;
         var lMessageLength = string.length;
@@ -523,7 +428,6 @@ const { slug } = Astro.props;
         lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
         return lWordArray;
       }
-
       function WordToHex(lValue) {
         var WordToHexValue = "",
           WordToHexValue_temp = "",
@@ -532,20 +436,17 @@ const { slug } = Astro.props;
         for (lCount = 0; lCount <= 3; lCount++) {
           lByte = (lValue >>> (lCount * 8)) & 255;
           WordToHexValue_temp = "0" + lByte.toString(16);
-          WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+          WordToHexValue += WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
         }
         return WordToHexValue;
       }
-
       function Utf8Encode(string) {
         string = string.replace(/\r\n/g, "\n");
         var utftext = "";
-
         for (var n = 0; n < string.length; n++) {
           var c = string.charCodeAt(n);
-          if (c < 128) {
-            utftext += String.fromCharCode(c);
-          } else if (c > 127 && c < 2048) {
+          if (c < 128) utftext += String.fromCharCode(c);
+          else if (c > 127 && c < 2048) {
             utftext += String.fromCharCode((c >> 6) | 192);
             utftext += String.fromCharCode((c & 63) | 128);
           } else {
@@ -556,7 +457,6 @@ const { slug } = Astro.props;
         }
         return utftext;
       }
-
       var x = Array();
       var k, AA, BB, CC, DD, a, b, c, d;
       var S11 = 7,
@@ -575,14 +475,12 @@ const { slug } = Astro.props;
         S42 = 10,
         S43 = 15,
         S44 = 21;
-
       string = Utf8Encode(string);
       x = ConvertToWordArray(string);
       a = 0x67452301;
       b = 0xefcdab89;
       c = 0x98badcfe;
       d = 0x10325476;
-
       for (k = 0; k < x.length; k += 16) {
         AA = a;
         BB = b;
@@ -657,31 +555,25 @@ const { slug } = Astro.props;
         c = AddUnsigned(c, CC);
         d = AddUnsigned(d, DD);
       }
-
-      var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
-      return temp.toLowerCase();
+      return (WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d)).toLowerCase();
     }
 
-    // Load initial comments
     loadComments();
-
-    // Reload comments when updated
     document.addEventListener("commentsUpdated", loadComments);
   }
 
-  // Initialize on page load and after navigation
+  document.addEventListener("DOMContentLoaded", initCommentList);
   document.addEventListener("swup:page:view", initCommentList);
+  initCommentList(); // 立即执行初始化
 </script>
 
 <style>
   .like-button {
     transition: all 0.3s ease;
   }
-
   .like-button:hover {
     transform: scale(1.05);
   }
-
   .like-button.text-primary svg {
     fill: currentColor;
     animation: pulse 0.5s infinite;

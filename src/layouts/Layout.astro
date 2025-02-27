@@ -13,6 +13,10 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
+
+// 获取当前页面的 slug
+const currentPath = Astro.url.pathname;
+const slug = currentPath === "/" ? "home" : currentPath.replace(/^\//, "").replace(/\/$/, "");
 ---
 
 <!doctype html>
@@ -67,3 +71,55 @@ const { title, description, image } = Astro.props;
     </div>
   </body>
 </html>
+
+<script>
+  import * as AV from "leancloud-storage";
+
+  AV.init({
+    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
+    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
+    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
+  });
+
+  async function updatePageView(slug) {
+    try {
+      const query = new AV.Query("PageView");
+      query.equalTo("slug", slug);
+      let viewRecord = await query.first();
+
+      if (!viewRecord) {
+        const PageView = AV.Object.extend("PageView");
+        viewRecord = new PageView();
+        viewRecord.set("slug", slug);
+        viewRecord.set("views", 0);
+      }
+
+      const viewKey = `post_view_${slug}`;
+      const lastView = localStorage.getItem(viewKey);
+      const now = Date.now();
+      const viewTimeout = 30 * 60 * 1000; // 30 minutes
+
+      if (!lastView || now - parseInt(lastView) > viewTimeout) {
+        viewRecord.increment("views");
+        await viewRecord.save();
+        localStorage.setItem(viewKey, now.toString());
+      }
+    } catch (error) {
+      console.error("Error updating page view:", error);
+    }
+  }
+
+  // 在页面加载时更新浏览量
+  document.addEventListener("DOMContentLoaded", () => {
+    const slug =
+      window.location.pathname === "/" ? "home" : window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
+    updatePageView(slug);
+  });
+
+  // 在 Swup 导航后更新浏览量
+  document.addEventListener("swup:page:view", () => {
+    const slug =
+      window.location.pathname === "/" ? "home" : window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
+    updatePageView(slug);
+  });
+</script>

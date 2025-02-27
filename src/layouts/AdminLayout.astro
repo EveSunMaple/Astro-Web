@@ -40,8 +40,16 @@ const { title, description } = Astro.props;
 </Layout>
 
 <script>
-  // Check authentication on page load
-  document.addEventListener("swup:page:view", () => {
+  import * as AV from "leancloud-storage";
+
+  // 初始化 LeanCloud
+  AV.init({
+    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
+    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
+    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
+  });
+
+  function initAuth() {
     const isAuthenticated = sessionStorage.getItem("admin-auth");
     const authContainer = document.getElementById("auth-container");
     const contentContainer = document.getElementById("content-container");
@@ -51,32 +59,42 @@ const { title, description } = Astro.props;
       contentContainer.classList.remove("hidden");
     }
 
-    // Login form handler
     const loginForm = document.getElementById("login-form");
-    loginForm?.addEventListener("submit", (e) => {
+    loginForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const username = (document.getElementById("username") as HTMLInputElement).value;
-      const password = (document.getElementById("password") as HTMLInputElement).value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      if (username === "admin" && password === "123456") {
-        sessionStorage.setItem("admin-auth", "true");
-        authContainer.classList.add("hidden");
-        contentContainer.classList.remove("hidden");
-      } else {
-        showToast("Invalid credentials", "error");
+      try {
+        // 查询 LeanCloud 中的 AdminUsers 表
+        const query = new AV.Query("AdminUsers");
+        query.equalTo("username", username);
+        query.equalTo("password", password);
+        const user = await query.first();
+
+        if (user) {
+          sessionStorage.setItem("admin-auth", "true");
+          authContainer.classList.add("hidden");
+          contentContainer.classList.remove("hidden");
+        } else {
+          showToast("Invalid credentials", "error");
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        showToast("Login failed", "error");
       }
     });
-  });
+  }
 
-  function showToast(message: string, type: "success" | "error" = "success") {
+  function showToast(message, type = "success") {
     const toast = document.createElement("div");
     toast.className = "toast toast-bottom toast-center";
-    toast.innerHTML = `
-      <div class="alert alert-${type}">
-        <span>${message}</span>
-      </div>
-    `;
+    toast.innerHTML = `<div class="alert alert-${type}"><span>${message}</span></div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
   }
+
+  document.addEventListener("DOMContentLoaded", initAuth);
+  document.addEventListener("swup:page:view", initAuth);
+  initAuth(); // 立即执行初始化
 </script>

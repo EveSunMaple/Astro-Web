@@ -63,17 +63,17 @@ const { slug, parentId } = Astro.props;
   import { marked } from "marked";
   import gravatar from "gravatar";
 
-  // Initialize LeanCloud
-  AV.init({
-    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
-    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
-    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
-  });
+  // 初始化 LeanCloud
 
   function initCommentForm() {
-    const forms = document.querySelectorAll(".comment-form");
+    // 只选择未初始化的表单
+    const forms = document.querySelectorAll(".comment-form:not([data-initialized])");
 
     forms.forEach((form) => {
+      // 标记为已初始化
+      form.setAttribute("data-initialized", "true");
+
+      // 提交事件处理
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
@@ -98,7 +98,7 @@ const { slug, parentId } = Astro.props;
             }),
           };
 
-          // Create comment
+          // 创建评论
           const Comment = AV.Object.extend("Comment");
           const comment = new Comment();
 
@@ -107,18 +107,18 @@ const { slug, parentId } = Astro.props;
             content: marked(data.content as string),
           });
 
-          // Reset form
+          // 重置表单
           form.reset();
 
-          // Remove reply form if it's a reply
+          // 如果是回复表单，移除它
           if (form.closest(".reply-form")) {
             form.closest(".reply-form").remove();
           }
 
-          // Refresh comments
+          // 刷新评论
           document.dispatchEvent(new CustomEvent("commentsUpdated"));
 
-          // Show success message
+          // 显示成功提示
           const toast = document.createElement("div");
           toast.className = "toast toast-bottom toast-center";
           toast.innerHTML = `
@@ -143,18 +143,21 @@ const { slug, parentId } = Astro.props;
           submitBtn.innerHTML = originalBtnContent;
         }
       });
-    });
 
-    // Handle cancel reply
-    document.querySelectorAll(".cancel-reply").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const replyForm = btn.closest(".reply-form");
-        if (replyForm) {
-          replyForm.remove();
-        }
-      });
+      // 处理取消回复
+      const cancelBtn = form.querySelector(".cancel-reply");
+      if (cancelBtn) {
+        cancelBtn.addEventListener("click", () => {
+          const replyForm = cancelBtn.closest(".reply-form");
+          if (replyForm) {
+            replyForm.remove();
+          }
+        });
+      }
     });
   }
+
+  initCommentForm();
 
   // Initialize on page load and after navigation
   document.addEventListener("swup:page:view", initCommentForm);

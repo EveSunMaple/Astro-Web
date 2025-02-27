@@ -1,0 +1,220 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const title = "Admin Dashboard";
+const description = "View analytics and manage comments for your blog";
+---
+
+<AdminLayout {title} {description}>
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <Icon name="lucide:layout-dashboard" class="w-6 h-6" />
+        {title}
+      </h1>
+      <div class="flex gap-2">
+        <a href="/admin/comments" class="btn btn-primary btn-sm">
+          <Icon name="lucide:external-link" class="w-4 h-4" />
+          Manage Comments
+        </a>
+        <button id="refresh-btn" class="btn btn-ghost btn-sm">
+          <Icon name="lucide:refresh-cw" class="w-4 h-4" />
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div class="stat bg-base-200/50 backdrop-blur-sm rounded-box">
+        <div class="stat-figure text-primary">
+          <Icon name="lucide:eye" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Total Page Views</div>
+        <div class="stat-value" id="total-views">--</div>
+      </div>
+      <div class="stat bg-base-200/50 backdrop-blur-sm rounded-box">
+        <div class="stat-figure text-accent">
+          <Icon name="lucide:message-square" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Total Comments</div>
+        <div class="stat-value" id="total-comments">--</div>
+      </div>
+      <div class="stat bg-base-200/50 backdrop-blur-sm rounded-box">
+        <div class="stat-figure text-info">
+          <Icon name="lucide:file-text" class="w-8 h-8" />
+        </div>
+        <div class="stat-title">Total Pages</div>
+        <div class="stat-value" id="total-pages">--</div>
+      </div>
+    </div>
+
+    <!-- Page Views Section -->
+    <div class="card bg-base-200/50 backdrop-blur-sm mb-6">
+      <div class="card-body">
+        <h2 class="card-title text-lg mb-4">Page Views</h2>
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Page Slug</th>
+                <th>Views</th>
+              </tr>
+            </thead>
+            <tbody id="page-views-table">
+              <tr>
+                <td colspan="2" class="text-center py-4">
+                  <span class="loading loading-spinner loading-lg"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Management Section -->
+    <div class="card bg-base-200/50 backdrop-blur-sm">
+      <div class="card-body">
+        <h2 class="card-title text-lg mb-4">Recent Comments</h2>
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Author</th>
+                <th>Comment</th>
+                <th>Page</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="comments-table">
+              <tr>
+                <td colspan="4" class="text-center py-4">
+                  <span class="loading loading-spinner loading-lg"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  import * as AV from "leancloud-storage";
+  import { format } from "date-fns";
+
+  AV.init({
+    appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
+    appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
+    serverURL: import.meta.env.PUBLIC_LEANCLOUD_SERVER_URL,
+  });
+
+  function initDashboard() {
+    if (!sessionStorage.getItem("admin-auth")) return;
+
+    const refreshBtn = document.getElementById("refresh-btn");
+    if (!refreshBtn) {
+      console.error("Refresh button not found");
+      return;
+    }
+
+    async function loadDashboardData() {
+      try {
+        // Load page views
+        const viewsQuery = new AV.Query("PageView");
+        const views = await viewsQuery.find();
+        const totalViews = views.reduce((sum, view) => sum + view.get("views"), 0);
+
+        const totalViewsEl = document.getElementById("total-views");
+        if (totalViewsEl) {
+          totalViewsEl.textContent = totalViews.toLocaleString();
+        } else {
+          console.error("Total views element not found");
+        }
+
+        const totalPagesEl = document.getElementById("total-pages");
+        if (totalPagesEl) {
+          totalPagesEl.textContent = views.length.toString();
+        } else {
+          console.error("Total pages element not found");
+        }
+
+        const tbodyViews = document.getElementById("page-views-table");
+        if (tbodyViews) {
+          tbodyViews.innerHTML =
+            views.length === 0
+              ? `<tr><td colspan="2" class="text-center py-4">No page views data available</td></tr>`
+              : views
+                  .map(
+                    (view) => `
+                <tr>
+                  <td>${view.get("slug")}</td>
+                  <td>${view.get("views").toLocaleString()}</td>
+                </tr>
+              `,
+                  )
+                  .join("");
+        } else {
+          console.error("Page views table body not found");
+        }
+
+        // Load comments
+        const commentsQuery = new AV.Query("Comment");
+        commentsQuery.limit(5);
+        commentsQuery.descending("createdAt");
+        const comments = await commentsQuery.find();
+        const totalComments = await commentsQuery.count();
+
+        const totalCommentsEl = document.getElementById("total-comments");
+        if (totalCommentsEl) {
+          totalCommentsEl.textContent = totalComments.toLocaleString();
+        } else {
+          console.error("Total comments element not found");
+        }
+
+        const tbodyComments = document.getElementById("comments-table");
+        if (tbodyComments) {
+          tbodyComments.innerHTML =
+            comments.length === 0
+              ? `<tr><td colspan="4" class="text-center py-4">No comments available</td></tr>`
+              : comments
+                  .map(
+                    (comment) => `
+                <tr>
+                  <td>${comment.get("nickname")}</td>
+                  <td class="max-w-xs"><div class="line-clamp-2">${comment.get("content").replace(/<[^>]*>/g, "")}</div></td>
+                  <td><a href="/blog/${comment.get("slug")}" class="link link-hover">${comment.get("slug")}</a></td>
+                  <td>${format(comment.createdAt, "PPp")}</td>
+                </tr>
+              `,
+                  )
+                  .join("");
+        } else {
+          console.error("Comments table body not found");
+        }
+      } catch (error) {
+        console.error("Error loading dashboard data:", error);
+        showToast("Error loading data", "error");
+      }
+    }
+
+    function showToast(message, type = "success") {
+      const toast = document.createElement("div");
+      toast.className = "toast toast-bottom toast-center";
+      toast.innerHTML = `<div class="alert alert-${type}"><span>${message}</span></div>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Load data on initialization and refresh
+    loadDashboardData();
+    refreshBtn.addEventListener("click", loadDashboardData);
+  }
+
+  document.addEventListener("DOMContentLoaded", initDashboard);
+  document.addEventListener("swup:page:view", initDashboard);
+  initDashboard();
+</script>

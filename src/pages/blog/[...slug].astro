@@ -64,11 +64,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
           {
             post.data.description && (
-              <div class="description-container bg-base-200/50 backdrop-blur-sm p-4 rounded-lg mb-6 animate-slide-in">
-                <div class="flex items-start gap-3">
-                  <Icon name="lucide:info" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                  <p class="text-base-content/80 italic">{post.data.description}</p>
-                </div>
+              <div class="description-container mt-8 mb-6 animate-slide-in">
+                <p class="text-base-content/80 italic relative">
+                  <span class="quote-left">“</span>
+                  {post.data.description}
+                  <span class="quote-right">”</span>
+                </p>
               </div>
             )
           }
@@ -117,7 +118,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           <PostStats readingTime={readingTime} />
         </header>
 
-        <div class="prose prose-lg max-w-none">
+        <div class="prose lg:prose-lg max-w-none">
           <Content />
         </div>
 
@@ -171,17 +172,42 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   .animate-slide-in {
     animation: slideIn 0.6s ease-out forwards;
   }
-
-  .description-container {
-    border-left: 3px solid oklch(var(--p));
-    transition: all 0.3s ease;
+  .description-container p {
+    line-height: 1.75rem;
+    position: relative;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
-  .description-container:hover {
-    background-color: oklch(var(--b2) / 0.7);
-    transform: translateY(-2px);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  .quote-left,
+  .quote-right {
+    font-size: 3rem; /* 大引号 */
+    color: oklch(var(--p)); /* 使用主题色 */
+    position: absolute;
+    top: -0.5rem;
+  }
+
+  .quote-left {
+    left: 0;
+  }
+
+  .quote-right {
+    right: 0;
+  }
+
+  /* 保留动画效果 */
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.6s ease-out forwards;
   }
 </style>

@@ -23,13 +23,14 @@ const { slug } = Astro.props;
   };
 
   function initCommentList() {
-    // 只初始化未标记的元素，防止重复执行
     const commentsList = document.querySelector(".comments-list:not([data-initialized])");
     if (!commentsList) return;
 
     commentsList.setAttribute("data-initialized", "true");
     const slug = commentsList.dataset.slug;
     let userLikes = new Set();
+    let currentPage = 1;
+    const pageSize = 10; // 每页显示 10 条评论
 
     // 从 localStorage 加载用户点赞记录
     try {
@@ -39,14 +40,17 @@ const { slug } = Astro.props;
       console.error("Error loading stored likes:", e);
     }
 
-    async function loadComments() {
+    async function loadComments(page = 1) {
       try {
         const query = new AV.Query("Comment");
         query.equalTo("slug", slug);
         query.ascending("createdAt");
         query.include("parent");
+        query.limit(pageSize);
+        query.skip((page - 1) * pageSize);
 
         const comments = await query.find();
+        const totalCount = await query.count();
         const commentTree = buildCommentTree(comments);
 
         const likesQuery = new AV.Query("CommentLike");
@@ -59,7 +63,7 @@ const { slug } = Astro.props;
           likeCounts[commentId] = (likeCounts[commentId] || 0) + (like.get("count") || 1);
         });
 
-        commentsList.innerHTML = renderComments(commentTree, likeCounts);
+        commentsList.innerHTML = renderComments(commentTree, likeCounts, page, totalCount);
         initializeHandlers();
       } catch (error) {
         console.error("Error loading comments:", error);
@@ -93,69 +97,78 @@ const { slug } = Astro.props;
       return roots;
     }
 
-    function renderComments(comments, likeCounts, level = 0) {
-      if (!comments.length) {
+    function renderComments(comments, likeCounts, page, totalCount, level = 0) {
+      if (!comments.length && page === 1) {
         return '<p class="text-center text-base-content/70">No comments yet. Be the first to comment!</p>';
       }
-      return comments
+      let html = comments
         .map(
           (comment) => `
-            <div class="comment-thread" style="margin-left: ${level > 0 ? "1.5rem" : "0"}">
-              <div class="comment relative ${level > 0 ? "nested-comment" : ""}" data-comment-id="${comment.id}">
-                <div class="flex gap-4">
-                  <div class="avatar flex-shrink-0">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full">
-                      <img src="${comment.avatar}" alt="${comment.nickname}" />
+            <div class="comment-thread" style="margin-left: ${level * 2}rem">
+              <div class="comment relative border-b border-base-200 pb-4" data-comment-id="${comment.id}">
+                <div class="flex justify-between">
+                  <div class="flex gap-4">
+                    <div class="avatar flex-shrink-0">
+                      <div class="w-10 h-10 md:w-12 md:h-12 rounded-full">
+                        <img src="${comment.avatar}" alt="${comment.nickname}" />
+                      </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                          ${
+                            comment.website
+                              ? `<a href="${comment.website}" class="font-semibold text-primary hover:text-primary-focus truncate" target="_blank" rel="noopener noreferrer">${comment.nickname}</a>`
+                              : `<span class="font-semibold truncate">${comment.nickname}</span>`
+                          }
+                          ${badgeMap[comment.email] ? `<div class="badge badge-primary badge-outline">${badgeMap[comment.email]}</div>` : ""}
+                          <span class="text-sm text-base-content/60">${format(comment.createdAt, "PPp")}</span>
+                        </div>
+                      </div>
+                      <div class="prose prose-sm max-w-none mb-3">${comment.content}</div>
+                      <button class="btn btn-ghost btn-sm gap-1 reply-button" data-comment-id="${comment.id}">
+                        <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="9 17 4 12 9 7"></polyline>
+                          <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                        </svg>
+                        <span>Reply</span>
+                      </button>
                     </div>
                   </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
-                      <div class="flex items-center gap-2 min-w-0">
-                        ${
-                          comment.website
-                            ? `<a href="${comment.website}" class="font-semibold text-primary hover:text-primary-focus truncate" target="_blank" rel="noopener noreferrer">${comment.nickname}</a>`
-                            : `<span class="font-semibold truncate">${comment.nickname}</span>`
-                        }
-                        <span class="text-sm text-base-content/60">${format(comment.createdAt, "PPp")}</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        ${badgeMap[comment.email] ? `<div class="badge badge-primary badge-outline">${badgeMap[comment.email]}</div>` : ""}
-                        <button class="btn btn-ghost btn-sm gap-1 min-w-[4rem] like-button ${userLikes.has(comment.id) ? "text-primary" : ""}" data-comment-id="${comment.id}">
-                          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                          </svg>
-                          <span class="like-count">${likeCounts[comment.id] || 0}</span>
-                        </button>
-                        ${
-                          canDeleteComment(comment)
-                            ? `<button class="btn btn-ghost btn-sm gap-1 delete-button" data-comment-id="${comment.id}">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                  <path d="M3 6h18"></path>
-                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                </svg>
-                                <span class="hidden sm:inline">Delete</span>
-                              </button>`
-                            : ""
-                        }
-                      </div>
-                    </div>
-                    <div class="prose prose-sm max-w-none mb-3">${comment.content}</div>
-                    <button class="btn btn-ghost btn-sm gap-1 reply-button" data-comment-id="${comment.id}">
-                      <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 17 4 12 9 7"></polyline>
-                        <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                  <div class="flex items-center gap-2">
+                    <button class="btn btn-ghost btn-sm gap-1 min-w-[4rem] like-button ${userLikes.has(comment.id) ? "text-primary" : ""}" data-comment-id="${comment.id}">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                       </svg>
-                      <span>Reply</span>
+                      <span class="like-count">${likeCounts[comment.id] || 0}</span>
                     </button>
+                    ${
+                      canDeleteComment(comment)
+                        ? `<button class="btn btn-ghost btn-sm gap-1 delete-button" data-comment-id="${comment.id}">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M3 6h18"></path>
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            </svg>
+                            <span class="hidden sm:inline">Delete</span>
+                          </button>`
+                        : ""
+                    }
                   </div>
                 </div>
               </div>
-              ${comment.children.length ? renderComments(comment.children, likeCounts, level + 1) : ""}
+              <div class="mt-8">
+              ${comment.children.length ? renderComments(comment.children, likeCounts, page, totalCount, level + 1) : ""}
+              </div>
             </div>
           `,
         )
         .join("");
+
+      if (page * pageSize < totalCount) {
+        html += `<div class="text-center mt-4"><button class="btn btn-primary load-more">Load More</button></div>`;
+      }
+      return html;
     }
 
     async function handleLike(commentId) {
@@ -191,7 +204,7 @@ const { slug } = Astro.props;
         }
 
         localStorage.setItem(`comment_likes_${slug}`, JSON.stringify([...userLikes]));
-        await loadComments();
+        await loadComments(currentPage);
 
         const button = document.querySelector(`[data-comment-id="${commentId}"] .like-button`);
         button.classList.add("scale-110");
@@ -275,7 +288,7 @@ const { slug } = Astro.props;
                 return;
               }
               await comment.destroy();
-              await loadComments();
+              await loadComments(currentPage);
               showToast("Comment deleted successfully", "success");
             } catch (error) {
               console.error("Error deleting comment:", error);
@@ -283,6 +296,11 @@ const { slug } = Astro.props;
             }
           }
         });
+      });
+
+      document.querySelector(".load-more")?.addEventListener("click", () => {
+        currentPage++;
+        loadComments(currentPage);
       });
     }
 
@@ -312,7 +330,7 @@ const { slug } = Astro.props;
 
           form.reset();
           if (form.closest(".reply-form")) form.closest(".reply-form").remove();
-          await loadComments();
+          await loadComments(currentPage);
           showToast("Comment submitted successfully", "success");
         } catch (error) {
           console.error("Error submitting comment:", error);
@@ -359,7 +377,7 @@ const { slug } = Astro.props;
       setTimeout(() => toast.remove(), 3000);
     }
 
-    // MD5 函数用于生成 Gravatar 头像（保持不变）
+    // MD5 函数（保持不变，用于生成 Gravatar 头像）
     function MD5(string) {
       function RotateLeft(lValue, iShiftBits) {
         return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
@@ -559,7 +577,7 @@ const { slug } = Astro.props;
     }
 
     loadComments();
-    document.addEventListener("commentsUpdated", loadComments);
+    document.addEventListener("commentsUpdated", () => loadComments(currentPage));
   }
 
   document.addEventListener("DOMContentLoaded", initCommentList);
@@ -577,5 +595,20 @@ const { slug } = Astro.props;
   .like-button.text-primary svg {
     fill: currentColor;
     animation: pulse 0.5s infinite;
+  }
+  .comment {
+    padding: 1rem;
+  }
+  .comment-thread {
+    position: relative;
+  }
+  .comment-thread::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e5e7eb; /* Tailwind 的 border-base-200 颜色 */
   }
 </style>

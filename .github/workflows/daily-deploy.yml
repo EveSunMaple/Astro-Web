@@ -2,7 +2,7 @@
 name: Daily Redeploy via Hook
 on:
   schedule:
-    - cron: "0 0 * * *"  # UTC时间每天0点
+    - cron: "0 0 * * *" # UTC时间每天0点
 jobs:
   deploy:
     runs-on: ubuntu-latest

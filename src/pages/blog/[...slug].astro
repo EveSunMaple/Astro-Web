@@ -53,17 +53,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             )
           }
 
-          post.data.badges && post.data.badges.length > 0 && (
-          <div class="absolute top-4 right-4 flex gap-3">
-            {
-              post.data.badges.map((badge) => (
-                <div class="post-badge">
-                  <span class="badge-text">{badge}</span>
-                </div>
-              ))
-            }
-          </div>
-          ) }
+          {
+            post.data.badges && post.data.badges.length > 0 && (
+              <div class="absolute top-4 right-4 flex gap-3">
+                {post.data.badges.map((badge) => (
+                  <div class="post-badge">
+                    <span class="badge-text">{badge}</span>
+                  </div>
+                ))}
+              </div>
+            )
+          }
         </div>
 
         <header class="mb-12">

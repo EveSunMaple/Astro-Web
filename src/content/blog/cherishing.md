@@ -9,13 +9,6 @@ tags:
   - Life
   - Reflection
   - Development
-badges:
-  - New
-attachments:
-  - name: 本文草稿——密码：SunMaple
-    url: https://saroprock.oss-cn-hangzhou.aliyuncs.com/asset/Draft.zip
-    type: ZIP
-    size: 25.2 MB
 ---
 
 ## Para 1

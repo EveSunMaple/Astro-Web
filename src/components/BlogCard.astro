@@ -8,12 +8,13 @@ interface Props {
   date: Date;
   categories?: string[];
   tags?: string[];
+  badges?: string[];
   readingTime?: number;
   thumbnail?: string;
   slug: string;
 }
 
-const { title, description, date, categories = [], tags = [], readingTime, thumbnail, slug } = Astro.props;
+const { title, description, date, categories = [], tags = [], badges = [], readingTime, thumbnail, slug } = Astro.props;
 ---
 
 <article class="blog-card group animate-fade-in" style={`--delay: ${Math.random() * 0.5}s`}>
@@ -34,6 +35,19 @@ const { title, description, date, categories = [], tags = [], readingTime, thumb
               />
             </div>
           </a>
+        )
+      }
+
+      {/* Badge overlay on the image or top-right of card */}
+      {
+        badges && badges.length > 0 && (
+          <div class="absolute top-6 right-6 flex flex-col gap-2">
+            {badges.map((badge) => (
+              <div class="badge-bubble">
+                <span class="badge-text">{badge}</span>
+              </div>
+            ))}
+          </div>
         )
       }
     </div>
@@ -115,6 +129,40 @@ const { title, description, date, categories = [], tags = [], readingTime, thumb
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  .badge-bubble {
+    background: oklch(var(--s));
+    color: oklch(var(--sc));
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    animation: float 3s ease-in-out infinite;
+    transform-origin: center;
+    backdrop-filter: blur(4px);
+  }
+
+  .badge-text {
+    transform: rotate(-10deg);
+    display: block;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(5deg);
     }
   }
 </style>

@@ -59,8 +59,8 @@ try {
 
 function getContributionColor(count: number) {
   if (count === 0) return "bg-base-300";
-  const intensity = Math.min((count / maxContributions) * 4, 4);
-  return `bg-primary opacity-${Math.round(intensity * 20)}`; // 使用更柔和的颜色和较低透明度
+  const intensity = Math.min((count / (maxContributions || 1)) * 80, 80);
+  return `bg-primary opacity-${(Math.round(intensity / 20) + 1) * 20}`;
 }
 ---
 
@@ -76,9 +76,11 @@ function getContributionColor(count: number) {
             <div class="contribution-week">
               {week.map((day) => (
                 <div
-                  class={`contribution-day ${getContributionColor(day.count)}`}
-                  title={`${day.count} contributions on ${new Date(day.date).toLocaleDateString()}`}
-                />
+                  class="tooltip"
+                  data-tip={`${day.count} contributions on ${new Date(day.date).toLocaleDateString()}`}
+                >
+                  <div class={`contribution-day ${getContributionColor(day.count)}`} />
+                </div>
               ))}
             </div>
           ))
@@ -101,7 +103,6 @@ function getContributionColor(count: number) {
 <style>
   .contribution-container {
     width: 100%;
-    overflow: hidden; /* 防止内容溢出 */
   }
 
   .contribution-grid {

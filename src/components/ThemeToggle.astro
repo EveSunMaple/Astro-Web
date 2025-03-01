@@ -40,8 +40,16 @@
 <script is:inline>
   (function () {
     const themeToggle = document.getElementById("theme-toggle");
-    const userPreferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "winter";
-    const theme = userPreferredTheme;
+    let theme;
+    if (localStorage.getItem("theme")) {
+      theme = localStorage.getItem("theme");
+    } else {
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "winter";
+    }
     themeToggle.checked = theme === "dark";
+    themeToggle.addEventListener("change", function () {
+      const newtheme = this.checked ? "dark" : "winter";
+      localStorage.setItem("theme", newtheme);
+    });
   })();
 </script>

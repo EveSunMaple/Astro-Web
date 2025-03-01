@@ -40,7 +40,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="flex flex-col xl:flex-row xl:gap-8">
       <!-- Main Content -->
       <article class="flex-grow xl:w-3/4">
-        <div transition:name=`image-${post.slug}`>
+        <div transition:name=`image-${post.slug}` class="relative">
           {
             post.data.featuredImage && (
               <img
@@ -52,11 +52,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               />
             )
           }
+
+          post.data.badges && post.data.badges.length > 0 && (
+          <div class="absolute top-4 right-4 flex gap-3">
+            {
+              post.data.badges.map((badge) => (
+                <div class="post-badge">
+                  <span class="badge-text">{badge}</span>
+                </div>
+              ))
+            }
+          </div>
+          ) }
         </div>
 
         <header class="mb-12">
           <h2
-            class="text-4xl lg:text-5xl font-bold mb-6 leading-tight animate-fade-up"
+            class={`text-4xl lg:text-5xl font-bold mb-6 leading-tight animate-fade-up ${post.data.badges && post.data.badges.length > 0 ? "post-title-with-badge" : ""}`}
             transition:name=`title-${post.slug}`
           >
             {post.data.title}
@@ -66,9 +78,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             post.data.description && (
               <div class="description-container mt-8 mb-6 animate-slide-in">
                 <p class="text-base-content/80 italic relative">
-                  <span class="quote-left">“</span>
+                  <span class="quote-left">"</span>
                   {post.data.description}
-                  <span class="quote-right">”</span>
+                  <span class="quote-right">"</span>
                 </p>
               </div>
             )
@@ -172,6 +184,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   .animate-slide-in {
     animation: slideIn 0.6s ease-out forwards;
   }
+
   .description-container p {
     line-height: 1.75rem;
     position: relative;
@@ -195,19 +208,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     right: 0;
   }
 
-  /* 保留动画效果 */
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  .post-badge {
+    background: oklch(var(--s));
+    color: oklch(var(--sc));
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px -1px rgba(0, 0, 0, 0.1);
+    transform: rotate(-2deg);
+    position: relative;
+    z-index: 10;
   }
 
-  .animate-slide-in {
-    animation: slideIn 0.6s ease-out forwards;
+  .post-title-with-badge {
+    position: relative;
+    display: inline-block;
+  }
+
+  .post-title-with-badge::after {
+    content: "";
+    position: absolute;
+    bottom: 0.1em;
+    left: -0.1em;
+    right: -0.1em;
+    height: 0.3em;
+    background: oklch(var(--s) / 0.3);
+    z-index: -1;
+    transform: skew(-5deg);
   }
 </style>

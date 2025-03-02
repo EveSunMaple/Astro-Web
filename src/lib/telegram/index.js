@@ -1,9 +1,7 @@
 import * as cheerio from "cheerio";
-import flourite from "flourite";
 import { LRUCache } from "lru-cache";
 import { $fetch } from "ofetch";
 import { getEnv } from "../env";
-import prism from "../prism";
 
 const cache = new LRUCache({
   ttl: 1000 * 60 * 5, // 5 minutes
@@ -37,17 +35,11 @@ function getImageStickers($, item, { staticProxy, index }) {
 function getImages($, item, { staticProxy, id, index, title }) {
   const images = $(item).find(".tgme_widget_message_photo_wrap")?.map((_index, photo) => {
     const url = $(photo).attr("style").match(/url\(["'](.*?)["']/)?.[1];
-    const popoverId = `modal-${id}-${_index}`;
     return `
-      <button class="image-preview-button image-preview-wrap" popovertarget="${popoverId}" popovertargetaction="show">
-        <img src="${staticProxy + url}" alt="${title}" loading="${index > 15 ? "eager" : "lazy"}" />
-      </button>
-      <button class="image-preview-button modal" id="${popoverId}" popovertarget="${popoverId}" popovertargetaction="hide" popover>
-        <img class="modal-img" src="${staticProxy + url}" alt="${title}" loading="lazy" />
-      </button>
+      <img src="${staticProxy + url}" alt="${title}" class="w-full max-w-sm rounded-lg shadow-md" loading="${index > 15 ? "eager" : "lazy"}" />
     `;
   })?.get();
-  return images.length ? `<div class="image-list-container ${images.length % 2 === 0 ? "image-list-even" : "image-list-odd"}">${images?.join("")}</div>` : "";
+  return images.length ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${images?.join("")}</div>` : "";
 }
 
 function getVideo($, item, { staticProxy, index }) {
@@ -56,14 +48,17 @@ function getVideo($, item, { staticProxy, index }) {
     ?.attr("controls", true)
     ?.attr("preload", index > 15 ? "auto" : "metadata")
     ?.attr("playsinline", true)
-    .attr("webkit-playsinline", true);
+    .attr("webkit-playsinline", true)
+    .attr("class", "w-full max-w-lg rounded-lg shadow-md");
 
   const roundVideo = $(item).find(".tgme_widget_message_roundvideo_wrap video");
   roundVideo?.attr("src", staticProxy + roundVideo?.attr("src"))
     ?.attr("controls", true)
     ?.attr("preload", index > 15 ? "auto" : "metadata")
     ?.attr("playsinline", true)
-    .attr("webkit-playsinline", true);
+    .attr("webkit-playsinline", true)
+    .attr("class", "w-64 h-64 rounded-full shadow-md object-cover");
+
   return $.html(video) + $.html(roundVideo);
 }
 
@@ -78,14 +73,27 @@ function getLinkPreview($, item, { staticProxy, index }) {
   const link = $(item).find(".tgme_widget_message_link_preview");
   const title = $(item).find(".link_preview_title")?.text() || $(item).find(".link_preview_site_name")?.text();
   const description = $(item).find(".link_preview_description")?.text();
-
-  link?.attr("target", "_blank").attr("rel", "noopener").attr("title", description);
+  const url = link?.attr("href");
 
   const image = $(item).find(".link_preview_image");
   const src = image?.attr("style")?.match(/url\(["'](.*?)["']/i)?.[1];
   const imageSrc = src ? staticProxy + src : "";
-  image?.replaceWith(`<img class="link_preview_image" alt="${title}" src="${imageSrc}" loading="${index > 15 ? "eager" : "lazy"}" />`);
-  return $.html(link);
+
+  return `
+    <a href="${url}" target="_blank" rel="noopener" title="${description || title}" class="card w-full max-w-md bg-base-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      ${imageSrc
+        ? `
+        <figure>
+          <img src="${imageSrc}" alt="${title}" class="w-full h-48 object-cover rounded-t-lg" loading="${index > 15 ? "eager" : "lazy"}" />
+        </figure>
+      `
+        : ""}
+      <div class="card-body">
+        <h2 class="card-title text-lg font-semibold text-primary truncate">${title}</h2>
+        ${description ? `<p class="text-sm text-gray-600 line-clamp-2">${description}</p>` : ""}
+      </div>
+    </a>
+  `;
 }
 
 function getReply($, item, { channel }) {
@@ -104,25 +112,13 @@ function getReply($, item, { channel }) {
 function modifyHTMLContent($, content, { index } = {}) {
   $(content).find(".emoji")?.removeAttr("style");
   $(content).find("a")?.each((_index, a) => {
-    $(a)?.attr("title", $(a)?.text())?.removeAttr("onclick");
+    $(a)?.attr("title", $(a)?.text())?.removeAttr("onclick").attr("class", "link link-primary");
   });
   $(content).find("tg-spoiler")?.each((_index, spoiler) => {
     const id = `spoiler-${index}-${_index}`;
-    $(spoiler)?.attr("id", id)?.wrap("<label class=\"spoiler-button\"></label>")?.before(`<input type="checkbox" />`);
+    $(spoiler)?.attr("id", id)?.wrap("<label class=\"btn btn-ghost spoiler-button\"></label>").before(`<input type="checkbox" class="hidden" />`);
   });
-  $(content).find("pre").each((_index, pre) => {
-    try {
-      $(pre).find("br")?.replaceWith("\n");
-
-      const code = $(pre).text();
-      const language = flourite(code, { shiki: true, noUnknown: true })?.language || "text";
-      const highlightedCode = prism.highlight(code, prism.languages[language], language);
-      $(pre).html(`<code class="language-${language}">${highlightedCode}</code>`);
-    }
-    catch (error) {
-      console.error(error);
-    }
-  });
+  $(content).find("pre")?.attr("class", "mockup-code p-4 bg-base-200");
   return content;
 }
 
@@ -153,7 +149,6 @@ function getPost($, item, { channel, staticProxy, index = 0 }) {
       content?.html(),
       getImageStickers($, item, { staticProxy, index }),
       getVideoStickers($, item, { staticProxy, index }),
-      // $(item).find('.tgme_widget_message_sticker_wrap')?.html(),
       $(item).find(".tgme_widget_message_poll")?.html(),
       $.html($(item).find(".tgme_widget_message_document_wrap")),
       $.html($(item).find(".tgme_widget_message_video_player.not_supported")),
@@ -182,7 +177,6 @@ export async function getChannelInfo(Astro, { before = "", after = "", q = "", t
     return JSON.parse(JSON.stringify(cachedResult));
   }
 
-  // Where t.me can also be telegram.me, telegram.dog
   const host = getEnv(import.meta.env, Astro, "TELEGRAM_HOST") ?? "t.me";
   const channel = getEnv(import.meta.env, Astro, "CHANNEL");
   const staticProxy = "";

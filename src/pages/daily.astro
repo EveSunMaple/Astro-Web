@@ -1,7 +1,7 @@
 ---
 // File: src/pages/daily.astro
 import Layout from "../layouts/Layout.astro";
-import List from '../components/List.astro';
+import List from "../components/List.astro";
 import { Icon } from "astro-icon/components";
 import { getChannelInfo } from "../lib/telegram";
 
@@ -36,49 +36,76 @@ const messages = channel.posts;
     <div class="divider mb-8"></div>
 
     <div id="messages-container" class="columns-2 gap-4">
-      {messages.length > 0 ? (
-        messages.map((msg) => (
-          <div class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 break-inside-avoid mb-4" data-id={msg.id}>
-            <div class="card-body">
-              <div class="flex justify-between items-start mb-2">
-                <span class="text-sm text-base-content/60">{new Date(msg.datetime).toLocaleString()}</span>
-                <a
-                  href={`https://t.me/saroprock/${msg.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-ghost btn-xs"
-                  aria-label="View on Telegram"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 3h6v6"></path>
-                    <path d="M10 14L21 3"></path>
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  </svg>
-                </a>
+      {
+        messages.length > 0 ? (
+          messages.map((msg) => (
+            <div
+              class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 break-inside-avoid mb-4"
+              data-id={msg.id}
+            >
+              <div class="card-body">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-sm text-base-content/60">{new Date(msg.datetime).toLocaleString()}</span>
+                  <a
+                    href={`https://t.me/saroprock/${msg.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-ghost btn-xs"
+                    aria-label="View on Telegram"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M15 3h6v6" />
+                      <path d="M10 14L21 3" />
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    </svg>
+                  </a>
+                </div>
+                <div class="prose prose-sm max-w-none" set:html={msg.content} />
               </div>
-              <div class="prose prose-sm max-w-none" set:html={msg.content}></div>
             </div>
+          ))
+        ) : (
+          <div class="loading-container flex justify-center py-8">
+            <span class="loading loading-spinner loading-lg text-primary" />
           </div>
-        ))
-      ) : (
-        <div class="loading-container flex justify-center py-8">
-          <span class="loading loading-spinner loading-lg text-primary"></span>
-        </div>
-      )}
+        )
+      }
     </div>
   </div>
 </Layout>
 
 <style>
   @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
   }
-  .animate-pulse { animation: pulse 2s infinite; }
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .card {
     animation: fadeIn 0.3s ease-out forwards;

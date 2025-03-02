@@ -6,8 +6,22 @@ import BlogCard from "../../components/BlogCard.astro";
 
 const { tag } = Astro.params;
 
-const posts = await getCollection("blog");
-const tagPosts = posts.filter((post) => post.data.tags.includes(tag));
+const posts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+const tagPosts = posts.filter((post) => post.data.tags.some((cat) => slugify(cat) === tag));
 
 if (!tagPosts.length) {
   return Astro.redirect("/404");

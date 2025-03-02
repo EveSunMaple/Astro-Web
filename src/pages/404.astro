@@ -1,0 +1,272 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+
+const mainNavItems = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Blog", href: "/blog/page/1" },
+  { name: "Daily", href: "/daily" },
+];
+---
+
+<Layout title="404 - Page Not Found" description="The page you're looking for doesn't exist or has been moved.">
+  <div class="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12">
+    <div class="text-center max-w-xl mx-auto">
+      <!-- SVG Animation -->
+      <div class="lost-explorer-container mb-8">
+        <svg class="lost-explorer mx-auto" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Map Background -->
+          <g class="map">
+            <path
+              class="map-grid"
+              d="M0,0 L400,0 L400,300 L0,300 Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.1"
+              stroke-width="1"></path>
+            <path
+              class="map-grid"
+              d="M0,50 L400,50 M0,100 L400,100 M0,150 L400,150 M0,200 L400,200 M0,250 L400,250"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.1"
+              stroke-width="1"></path>
+            <path
+              class="map-grid"
+              d="M50,0 L50,300 M100,0 L100,300 M150,0 L150,300 M200,0 L200,300 M250,0 L250,300 M300,0 L300,300 M350,0 L350,300"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.1"
+              stroke-width="1"></path>
+
+            <!-- Map Features -->
+            <circle
+              class="map-feature"
+              cx="100"
+              cy="80"
+              r="15"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.2"
+              stroke-width="2"></circle>
+            <circle
+              class="map-feature"
+              cx="300"
+              cy="220"
+              r="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.2"
+              stroke-width="2"></circle>
+            <path
+              class="map-feature"
+              d="M50,150 Q100,100 150,150 T250,150 T350,150"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.2"
+              stroke-width="2"></path>
+            <path
+              class="map-feature"
+              d="M250,50 L270,70 L250,90 L230,70 Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity="0.2"
+              stroke-width="2"></path>
+          </g>
+
+          <!-- Character -->
+          <g class="character">
+            <!-- Body -->
+            <circle cx="200" cy="150" r="25" fill="oklch(var(--p))"></circle>
+
+            <!-- Face -->
+            <circle cx="193" cy="145" r="3" fill="white" class="eye"></circle>
+            <circle cx="207" cy="145" r="3" fill="white" class="eye"></circle>
+            <path d="M193,160 Q200,165 207,160" fill="none" stroke="white" stroke-width="2" class="mouth"></path>
+
+            <!-- Compass -->
+            <g class="compass">
+              <circle cx="250" cy="150" r="15" fill="oklch(var(--s))"></circle>
+              <path d="M250,140 L250,160 M240,150 L260,150" stroke="white" stroke-width="2"></path>
+              <path class="compass-needle" d="M250,150 L250,140" stroke="oklch(var(--er))" stroke-width="3"></path>
+            </g>
+
+            <!-- Map -->
+            <rect x="150" y="170" width="30" height="25" fill="oklch(var(--a))" rx="2" class="map-item"></rect>
+            <path d="M155,175 L175,175 M155,180 L170,180 M155,185 L165,185" stroke="white" stroke-width="1"></path>
+
+            <!-- Question Marks -->
+            <text x="160" y="130" font-size="20" fill="oklch(var(--nc))" class="question-mark">?</text>
+            <text x="230" y="130" font-size="20" fill="oklch(var(--nc))" class="question-mark">?</text>
+            <text x="200" y="110" font-size="20" fill="oklch(var(--nc))" class="question-mark">?</text>
+          </g>
+
+          <!-- 404 Text in Background -->
+          <text
+            x="200"
+            y="220"
+            font-size="80"
+            font-weight="bold"
+            text-anchor="middle"
+            fill="currentColor"
+            fill-opacity="0.05"
+            class="background-404">404</text
+          >
+        </svg>
+      </div>
+
+      <h1 class="text-4xl font-bold text-primary mb-4">404</h1>
+      <p class="text-xl mb-8">Oops! Looks like you've wandered off the map.</p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+        <a href="/" class="btn btn-primary gap-2">
+          <Icon name="lucide:home" class="w-5 h-5" />
+          Return Home
+        </a>
+        <button onclick="history.back()" class="btn btn-outline gap-2">
+          <Icon name="lucide:arrow-left" class="w-5 h-5" />
+          Go Back
+        </button>
+      </div>
+
+      <div class="divider">Quick Navigation</div>
+
+      <div class="flex flex-wrap justify-center gap-3 mt-4">
+        {
+          mainNavItems.map((item) => (
+            <a href={item.href} class="btn btn-ghost btn-sm">
+              {item.name}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Animation Keyframes */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    75% {
+      transform: rotate(270deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  /* SVG Animation Styles */
+  .lost-explorer {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  .character {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .compass {
+    transform-origin: 250px 150px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .compass-needle {
+    transform-origin: 250px 150px;
+    animation: spin 8s linear infinite;
+  }
+
+  .map-item {
+    animation: pulse 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+  }
+
+  .eye {
+    animation: blink 3s ease-in-out infinite;
+  }
+
+  .question-mark {
+    opacity: 0.8;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .question-mark:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .question-mark:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  .background-404 {
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  /* Button Hover Effects */
+  .btn {
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 640px) {
+    .lost-explorer {
+      max-width: 300px;
+    }
+  }
+</style>

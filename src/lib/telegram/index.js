@@ -39,7 +39,7 @@ function getImages($, item, { staticProxy, id, index, title }) {
       <img src="${staticProxy + url}" alt="${title}" class="w-full max-w-sm rounded-lg shadow-md" loading="${index > 15 ? "eager" : "lazy"}" />
     `;
   })?.get();
-  return images.length ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${images?.join("")}</div>` : "";
+  return images.length ? `<div class="grid grid-cols-1 gap-4">${images?.join("")}</div>` : "";
 }
 
 function getVideo($, item, { staticProxy, index }) {
@@ -75,12 +75,16 @@ function getLinkPreview($, item, { staticProxy, index }) {
   const description = $(item).find(".link_preview_description")?.text();
   const url = link?.attr("href");
 
+  if (!url) {
+    return "";
+  }
+
   const image = $(item).find(".link_preview_image");
   const src = image?.attr("style")?.match(/url\(["'](.*?)["']/i)?.[1];
   const imageSrc = src ? staticProxy + src : "";
 
   return `
-    <a href="${url}" target="_blank" rel="noopener" title="${description || title}" class="card w-full max-w-md bg-base-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <div class="card mt-4 w-full bg-base-100 shadow-lg">
       ${imageSrc
         ? `
         <figure>
@@ -88,11 +92,17 @@ function getLinkPreview($, item, { staticProxy, index }) {
         </figure>
       `
         : ""}
-      <div class="card-body">
-        <h2 class="card-title text-lg font-semibold text-primary truncate">${title}</h2>
-        ${description ? `<p class="text-sm text-gray-600 line-clamp-2">${description}</p>` : ""}
+      <div class="card-body p-4">
+        <div class="card-title mt-2 font-semibold text-primary truncate no-underline">${title}</div>
+        ${description ? `<p class="text-sm line-clamp-2 no-underline">${description}</p>` : ""}
+        <a href="${url}" target="_blank" rel="noopener" class="btn btn-primary mt-4">
+          Visit
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 ml-2">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
       </div>
-    </a>
+    </div>
   `;
 }
 

@@ -1,0 +1,105 @@
+---
+// File: src/pages/daily.astro
+import Layout from "../layouts/Layout.astro";
+import List from '../components/List.astro';
+import { Icon } from "astro-icon/components";
+import { getChannelInfo } from "../lib/telegram";
+
+export const prerender = false; // Server-side rendering
+
+const title = "Daily Log - SaroProck";
+const description = "Daily thoughts and updates from SunMaple's Telegram channel";
+
+// Fetch all messages
+const channel = await getChannelInfo(Astro);
+const messages = channel.posts;
+---
+
+<Layout {title} {description}>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold mb-4">Daily Log</h1>
+      <p class="text-base-content/70 mb-6">
+        A collection of daily thoughts, updates, and reflections from my Telegram channel
+      </p>
+      <a
+        href="https://t.me/saroprock"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary gap-2 animate-pulse"
+      >
+        <Icon name="ri:telegram-line" class="w-5 h-5" />
+        Visit Telegram Channel
+      </a>
+    </header>
+
+    <div class="divider mb-8"></div>
+
+    <div id="messages-container" class="columns-2 gap-4">
+      {messages.length > 0 ? (
+        messages.map((msg) => (
+          <div class="card bg-base-200/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 break-inside-avoid mb-4" data-id={msg.id}>
+            <div class="card-body">
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-sm text-base-content/60">{new Date(msg.datetime).toLocaleString()}</span>
+                <a
+                  href={`https://t.me/saroprock/${msg.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-ghost btn-xs"
+                  aria-label="View on Telegram"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h6v6"></path>
+                    <path d="M10 14L21 3"></path>
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="prose prose-sm max-w-none" set:html={msg.content}></div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="loading-container flex justify-center py-8">
+          <span class="loading loading-spinner loading-lg text-primary"></span>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .animate-pulse { animation: pulse 2s infinite; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card {
+    animation: fadeIn 0.3s ease-out forwards;
+    margin-bottom: 1rem; /* 确保卡片之间的间距 */
+  }
+
+  #messages-container {
+    column-count: 2; /* 设置列数为 2 */
+    column-gap: 1rem; /* 设置列间距 */
+  }
+
+  .break-inside-avoid {
+    break-inside: avoid; /* 防止卡片被分割到不同列 */
+  }
+
+  @media (max-width: 640px) {
+    #messages-container {
+      column-count: 1; /* 在小屏幕上显示单列 */
+    }
+    .card-body {
+      padding: 1rem;
+    }
+  }
+</style>

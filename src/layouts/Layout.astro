@@ -3,7 +3,6 @@ import "../styles/global.css";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import { ClientRouter } from "astro:transitions";
 import background from "../assets/background.svg";
 
 interface Props {
@@ -60,7 +59,8 @@ const { title, description, image } = Astro.props;
           <ul class="menu menu-vertical gap-2">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            <li><a href="/blog">Blog</a></li>
+            <li><a href="/blog/page/1">Blog</a></li>
+            <li><a href="/daily">Daily</a></li>
           </ul>
         </div>
       </div>

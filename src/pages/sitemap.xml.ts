@@ -6,7 +6,7 @@ export async function GET(context: any) {
   const sortedblogs = blogs.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
   return rss({
     title: "SaroProck",
-    description:  "Personal blog about technology, programming, and life.",
+    description: "Personal blog about technology, programming, and life.",
     site: context.site,
     items: sortedblogs.map((blog: any) => ({
       ...blog.data,

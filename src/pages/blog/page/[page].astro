@@ -1,20 +1,22 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import BlogCard from "../../components/BlogCard.astro";
-import Pagination from "../../components/Pagination.astro";
+import Layout from "../../../layouts/Layout.astro";
+import BlogCard from "../../../components/BlogCard.astro";
+import Pagination from "../../../components/Pagination.astro";
 
-export async function getStaticPaths({ paginate }) {
-  const posts = await getCollection("blog", ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true;
-  });
+const POSTS_PER_PAGE = 6;
+const currentPage = Number(Astro.params.page) || 1;
 
-  const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-  return paginate(sortedPosts, { pageSize: 6 });
-}
-
-const { page } = Astro.props;
+const page = {
+  currentPage,
+  lastPage: Math.ceil(sortedPosts.length / POSTS_PER_PAGE),
+  data: sortedPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE),
+};
 ---
 
 <Layout

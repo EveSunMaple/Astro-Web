@@ -1,4 +1,5 @@
 ---
+// src/layouts/AdminLayout.astro
 import Layout from "./Layout.astro";
 import { Icon } from "astro-icon/components";
 
@@ -8,10 +9,13 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// SSR 下可以在服务器端检查认证状态（可选）
+const isAuthenticated = Astro.request.headers.get("cookie")?.includes("admin-auth=true");
 ---
 
 <Layout {title} {description}>
-  <div id="auth-container" class="min-h-screen flex items-center justify-center">
+  <div id="auth-container" class={isAuthenticated ? "hidden" : "min-h-screen flex items-center justify-center"}>
     <div class="card bg-base-200/50 backdrop-blur-sm w-full max-w-md">
       <div class="card-body">
         <h2 class="card-title">Admin Login</h2>
@@ -33,16 +37,14 @@ const { title, description } = Astro.props;
       </div>
     </div>
   </div>
-
-  <div id="content-container" class="hidden">
+  <div id="content-container" class={isAuthenticated ? "" : "hidden"}>
     <slot />
   </div>
 </Layout>
 
-<script>
+<script is:inline>
   import * as AV from "leancloud-storage";
 
-  // 初始化 LeanCloud
   AV.init({
     appId: import.meta.env.PUBLIC_LEANCLOUD_APP_ID,
     appKey: import.meta.env.PUBLIC_LEANCLOUD_APP_KEY,
@@ -66,7 +68,6 @@ const { title, description } = Astro.props;
       const password = document.getElementById("password").value;
 
       try {
-        // 查询 LeanCloud 中的 AdminUsers 表
         const query = new AV.Query("AdminUsers");
         query.equalTo("username", username);
         query.equalTo("password", password);
@@ -76,6 +77,7 @@ const { title, description } = Astro.props;
           sessionStorage.setItem("admin-auth", "true");
           authContainer.classList.add("hidden");
           contentContainer.classList.remove("hidden");
+          document.cookie = "admin-auth=true; path=/";
         } else {
           showToast("Invalid credentials", "error");
         }
@@ -96,5 +98,5 @@ const { title, description } = Astro.props;
 
   document.addEventListener("DOMContentLoaded", initAuth);
   document.addEventListener("swup:page:view", initAuth);
-  initAuth(); // 立即执行初始化
+  initAuth();
 </script>

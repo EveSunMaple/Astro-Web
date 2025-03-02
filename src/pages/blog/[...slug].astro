@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
 import PostStats from "../../components/PostStats.astro";
@@ -10,36 +10,52 @@ import { getReadingTime } from "../../utils/readingTime";
 import { format } from "date-fns";
 import { Icon } from "astro-icon/components";
 
-export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+
+// Handle array slug parameters
+const slugPath = Array.isArray(slug) ? slug.join("/") : slug;
+
+if (/^\d+$/.test(slugPath)) {
+  return Astro.redirect(`/blog/page/${slugPath}`, 301); // 永久重定向
 }
 
-const { post } = Astro.props;
+if (!slugPath) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+
+const post = await getEntry("blog", slugPath);
+
+if (!post) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Post Not Found",
+  });
+}
+
 const { Content, headings } = await post.render();
 
 // Calculate reading time
 const readingTime = getReadingTime(post.body);
 
-// Author info (customize as needed)
+// Author info
 const author = {
   name: "SunMaple",
   avatar: "/profile.webp",
   bio: "A student who loves programming and technology.",
 };
 
-// Get canonical URL for the post
+// Get canonical URL
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <Layout title={`${post.data.title} - SaroProck`} description={post.data.description} image={post.data.featuredImage}>
   <div class="container mx-auto px-4 lg:px-8">
     <div class="flex flex-col xl:flex-row xl:gap-8">
-      <!-- Main Content -->
       <article class="flex-grow xl:w-3/4">
+        <!-- 文章内容保持不变 -->
         <div transition:name=`image-${post.slug}` class="relative">
           {
             post.data.featuredImage && (
@@ -52,7 +68,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               />
             )
           }
-
           {
             post.data.badges && post.data.badges.length > 0 && (
               <div class="absolute top-4 right-4 flex gap-3">
@@ -65,7 +80,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             )
           }
         </div>
-
         <header class="mb-12">
           <h2
             class={`text-4xl lg:text-5xl font-bold mb-6 leading-tight animate-fade-up ${post.data.badges && post.data.badges.length > 0 ? "post-title-with-badge" : ""}`}
@@ -73,7 +87,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           >
             {post.data.title}
           </h2>
-
           {
             post.data.description && (
               <div class="description-container mt-8 mb-6 animate-slide-in">
@@ -85,7 +98,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               </div>
             )
           }
-
           <div class="flex flex-wrap gap-4 text-sm text-base-content/70 mb-4 mt-6">
             <time datetime={post.data.pubDate.toISOString()} class="flex items-center">
               <Icon name="lucide:calendar" class="inline h-4 w-4 mr-1" />
@@ -101,7 +113,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             }
             <ViewCounter slug={post.slug} />
           </div>
-
           <div class="flex flex-wrap gap-2">
             {
               post.data.categories.map((category) => (
@@ -126,14 +137,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               ))
             }
           </div>
-
           <PostStats readingTime={readingTime} />
         </header>
-
         <div class="prose lg:prose-lg max-w-none">
           <Content />
         </div>
-
         <PostFooter
           title={post.data.title}
           url={canonicalURL.toString()}
@@ -142,11 +150,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           tags={post.data.tags}
           author={author}
         />
-
         <Comments slug={post.slug} />
       </article>
-
-      <!-- Table of Contents -->
       <aside class="xl:w-1/4 xl:min-w-[16rem]">
         <TableOfContents headings={headings} />
       </aside>

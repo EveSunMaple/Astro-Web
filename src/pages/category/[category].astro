@@ -1,22 +1,17 @@
 ---
+// src/pages/category/[category].astro
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import BlogCard from "../../components/BlogCard.astro";
 
-export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const categories = [...new Set(posts.flatMap((post) => post.data.categories))];
+const { category } = Astro.params;
 
-  return categories.map((category) => {
-    const categoryPosts = posts.filter((post) => post.data.categories.includes(category));
-    return {
-      params: { category: category.toLowerCase() },
-      props: { category, posts: categoryPosts },
-    };
-  });
+const posts = await getCollection("blog");
+const categoryPosts = posts.filter((post) => post.data.categories.includes(category));
+
+if (!categoryPosts.length) {
+  return Astro.redirect("/404");
 }
-
-const { category, posts } = Astro.props;
 ---
 
 <Layout title={`Category: ${category} - SaroProck`} description={`Blog posts in the ${category} category`}>
@@ -25,7 +20,7 @@ const { category, posts } = Astro.props;
     <section class="mb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {
-          posts.map((post) => (
+          categoryPosts.map((post) => (
             <BlogCard
               title={post.data.title}
               description={post.data.description}

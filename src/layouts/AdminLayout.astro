@@ -42,7 +42,7 @@ const isAuthenticated = Astro.request.headers.get("cookie")?.includes("admin-aut
   </div>
 </Layout>
 
-<script is:inline>
+<script>
   import * as AV from "leancloud-storage";
 
   AV.init({

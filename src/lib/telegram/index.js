@@ -92,8 +92,8 @@ function getLinkPreview($, item, { staticProxy, index }) {
         </figure>
       `
         : ""}
-      <div class="card-body p-4">
-        <div class="card-title mt-2 font-semibold text-primary truncate no-underline">${title}</div>
+      <div class="card-body">
+        <div class="card-title font-semibold text-primary truncate no-underline">${title}</div>
         ${description ? `<p class="text-sm line-clamp-2 no-underline">${description}</p>` : ""}
         <a href="${url}" target="_blank" rel="noopener" class="btn btn-primary mt-4">
           Visit

@@ -1,0 +1,180 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface TodoItem {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: "high" | "medium" | "low";
+  category: string;
+}
+
+const categories = [
+  { id: "all", name: "All Tasks", icon: "lucide:list" },
+  { id: "work", name: "Work", icon: "lucide:briefcase" },
+  { id: "write", name: "Write", icon: "lucide:pen" },
+];
+
+const todos: TodoItem[] = [
+  {
+    id: "1",
+    title: "重写博客",
+    completed: false,
+    priority: "high",
+    category: "work",
+  },
+  {
+    id: "2",
+    title: "完成 Frosti v3",
+    completed: false,
+    priority: "medium",
+    category: "work",
+  },
+  {
+    id: "3",
+    title: "迁移旧博客的文章",
+    completed: false,
+    priority: "high",
+    category: "write",
+  },
+  {
+    id: "4",
+    title: "写一篇关于如何在 Astro 启用服务端渲染的文章",
+    completed: false,
+    priority: "medium",
+    category: "write",
+  },
+  {
+    id: "5",
+    title: "撰写《人生海海》读后感",
+    completed: false,
+    priority: "medium",
+    category: "write",
+  },
+  {
+    id: "6",
+    title: "有关于 Memory 的第一篇文章",
+    completed: false,
+    priority: "low",
+    category: "write",
+  },
+];
+
+const priorityColors = {
+  high: "text-error",
+  medium: "text-warning",
+  low: "text-info",
+};
+---
+
+<div class="card bg-base-200/50 backdrop-blur-sm p-6">
+  <div class="flex flex-col md:flex-row gap-6">
+    <!-- Category Sidebar -->
+    <div class="md:w-64">
+      <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+        <Icon name="lucide:layers" class="w-5 h-5" />
+        Categories
+      </h2>
+      <ul class="menu bg-base-100 rounded-box">
+        {
+          categories.map((category) => (
+            <li>
+              <button class="category-btn flex items-center gap-2 py-2" data-category={category.id}>
+                <Icon name={category.icon} class="w-4 h-4" />
+                <span>{category.name}</span>
+                <span class="ml-auto badge badge-sm">
+                  {category.id === "all" ? todos.length : todos.filter((todo) => todo.category === category.id).length}
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Todo List -->
+    <div class="flex-1">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <Icon name="lucide:check-square" class="w-5 h-5" />
+          Tasks
+        </h2>
+      </div>
+
+      <div id="todo-list" class="space-y-3">
+        {
+          todos.map((todo) => (
+            <div class="todo-item" data-category={todo.category}>
+              <div class="bg-base-100 rounded-lg p-4 flex items-center gap-4 group hover:shadow-md transition-all">
+                <input type="checkbox" class="checkbox" onclick="return false;" checked={todo.completed} />
+                <span class={`flex-1 ${todo.completed ? "line-through opacity-50" : ""}`}>{todo.title}</span>
+                <div class="flex items-center gap-2">
+                  <span class={`badge ${priorityColors[todo.priority]}`}>{todo.priority}</span>
+                  <span class="badge badge-ghost">{todo.category}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initTodoList() {
+    const categoryButtons = document.querySelectorAll(".category-btn");
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const category = button.dataset.category;
+
+        // Update active state
+        categoryButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        // Filter todos
+        const todoItems = document.querySelectorAll(".todo-item");
+        todoItems.forEach((item) => {
+          if (category === "all" || item.dataset.category === category) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+    });
+  }
+
+  // Initialize on page load and after navigation
+  document.addEventListener("DOMContentLoaded", initTodoList);
+  document.addEventListener("astro:page:load", initTodoList);
+  initTodoList();
+</script>
+
+<style>
+  .category-btn {
+    @apply relative overflow-hidden transition-colors duration-300;
+  }
+
+  .category-btn:hover,
+  .category-btn.active {
+    @apply bg-primary/10;
+  }
+
+  .category-btn.active {
+    @apply font-medium;
+  }
+
+  .todo-item {
+    @apply transition-all duration-300;
+  }
+
+  .checkbox {
+    @apply transition-transform duration-200;
+  }
+
+  .checkbox:checked {
+    @apply scale-90;
+  }
+</style>

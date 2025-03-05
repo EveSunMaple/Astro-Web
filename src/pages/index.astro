@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import Layout from "../layouts/Layout.astro";
 import BlogCard from "../components/BlogCard.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import TodoList from "../components/TodoList.astro";
 import { Octokit } from "octokit";
 import { marked } from "marked";
 import emojiRegex from "emoji-regex";
@@ -151,6 +152,15 @@ const projects = await Promise.all(
       <div class="grid grid-cols-1 gap-8">
         {projects.map((project) => <ProjectCard {...project} />)}
       </div>
+    </section>
+
+    <!-- Todo List Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-2">
+        <Icon name="lucide:goal" class="w-8 h-8" />
+        Todo List
+      </h2>
+      <TodoList />
     </section>
 
     <!-- Recent Blog Posts -->

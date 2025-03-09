@@ -17,6 +17,7 @@ const { slug } = Astro.props;
 <script>
   import * as AV from "leancloud-storage";
   import { format } from "date-fns";
+  import { marked } from "marked";
 
   const badgeMap = {
     "evesunmaple@outlook.com": "Author",
@@ -320,7 +321,7 @@ const { slug } = Astro.props;
             nickname: formData.get("nickname"),
             email: formData.get("email"),
             website: formData.get("website") || null,
-            content: formData.get("content"),
+            content: marked(formData.get("content")),
             slug: form.dataset.slug,
             parentComment: form.dataset.parentComment || null,
             avatar: `https://www.gravatar.com/avatar/${MD5(formData.get("email"))}?s=100&d=mp`,

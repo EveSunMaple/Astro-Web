@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "cb3a55be9eeae00d",
+        "id": "c47b057033a03ecc",
         "type": "tabs",
         "children": [
           {
-            "id": "f95c9a63d18c6d60",
+            "id": "cc436322ba005ae9",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -164,7 +164,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "f95c9a63d18c6d60",
+  "active": "cc436322ba005ae9",
   "lastOpenFiles": [
     "cherishing.md",
     "life-is-a-.md",

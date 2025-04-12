@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import SearchBar from "./SearchBar.astro";
 import { Icon } from "astro-icon/components";
 
 const navigation = [
@@ -18,7 +19,8 @@ const navigation = [
   </div>
 
   <div class="flex-1">
-    <a href="/" class="text-xl font-bold">SaroProck</a>
+    <a href="/" class="text-xl font-bold mx-4">SaroProck</a>
+    <ThemeToggle />
   </div>
 
   <div class="flex-none hidden lg:block">
@@ -35,7 +37,7 @@ const navigation = [
     </ul>
   </div>
 
-  <div class="flex-none ml-4">
-    <ThemeToggle />
+  <div class="flex-none ml-4 flex items-center gap-2">
+    <SearchBar />
   </div>
 </div>

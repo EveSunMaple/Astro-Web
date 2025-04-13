@@ -1,0 +1,372 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  categories: string[];
+  tags: string[];
+  activeFilters: {
+    category?: string;
+    tag?: string;
+    sortBy?: string;
+    dateRange?: string;
+  };
+  baseUrl: string;
+}
+
+const { categories = [], tags = [], activeFilters = {}, baseUrl = "/blog" } = Astro.props;
+
+type SortOption = {
+  value: string;
+  label: string;
+  icon: string;
+};
+
+type DateRangeOption = {
+  value: string;
+  label: string;
+  icon: string;
+};
+
+// Sort options
+const sortOptions: SortOption[] = [
+  { value: "newest", label: "Newest First", icon: "lucide:arrow-down" },
+  { value: "oldest", label: "Oldest First", icon: "lucide:arrow-up" },
+  { value: "updated", label: "Recently Updated", icon: "lucide:refresh-cw" },
+];
+
+// Date range options
+const dateRangeOptions: DateRangeOption[] = [
+  { value: "all", label: "All Time", icon: "lucide:infinity" },
+  { value: "month", label: "This Month", icon: "lucide:calendar" },
+  { value: "year", label: "This Year", icon: "lucide:calendar-days" },
+];
+
+// Generate URL with filter params
+function getFilterUrl(newParams: Record<string, string | undefined> = {}): string {
+  const params = { ...activeFilters, ...newParams };
+  const searchParams = new URLSearchParams();
+  
+  // Only add non-empty params
+  Object.entries(params).forEach(([key, value]) => {
+    if (value && value !== "all") {
+      searchParams.set(key, value);
+    }
+  });
+  
+  const queryString = searchParams.toString();
+  return `${baseUrl}/page/1${queryString ? `?${queryString}` : ""}`;
+}
+
+// Slugify function for category/tag URLs
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+// Count of active filters
+const activeFilterCount = Object.values(activeFilters).filter((val) => val && val !== "all").length;
+
+// Generate a unique ID for the modal
+const modalId = "filter-modal";
+---
+
+<div class="blog-filter w-full mb-8 animate-fade-in">
+  <div class="bg-base-200/40 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+    <div class="flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+      <!-- Active Filters Display -->
+      <div class="flex flex-wrap gap-2 grow">
+        {activeFilterCount > 0 ? (
+          <div class="flex flex-wrap gap-2 animate-slide-up">
+            {activeFilters.sortBy && (
+              <div class="badge badge-primary gap-1 p-3">
+                <Icon name="lucide:align-left" class="h-4 w-4" />
+                {sortOptions.find((o) => o.value === activeFilters.sortBy)?.label}
+                <a href={getFilterUrl({ sortBy: undefined })} class="ml-1">
+                  <Icon name="lucide:x" class="h-3 w-3" />
+                </a>
+              </div>
+            )}
+            
+            {activeFilters.dateRange && activeFilters.dateRange !== "all" && (
+              <div class="badge badge-primary gap-1 p-3">
+                <Icon name="lucide:calendar" class="h-4 w-4" />
+                {dateRangeOptions.find((o) => o.value === activeFilters.dateRange)?.label}
+                <a href={getFilterUrl({ dateRange: undefined })} class="ml-1">
+                  <Icon name="lucide:x" class="h-3 w-3" />
+                </a>
+              </div>
+            )}
+            
+            {activeFilters.category && (
+              <div class="badge badge-primary gap-1 p-3">
+                <Icon name="lucide:folder" class="h-4 w-4" />
+                {categories.find((c) => slugify(c) === activeFilters.category) || activeFilters.category}
+                <a href={getFilterUrl({ category: undefined })} class="ml-1">
+                  <Icon name="lucide:x" class="h-3 w-3" />
+                </a>
+              </div>
+            )}
+            
+            {activeFilters.tag && (
+              <div class="badge badge-primary gap-1 p-3">
+                <Icon name="lucide:tag" class="h-4 w-4" />
+                {tags.find((t) => slugify(t) === activeFilters.tag) || activeFilters.tag}
+                <a href={getFilterUrl({ tag: undefined })} class="ml-1">
+                  <Icon name="lucide:x" class="h-3 w-3" />
+                </a>
+              </div>
+            )}
+          </div>
+        ) : (
+          <span class="text-base-content/70 ml-2">No active filters</span>
+        )}
+      </div>
+      
+      <div class="flex gap-2 items-center flex-shrink-0">
+        <!-- Clear Filters Button -->
+        {activeFilterCount > 0 && (
+          <a href={baseUrl + "/page/1"} class="btn btn-sm btn-outline btn-error gap-2">
+            <Icon name="lucide:x" class="h-4 w-4" />
+            Clear
+          </a>
+        )}
+        
+        <!-- Filter Button (now on the right) -->
+        <label for={modalId} class="btn btn-sm btn-primary gap-2">
+          <Icon name="lucide:filter" class="h-4 w-4" />
+          Filter
+          {activeFilterCount > 0 && (
+            <span class="badge badge-outline">{activeFilterCount}</span>
+          )}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Modal with Multi-select -->
+<input type="checkbox" id={modalId} class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-3xl">
+    <h3 class="font-bold text-xl flex items-center gap-2">
+      <Icon name="lucide:filter" class="h-5 w-5" />
+      Filter Blog Posts
+    </h3>
+    
+    <div class="divider"></div>
+    
+    <form id="filter-form" method="get" action={`${baseUrl}/page/1`}>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+        <!-- Sort Options -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text flex items-center text-lg font-medium">
+              <Icon name="lucide:align-left" class="h-5 w-5 mr-2" />
+              Sort by
+            </span>
+          </label>
+          <div class="mt-2 space-y-2">
+            {sortOptions.map((option) => (
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input 
+                  type="radio" 
+                  name="sortBy" 
+                  value={option.value} 
+                  class="radio radio-sm radio-primary" 
+                  checked={activeFilters.sortBy === option.value}
+                />
+                <span class="flex items-center">
+                  <Icon name={option.icon} class="h-4 w-4 mr-1" />
+                  {option.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Date Range Options -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text flex items-center text-lg font-medium">
+              <Icon name="lucide:calendar" class="h-5 w-5 mr-2" />
+              Date Range
+            </span>
+          </label>
+          <div class="mt-2 space-y-2">
+            {dateRangeOptions.map((option) => (
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input 
+                  type="radio" 
+                  name="dateRange" 
+                  value={option.value}
+                  class="radio radio-sm radio-primary" 
+                  checked={activeFilters.dateRange === option.value}
+                />
+                <span class="flex items-center">
+                  <Icon name={option.icon} class="h-4 w-4 mr-1" />
+                  {option.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Category Selection - Now with multi-select -->
+        <div class="form-control md:col-span-2">
+          <label class="label">
+            <span class="label-text flex items-center text-lg font-medium">
+              <Icon name="lucide:folder" class="h-5 w-5 mr-2" />
+              Categories
+            </span>
+          </label>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <label class="badge badge-lg gap-1 p-3 hover:bg-base-300 cursor-pointer transition-colors">
+              <input 
+                type="radio" 
+                name="category" 
+                value="" 
+                class="hidden" 
+                checked={!activeFilters.category}
+              />
+              <Icon name="lucide:folder" class="h-4 w-4" />
+              All
+            </label>
+            {categories.map((category) => (
+              <label class="badge badge-lg gap-1 p-3 hover:bg-base-300 cursor-pointer transition-colors">
+                <input 
+                  type="radio" 
+                  name="category" 
+                  value={slugify(category)} 
+                  class="hidden" 
+                  checked={activeFilters.category === slugify(category)}
+                />
+                <Icon name="lucide:folder" class="h-4 w-4" />
+                {category}
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Tag Selection - Now with multi-select -->
+        <div class="form-control md:col-span-2">
+          <label class="label">
+            <span class="label-text flex items-center text-lg font-medium">
+              <Icon name="lucide:tag" class="h-5 w-5 mr-2" />
+              Tags
+            </span>
+          </label>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <label class="badge badge-lg gap-1 p-3 hover:bg-base-300 cursor-pointer transition-colors">
+              <input 
+                type="radio" 
+                name="tag" 
+                value="" 
+                class="hidden" 
+                checked={!activeFilters.tag}
+              />
+              <Icon name="lucide:tag" class="h-4 w-4" />
+              All
+            </label>
+            {tags.map((tag) => (
+              <label class="badge badge-lg gap-1 p-3 hover:bg-base-300 cursor-pointer transition-colors">
+                <input 
+                  type="radio" 
+                  name="tag" 
+                  value={slugify(tag)} 
+                  class="hidden" 
+                  checked={activeFilters.tag === slugify(tag)}
+                />
+                <Icon name="lucide:tag" class="h-4 w-4" />
+                {tag}
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="modal-action">
+        {activeFilterCount > 0 && (
+          <a href={baseUrl + "/page/1"} class="btn btn-outline btn-error gap-2">
+            <Icon name="lucide:x" class="h-4 w-4" />
+            Reset
+          </a>
+        )}
+        <label for={modalId} class="btn btn-outline">Cancel</label>
+        <button type="submit" class="btn btn-primary gap-2">
+          <Icon name="lucide:check" class="h-4 w-4" />
+          Apply Filters
+        </button>
+      </div>
+    </form>
+  </div>
+  <label class="modal-backdrop" for={modalId}></label>
+</div>
+
+<script>
+  // Update badge appearance based on selection status
+  document.addEventListener('DOMContentLoaded', () => {
+    // Handle category and tag selection appearance
+    const updateSelectionAppearance = () => {
+      document.querySelectorAll('input[type="radio"]').forEach(input => {
+        const label = input.closest('label');
+        if (label && label.classList.contains('badge')) {
+          if (input.checked) {
+            label.classList.add('badge-primary');
+            label.classList.remove('badge-outline');
+          } else {
+            label.classList.add('badge-outline');
+            label.classList.remove('badge-primary');
+          }
+        }
+      });
+    };
+
+    // Update on page load
+    updateSelectionAppearance();
+
+    // Update when inputs change
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.addEventListener('change', updateSelectionAppearance);
+    });
+  });
+</script>
+
+<style>
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style> 

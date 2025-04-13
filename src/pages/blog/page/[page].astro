@@ -1,22 +1,134 @@
 ---
+import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import BlogCard from "../../../components/BlogCard.astro";
 import Pagination from "../../../components/Pagination.astro";
+import BlogFilter from "../../../components/BlogFilter.astro";
 
 const POSTS_PER_PAGE = 6;
 const currentPage = Number(Astro.params.page) || 1;
 
+// Get filter params from URL
+const { url } = Astro;
+const searchParams = url.searchParams;
+const filterCategory = searchParams.get("category");
+const filterTag = searchParams.get("tag");
+const sortBy = searchParams.get("sortBy") || "newest";
+const dateRange = searchParams.get("dateRange");
+
+// Active filters object
+const activeFilters: {
+  category?: string;
+  tag?: string;
+  sortBy?: string;
+  dateRange?: string;
+} = {
+  category: filterCategory || undefined,
+  tag: filterTag || undefined,
+  sortBy,
+  dateRange: dateRange || undefined,
+};
+
+// Function to slugify text (for comparison)
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+// Get all posts
 const posts = await getCollection("blog", ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Apply filters
+let filteredPosts = posts.filter((post) => {
+  // Category filter
+  if (filterCategory && !post.data.categories?.some((cat) => slugify(cat) === filterCategory)) {
+    return false;
+  }
+  
+  // Tag filter
+  if (filterTag && !post.data.tags?.some((tag) => slugify(tag) === filterTag)) {
+    return false;
+  }
+  
+  // Date range filter
+  if (dateRange) {
+    const postDate = new Date(post.data.pubDate);
+    const currentDate = new Date();
+    
+    if (dateRange === "month") {
+      // Current month only
+      if (postDate.getMonth() !== currentDate.getMonth() || postDate.getFullYear() !== currentDate.getFullYear()) {
+        return false;
+      }
+    } else if (dateRange === "year") {
+      // Current year only
+      if (postDate.getFullYear() !== currentDate.getFullYear()) {
+        return false;
+      }
+    }
+  }
+  
+  return true;
+});
+
+// Sort posts
+if (sortBy === "oldest") {
+  filteredPosts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+} else if (sortBy === "updated") {
+  filteredPosts.sort((a, b) => {
+    const aDate = a.data.updatedDate || a.data.pubDate;
+    const bDate = b.data.updatedDate || b.data.pubDate;
+    return bDate.valueOf() - aDate.valueOf();
+  });
+} else {
+  // Default: newest first
+  filteredPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+}
+
+// Extract all unique categories and tags for filter options
+const allCategories = [...new Set(posts.flatMap((post) => post.data.categories || []))].sort();
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
+
+// Create pagination
+const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
+const paginatedPosts = filteredPosts.slice(
+  (currentPage - 1) * POSTS_PER_PAGE,
+  currentPage * POSTS_PER_PAGE
+);
+
+// Create page object
 const page = {
   currentPage,
-  lastPage: Math.ceil(sortedPosts.length / POSTS_PER_PAGE),
-  data: sortedPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE),
+  lastPage: totalPages,
+  data: paginatedPosts,
 };
+
+// Calculate base URL for pagination with filters
+const baseUrl = "/blog";
+
+// Create the query string for maintaining filters in pagination
+function getPaginationQueryString(): string {
+  const params = new URLSearchParams();
+  
+  if (filterCategory) params.set("category", filterCategory);
+  if (filterTag) params.set("tag", filterTag);
+  if (sortBy && sortBy !== "newest") params.set("sortBy", sortBy);
+  if (dateRange) params.set("dateRange", dateRange);
+  
+  const queryString = params.toString();
+  return queryString ? `?${queryString}` : "";
+}
+
+const paginationQueryString = getPaginationQueryString();
 ---
 
 <Layout
@@ -25,24 +137,63 @@ const page = {
 >
   <div class="max-w-6xl mx-auto">
     <h1 class="text-4xl font-bold mb-8">Blog</h1>
-    <section class="mb-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {
-          page.data.map((post) => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.pubDate}
-              badges={post.data.badges}
-              categories={post.data.categories}
-              tags={post.data.tags}
-              thumbnail={post.data.featuredImage}
-              slug={post.slug}
-            />
-          ))
-        }
+    
+    <BlogFilter 
+      categories={allCategories}
+      tags={allTags}
+      activeFilters={activeFilters}
+      baseUrl={baseUrl}
+    />
+
+    {filteredPosts.length === 0 ? (
+      <div class="text-center py-12">
+        <Icon name="lucide:search"  class="text-6xl mx-auto"/>
+        <h2 class="text-2xl font-bold mb-2">No posts found</h2>
+        <p class="text-base-content/70 mb-6">Try adjusting your filters or browse all posts</p>
+        <a href="/blog/page/1" class="btn btn-primary">View All Posts</a>
       </div>
-      <Pagination currentPage={page.currentPage} totalPages={page.lastPage} baseUrl="/blog" />
-    </section>
+    ) : (
+      <section class="mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {
+            page.data.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.pubDate}
+                badges={post.data.badges}
+                categories={post.data.categories}
+                tags={post.data.tags}
+                thumbnail={post.data.featuredImage}
+                slug={post.slug}
+              />
+            ))
+          }
+        </div>
+        <Pagination 
+          currentPage={page.currentPage}
+          totalPages={page.lastPage}
+          baseUrl={`${baseUrl}/page`}
+        />
+        
+        <script define:vars={{ paginationQueryString }}>
+          // Add query string to pagination links
+          document.addEventListener("DOMContentLoaded", () => {
+            const paginationLinks = document.querySelectorAll("nav[aria-label='Pagination'] a");
+            
+            paginationLinks.forEach((link) => {
+              if (link.href && paginationQueryString) {
+                // Check if the URL already has a query string
+                if (link.href.includes("?")) {
+                  link.href = `${link.href}&${paginationQueryString.substring(1)}`;
+                } else {
+                  link.href = `${link.href}${paginationQueryString}`;
+                }
+              }
+            });
+          });
+        </script>
+      </section>
+    )}
   </div>
 </Layout>

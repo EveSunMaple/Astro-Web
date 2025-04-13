@@ -2,18 +2,18 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<div class="search-container relative">
+<div class="search-container relative hidden sm:block">
   <div 
     id="search-bar" 
-    class="search-bar-collapsed flex items-center rounded-full bg-base-200/50 hover:bg-base-200 transition-all duration-300 cursor-text shadow-sm"
+    class="search-bar-collapsed border border-base-content flex items-center rounded-full bg-base-200/0 hover:bg-base-200 transition-all duration-300 cursor-text shadow-sm"
   >
-    <div class="search-icon px-3">
-      <Icon name="lucide:search" class="w-5 h-5 stroke-current" />
+    <div class="search-icon px-2">
+      <Icon name="lucide:search" class="w-4 h-4 stroke-current" />
     </div>
     <input 
       type="text" 
       id="search-input" 
-      class="search-input w-12 bg-transparent border-none outline-none text-base py-2 transition-all duration-300" 
+      class="search-input w-full bg-transparent border-none outline-none text-base py-1 transition-all duration-300" 
       placeholder="Search..." 
       autocomplete="off"
     />
@@ -106,8 +106,6 @@ import { Icon } from "astro-icon/components";
     function expandSearchBar() {
       searchBar.classList.remove("search-bar-collapsed");
       searchBar.classList.add("search-bar-expanded", "w-52", "sm:w-64");
-      searchInput.classList.remove("w-12");
-      searchInput.classList.add("w-full", "px-1");
       searchInput.focus();
       isSearchExpanded = true;
       
@@ -118,10 +116,8 @@ import { Icon } from "astro-icon/components";
     // 关闭搜索框
     function collapseSearchBar() {
       if (!searchInput.value.trim()) {
-        searchBar.classList.remove("search-bar-expanded", "w-52", "sm:w-64");
+        searchBar.classList.remove("search-bar-expanded", "w-48", "sm:w-64");
         searchBar.classList.add("search-bar-collapsed");
-        searchInput.classList.remove("w-full", "px-1");
-        searchInput.classList.add("w-12");
         isSearchExpanded = false;
       }
       
@@ -367,14 +363,14 @@ import { Icon } from "astro-icon/components";
         <a href="${result.url}" class="search-result block p-3 mb-3 hover:bg-base-200 rounded-lg transition-colors duration-300 border-l-4 border-transparent hover:border-primary group">
           <h3 class="font-semibold text-lg group-hover:text-primary transition-colors">${highlightMatch(result.title, query)}</h3>
           ${result.snippet ? `
-            <p class="text-base-content/80 mt-2 line-clamp-2">${highlightMatch(result.snippet, query)}</p>
+            <p class="text-base-content/80 mt-2 line-clamp-3">${highlightMatch(result.snippet, query)}</p>
           ` : ""}
           <div class="flex flex-wrap gap-1 mt-3">
             ${result.categories.map((category: string) => 
-              `<span class="badge badge-outline">${category}</span>`
+              `<span class="badge badge-neutral">${category}</span>`
             ).join("")}
             ${result.tags.map((tag: string) => 
-              `<span class="badge badge-ghost">${tag}</span>`
+              `<span class="badge badge-outline   ">${tag}</span>`
             ).join("")}
           </div>
         </a>

@@ -71,7 +71,7 @@ const { headings, showTOC = true } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", initTOC);
+  document.addEventListener("swup:page:view", initTOC);
   document.addEventListener("DOMContentLoaded", initTOC);
 
   function initTOC() {
